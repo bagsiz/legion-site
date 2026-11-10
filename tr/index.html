@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://bagsiz.github.io/legion-site/tr/">
+<link rel="icon" href="https://bagsiz.github.io/legion-site/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="https://bagsiz.github.io/legion-site/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="https://bagsiz.github.io/legion-site/assets/apple-touch-icon.png">
+<link rel="manifest" href="https://bagsiz.github.io/legion-site/site.webmanifest">
+<meta name="theme-color" content="#eef1f5">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Legion">
+<meta property="og:title" content="Legion">
+<meta property="og:description" content="Legion: aynı projede birden fazla Claude Code oturumunu tek terminal ekranında, her birini kendi git worktree'sinde çalıştırın.">
+<meta property="og:url" content="https://bagsiz.github.io/legion-site/tr/">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:image" content="https://bagsiz.github.io/legion-site/assets/og-tr.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Legion">
+<meta name="twitter:description" content="Legion: aynı projede birden fazla Claude Code oturumunu tek terminal ekranında, her birini kendi git worktree'sinde çalıştırın.">
+<meta name="twitter:image" content="https://bagsiz.github.io/legion-site/assets/og-tr.png">
+<link rel="alternate" hreflang="en" href="https://bagsiz.github.io/legion-site/">
+<link rel="alternate" hreflang="tr" href="https://bagsiz.github.io/legion-site/tr/">
+<link rel="alternate" hreflang="x-default" href="https://bagsiz.github.io/legion-site/">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Legion</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Legion: aynı projede birden fazla Claude Code oturumunu tek terminal ekranında, her birini kendi git worktree'sinde çalıştırın.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a steel-blue page around one live terminal — the product's own grid of panes is the hero; sections below read like a field manual (legend, drill sequence, key chart). */
+:root {
+  --bg: #eef1f5;
+  --surface: #ffffff;
+  --ink: #141b2b;
+  --ink-2: #4a5468;
+  --line: #d5dbe5;
+  --accent: #c2338f;          /* Legion focus pink (xterm 212, deepened for light bg) */
+  --accent-soft: #f6dcec;
+  /* terminal: deliberately dark in both themes */
+  --term-bg: #0f1420;
+  --term-pane: #131a28;
+  --term-ink: #d9dee8;
+  --term-quiet: #7d8799;
+  --term-line: #3a4458;
+  --term-focus: #ff87d7;
+  --st-run: #00afff;
+  --st-appr: #ffaf00;
+  --st-done: #00d787;
+  --st-err: #ff3b3b;
+  --st-idle: #d0d0d0;
+  --bar: #252b38;
+  --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --font-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.25rem;
+  --step-2: 1.75rem;
+  --step-3: clamp(2.1rem, 4.4vw, 3.4rem);
+  --step-4: clamp(2.6rem, 7vw, 5.6rem);
+  --radius: 10px;
+  --band-steel: #e2e8f0;
+  --band-accent: #f9e6f1;
+  --band-ink: #131a2a;
+  --band-ink-surface: #1c2538;
+  --band-ink-fg: #e9edf4;
+  --band-ink-fg2: #a3adc0;
+  --band-ink-line: #2c364c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b0e15; --surface: #121722; --ink: #e8ecf3; --ink-2: #9aa4b6; --line: #262e3d;
+    --accent: #ff87d7; --accent-soft: #3a1d33; --term-bg: #080b11; --term-pane: #0d121c; --bar: #1b2130;
+    --band-steel: #0f141e; --band-accent: #221520; --band-ink: #05070c; --band-ink-surface: #121826; --band-ink-fg: #e8ecf3; --band-ink-fg2: #9aa4b6; --band-ink-line: #222b3c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b0e15; --surface: #121722; --ink: #e8ecf3; --ink-2: #9aa4b6; --line: #262e3d;
+  --accent: #ff87d7; --accent-soft: #3a1d33; --term-bg: #080b11; --term-pane: #0d121c; --bar: #1b2130;
+    --band-steel: #0f141e; --band-accent: #221520; --band-ink: #05070c; --band-ink-surface: #121826; --band-ink-fg: #e8ecf3; --band-ink-fg2: #9aa4b6; --band-ink-line: #222b3c;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 400 var(--step-0)/1.6 var(--font-body);
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.wrap {
+  max-width: 1168px; margin: 0 auto;
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+@media (max-width: 760px) { .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); } }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; text-wrap: balance; margin: 0; letter-spacing: -0.02em; }
+p { margin: 0; }
+code, kbd, .mono { font-family: var(--font-mono); }
+.eyebrow { font: 600 var(--step--1)/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+
+/* nav */
+nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 22px; flex-wrap: wrap; }
+.wordmark { font: 800 1.15rem/1 var(--font-display); letter-spacing: 0.32em; display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.wordmark span.glyph { display: inline-grid; grid-template-columns: repeat(2, 7px); gap: 2px; }
+.wordmark span.glyph i { width: 7px; height: 7px; border-radius: 1.5px; background: var(--ink); }
+.wordmark span.glyph i:nth-child(2) { background: var(--accent); }
+nav ul { list-style: none; display: flex; gap: 22px; margin: 0; padding: 0; flex-wrap: wrap; font-size: var(--step--1); }
+nav ul a { text-decoration: none; color: var(--ink-2); }
+nav ul a:hover { color: var(--ink); }
+
+/* hero */
+.hero { padding-block: 40px 28px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
+.hero h1 { font-size: var(--step-4); font-weight: 800; max-width: 14ch; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero .lede { font-size: var(--step-1); color: var(--ink-2); max-width: 60ch; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; min-width: 0; }
+.cmd {
+  display: inline-flex; align-items: center; gap: 14px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 10px 10px 10px 16px; font: 400 0.95rem/1 var(--font-mono); max-width: 100%;
+}
+.cmd .prompt { color: var(--accent); flex: none; }
+.cmd button { flex: none; }
+.cmd code { white-space: nowrap; overflow-x: auto; min-width: 0; flex: 1 1 auto; scrollbar-width: thin; }
+button.copy {
+  font: 600 0.8rem/1 var(--font-body); border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+  border-radius: 7px; padding: 8px 12px; cursor: pointer;
+}
+button.copy:hover { border-color: var(--ink-2); }
+.btn-link { font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 2px; }
+
+/* terminal mock */
+.term {
+  margin-top: 8px; background: var(--term-bg); border-radius: 14px; padding: 10px; color: var(--term-ink);
+  font: 400 12.5px/1.55 var(--font-mono); box-shadow: 0 30px 60px -30px rgba(10, 16, 30, 0.55);
+}
+.term-chrome { display: flex; gap: 6px; padding: 4px 6px 10px; align-items: center; }
+.term-chrome i { width: 10px; height: 10px; border-radius: 50%; background: var(--term-line); }
+.term-chrome span { margin-left: 10px; color: var(--term-quiet); font-size: 11.5px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.pane { border: 1px solid var(--term-line); border-radius: 8px; background: var(--term-pane); min-width: 0; display: flex; flex-direction: column; min-height: 196px; transition: border-color .3s; }
+.pane.focus { border-color: var(--term-focus); }
+.pane.attn { border-color: var(--st-appr); }
+.pane-head { display: flex; gap: 8px; align-items: baseline; padding: 6px 10px; border-bottom: 1px solid var(--term-line); flex-wrap: wrap; }
+.pane-head .n { color: var(--term-quiet); }
+.pane-head .name { font-weight: 600; color: #fff; }
+.pane-head .name.star { color: #ffd75f; }
+.pane-head .badge { font-weight: 600; transition: color .3s; }
+.pane-head .act { color: var(--term-quiet); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; flex: 1 1 120px; }
+.pane-body { padding: 8px 10px; flex: 1; white-space: pre-wrap; overflow-wrap: anywhere; }
+.pane-foot { padding: 2px 10px 6px; color: var(--term-quiet); text-align: right; font-size: 11.5px; }
+.l-prompt { color: #fff; }
+.l-tool { color: var(--st-done); }
+.l-q { color: var(--term-quiet); }
+.l-warn { color: var(--st-appr); }
+.l-msg { color: var(--term-focus); }
+.status-bar { margin-top: 6px; background: var(--bar); border-radius: 6px; padding: 5px 10px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.status-bar .lg { color: var(--term-focus); font-weight: 600; letter-spacing: .08em; }
+.status-bar .info { margin-left: auto; color: var(--term-ink); }
+.s-run { color: var(--st-run); } .s-appr { color: var(--st-appr); } .s-done { color: var(--st-done); } .s-idle { color: var(--st-idle); } .s-err { color: var(--st-err); }
+.caption { margin-top: 12px; font-size: var(--step--1); color: var(--ink-2); }
+
+/* sections */
+section { padding-block: 72px; border-top: 1px solid var(--line); }
+section > .wrap > header { display: grid; gap: 12px; margin-bottom: 36px; max-width: 70ch; }
+section h2 { font-size: var(--step-3); font-weight: 700; }
+section header p { color: var(--ink-2); font-size: var(--step-1); }
+
+.problems { display: grid; gap: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
+.problem { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 24px; padding: 20px 24px; border-top: 1px solid var(--line); }
+.problem:first-child { border-top: 0; }
+.problem .was { color: var(--ink-2); }
+.problem .is { font-weight: 500; }
+.problem .is code { font-size: 0.9em; background: var(--bg); padding: 1px 6px; border-radius: 5px; }
+
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.legend-item { background: var(--term-bg); color: var(--term-ink); border-radius: var(--radius); padding: 16px 18px; display: grid; gap: 6px; }
+.legend-item .glyph { font: 600 1rem/1 var(--font-mono); }
+.legend-item p { color: var(--term-quiet); font-size: var(--step--1); }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 18px; padding-block: 20px; border-top: 1px solid var(--line); }
+.steps li:first-child { border-top: 0; }
+.steps li::before { content: counter(s, decimal-leading-zero); font: 700 var(--step-2)/1 var(--font-display); color: var(--accent); }
+.steps h3 { font-size: var(--step-1); margin-bottom: 4px; letter-spacing: -0.01em; }
+.steps p { color: var(--ink-2); max-width: 64ch; }
+.steps code { color: var(--ink); background: var(--surface); border: 1px solid var(--line); padding: 1px 6px; border-radius: 5px; font-size: 0.88em; }
+
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.split p + p { margin-top: 14px; }
+.split .copy-text p { color: var(--ink-2); }
+.log { background: var(--term-bg); color: var(--term-ink); border-radius: var(--radius); padding: 18px; font: 400 12.5px/1.65 var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; min-width: 0; }
+.log .who { color: var(--term-quiet); }
+
+.keys { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px 28px; }
+.key { display: flex; align-items: center; gap: 12px; padding-block: 8px; border-bottom: 1px dashed var(--line); }
+kbd {
+  font: 600 0.85rem/1 var(--font-mono); min-width: 30px; text-align: center; padding: 7px 8px; border-radius: 7px;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: 0 2px 0 var(--line);
+}
+.key span { color: var(--ink-2); }
+.prefix-note { margin-top: 22px; color: var(--ink-2); max-width: 70ch; }
+.prefix-note kbd { margin-inline: 2px; }
+
+.install { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.install pre {
+  margin: 0; background: var(--term-bg); color: var(--term-ink); border-radius: var(--radius); padding: 18px 20px;
+  font: 400 13.5px/1.75 var(--font-mono); overflow-x: auto;
+}
+.install pre .c { color: var(--term-quiet); }
+.install pre .p { color: var(--term-focus); }
+.req { display: flex; flex-wrap: wrap; gap: 10px; }
+.req span { font: 500 var(--step--1)/1 var(--font-mono); border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; background: var(--surface); }
+
+.lang { display: inline-flex; gap: 6px; align-items: center; font: 600 var(--step--1)/1 var(--font-mono); color: var(--ink-2); }
+.lang a { text-decoration: none; padding: 4px 6px; border-radius: 5px; }
+.lang a[aria-current] { color: var(--accent); background: var(--accent-soft); }
+.lang a:not([aria-current]):hover { color: var(--ink); }
+
+
+/* full-width colour bands between sections; the gutter lives on .wrap */
+section { background: var(--sec-bg, var(--bg)); border-top: 0; }
+.band-white { --sec-bg: var(--surface); }
+.band-steel { --sec-bg: var(--band-steel); }
+.band-accent { --sec-bg: var(--band-accent); }
+.band-ink {
+  --sec-bg: var(--band-ink); --bg: var(--band-ink); --surface: var(--band-ink-surface);
+  --ink: var(--band-ink-fg); --ink-2: var(--band-ink-fg2); --line: var(--band-ink-line);
+  --accent: #ff87d7; --accent-soft: #3a1d33;
+  color: var(--ink);
+}
+.band-ink .legend-item { background: var(--band-ink-surface); }
+.band-ink .install pre, .band-ink pre { border: 1px solid var(--band-ink-line); }
+.band-white .problems { background: var(--bg); }
+
+/* commander band */
+.cband { padding-block: 64px; }
+.cband-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 40px; align-items: start; }
+.cband h2 { font-size: var(--step-3); font-weight: 800; margin-block: 12px 16px; }
+.cband h2 em { font-style: normal; color: var(--accent); }
+.cband .lead { color: var(--ink-2); font-size: var(--step-1); max-width: 46ch; }
+.compare { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.compare > div { padding: 18px 20px; display: grid; gap: 10px; align-content: start; }
+.compare > div + div { border-left: 1px solid var(--line); background: var(--accent-soft); }
+.compare h3 { font: 600 var(--step--1)/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 4px; }
+.compare > div + div h3 { color: var(--accent); }
+.compare p { font-size: 0.95rem; }
+.compare .you { color: var(--ink-2); }
+.flow { list-style: none; margin: 36px 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; counter-reset: f; }
+.flow li { counter-increment: f; border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 14px 16px; display: grid; gap: 6px; align-content: start; position: relative; background: var(--bg); }
+.flow li::before { content: counter(f); font: 700 0.8rem/1 var(--font-mono); color: var(--accent); }
+.flow li.me { border-style: dashed; background: transparent; }
+.flow li.me::before { color: var(--ink-2); }
+.flow b { font: 600 0.98rem/1.25 var(--font-display); }
+.flow span { color: var(--ink-2); font-size: 0.86rem; line-height: 1.45; }
+.flow-legend { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 18px; color: var(--ink-2); font-size: var(--step--1); }
+.flow-legend i { display: inline-block; width: 14px; height: 10px; border-radius: 3px; border: 1px solid var(--line); margin-right: 6px; vertical-align: -1px; background: var(--bg); }
+.flow-legend i.me { border-style: dashed; background: transparent; }
+
+/* back to top */
+.to-top {
+  position: fixed; z-index: 20;
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer;
+  background: var(--ink); color: var(--bg); border: 1px solid var(--line);
+  box-shadow: 0 10px 24px -10px rgba(10, 16, 30, 0.5);
+  opacity: 0; transform: translateY(8px); pointer-events: none;
+  transition: opacity .2s, transform .2s, background .2s;
+}
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { background: var(--accent); color: #fff; }
+.to-top svg { width: 20px; height: 20px; }
+
+/* release strip */
+.release { display: inline-flex; align-items: center; gap: 10px; font: 500 var(--step--1)/1.2 var(--font-mono); color: var(--ink-2); text-decoration: none; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px 6px 6px; width: fit-content; max-width: 100%; }
+.release b { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 4px 9px; font-weight: 600; }
+.release:hover { border-color: var(--ink-2); }
+
+/* agents */
+.agents { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.agent-list { display: grid; gap: 10px; }
+.agent-row { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 14px; padding-block: 10px; border-bottom: 1px solid var(--line); }
+.agent-row b { font-family: var(--font-mono); font-size: 0.92rem; }
+.agent-row span { color: var(--ink-2); }
+.cap { display: inline-block; font: 600 0.72rem/1 var(--font-mono); letter-spacing: .04em; padding: 4px 7px; border-radius: 5px; margin-right: 6px; border: 1px solid var(--line); }
+.cap.yes { color: var(--accent); border-color: var(--accent); }
+
+/* faq */
+.faq { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); padding-block: 4px; }
+.faq summary { cursor: pointer; list-style: none; padding-block: 14px; font: 600 var(--step-1)/1.3 var(--font-display); display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--accent); font-family: var(--font-mono); }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { color: var(--ink-2); max-width: 70ch; padding-bottom: 16px; }
+.faq code { color: var(--ink); font-size: 0.9em; }
+
+footer { border-top: 1px solid var(--line); padding-block: 36px 48px; color: var(--ink-2); font-size: var(--step--1); }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; }
+
+@media (max-width: 960px) {
+  .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .cmd { width: 100%; }
+  .cband-grid, .compare { grid-template-columns: 1fr; }
+  .compare > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid { grid-template-columns: 1fr; }
+  .agents { grid-template-columns: 1fr; }
+  .agent-row { grid-template-columns: 1fr; gap: 2px; }
+  .pane { min-height: 0; }
+  .problem, .split { grid-template-columns: 1fr; gap: 10px; }
+  .steps li { grid-template-columns: 44px minmax(0, 1fr); gap: 12px; }
+  section { padding-block: 52px; }
+  .status-bar .info { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <nav>
+    <a class="wordmark" href="#top" aria-label="Legion"><span class="glyph" aria-hidden="true"><i></i><i></i><i></i><i></i></span>LEGION</a>
+    <ul>
+      <li><a href="#neden">Neden</a></li>
+      <li><a href="#akis">Akış</a></li>
+      <li><a href="#komutan">Komutan</a></li>
+      <li><a href="#sss">SSS</a></li>
+      <li><a href="#tuslar">Tuşlar</a></li>
+      <li><a href="#kurulum">Kurulum</a></li>
+    </ul>
+    <div class="lang"><a aria-current="page">TR</a><span aria-hidden="true">·</span><a href="../" hreflang="en" lang="en">EN</a></div>
+  </nav>
+
+  <header class="hero" id="top">
+    <a class="release" id="release" href="https://github.com/bagsiz/legion-site/releases"><b id="release-tag">Yeni</b><span id="release-text">Komutan artık birleştirilen işçilerin panellerini kapatıyor</span></a>
+    <p class="eyebrow">Claude Code için terminal</p>
+    <h1>Bir proje. Birçok Claude. <em>Tek ekran.</em></h1>
+    <p class="lede">Legion, aynı projede birden fazla Claude Code oturumunu yan yana panellerde çalıştırır. Her oturum kendi git worktree'sinde ve dalında çalışır; kim çalışıyor, kim onay bekliyor, kim bitirdi, tek bakışta görürsünüz.</p>
+    <div class="cta-row">
+      <div class="cmd"><span class="prompt">$</span><code id="cmd-hero">curl -fsSL https://bagsiz.github.io/legion-site/install.sh | sh</code><button class="copy" type="button" data-copy="cmd-hero">Kopyala</button></div>
+      <a class="btn-link" href="#kurulum">Kurulum adımları</a>
+    </div>
+
+    <div class="term" role="img" aria-label="Legion arayüzü: dört panelde dört Claude oturumu ve alttaki durum çubuğu">
+      <div class="term-chrome" aria-hidden="true"><i></i><i></i><i></i><span>legion · myapp</span></div>
+      <div class="grid" id="grid">
+        <div class="pane focus" id="p-api">
+          <div class="pane-head"><span class="n">1</span><span class="name">api</span><span class="badge s-run">● running</span><span class="act">Bash: go test ./...</span></div>
+          <div class="pane-body"><span class="l-prompt">❯ Task #2: API'ye rate limiting ekle</span>
+<span class="l-tool">⏺</span> Router'ı ve middleware'leri okuyorum.
+<span class="l-q">  ⎿ Read internal/http/router.go</span>
+<span class="l-tool">⏺</span> Bash(go test ./...)</div>
+          <div class="pane-foot">legion/api</div>
+        </div>
+        <div class="pane attn" id="p-web">
+          <div class="pane-head"><span class="n">2</span><span class="name">web</span><span class="badge s-appr">◆ approval</span><span class="act">approve Edit: src/App.tsx</span></div>
+          <div class="pane-body"><span class="l-prompt">❯ Task #3: Signup formunu doğrula</span>
+<span class="l-tool">⏺</span> Update(src/App.tsx)
+<span class="l-warn"> Do you want to make this edit?</span>
+<span class="l-q"> ❯ 1. Yes   2. No</span></div>
+          <div class="pane-foot">legion/web</div>
+        </div>
+        <div class="pane" id="p-cmd">
+          <div class="pane-head"><span class="n">3</span><span class="name star">★ commander</span><span class="badge s-done">✓ done</span><span class="act">turn finished</span></div>
+          <div class="pane-body"><span class="l-prompt">❯ Kullanıcı hesapları: kayıt, giriş, sıfırlama</span>
+<span class="l-tool">⏺</span> 3 görev oluşturdum, 2 işçi açtım.
+<span class="l-msg">❯ [Legion] worker "api" finished a turn.</span>
+<span class="l-tool">⏺</span> api hazır; önce onu birleştirin.</div>
+          <div class="pane-foot">legion/commander</div>
+        </div>
+        <div class="pane" id="p-docs">
+          <div class="pane-head"><span class="n">4</span><span class="name">docs</span><span class="badge s-idle">○ idle</span><span class="act">session started</span></div>
+          <div class="pane-body"><span class="l-prompt">❯ </span><span class="l-q">Try "how does &lt;filepath&gt; work?"</span></div>
+          <div class="pane-foot">legion/docs</div>
+        </div>
+      </div>
+      <div class="status-bar" id="bar">
+        <span class="lg">LEGION</span><span>myapp</span>
+        <span class="s-run" id="c-run">● 1</span><span class="s-appr" id="c-appr">◆ 1</span><span class="s-done" id="c-done">✓ 1</span><span class="s-idle" id="c-idle">○ 1</span>
+        <span class="info" id="info">web needs approval: Edit src/App.tsx</span>
+      </div>
+    </div>
+    <p class="caption">Panellerde Claude Code'un kendi arayüzü çalışır. Başlıklar ve alttaki çubuk, Claude Code hook'larından gelen durumu gösterir.</p>
+  </header>
+</div>
+
+<section class="cband band-accent" id="komutan-ozet" aria-labelledby="cband-title">
+  <div class="wrap">
+    <div class="cband-grid">
+      <div>
+        <p class="eyebrow">Komutan</p>
+        <h2 id="cband-title">Bir hedef yazın. <em>Planlama, dağıtım ve takip</em> onda.</h2>
+        <p class="lead">Komutan, işi sizin yerinize görevlere bölen ve işçi oturumlarını yöneten bir Claude'dur. Siz yalnızca hedefi verir ve hazır olanları birleştirirsiniz.</p>
+      </div>
+      <div class="compare">
+        <div>
+          <h3>Elle</h3>
+          <p>İşi kafanızda bölersiniz.</p>
+          <p>Her görev için açıklama yazarsınız.</p>
+          <p>Oturumları tek tek açıp atarsınız.</p>
+          <p>Kimin bittiğini panellerden takip edersiniz.</p>
+          <p>Her diff'i siz okursunuz.</p>
+          <p>Biten panelleri kapatırsınız.</p>
+        </div>
+        <div>
+          <h3>Komutanla</h3>
+          <p>Kodu okuyup dosyaları çakışmayacak görevlere böler.</p>
+          <p>Her göreve kabul ölçütü yazar.</p>
+          <p>İşçileri kendisi açar, görevleri atar.</p>
+          <p>Biten her iş ona otomatik bildirilir.</p>
+          <p>Diff'leri kontrol eder, eksikse düzelttirir, birleştirme sırasını söyler.</p>
+          <p class="you">Siz birleştirince işçinin panelini kapatır.</p>
+        </div>
+      </div>
+    </div>
+    <ol class="flow" aria-label="Komutanla bir işin akışı">
+      <li class="me"><b>Hedef</b><span>"Kullanıcı hesapları ekle: kayıt, giriş, sıfırlama"</span></li>
+      <li><b>Plan</b><span>Görevleri panoya yazar, her birine ölçüt koyar.</span></li>
+      <li><b>İşçiler</b><span>Her görev için kendi dalında yeni bir oturum açar.</span></li>
+      <li><b>Rapor</b><span>Biten işçinin son mesajı komutana gelir; diff'i kontrol eder.</span></li>
+      <li class="me"><b>Birleştirme</b><span>Komutan sırayı söyler, kararı siz verirsiniz.</span></li>
+      <li><b>Temizlik</b><span>Birleşen işçilerin panellerini kapatır.</span></li>
+    </ol>
+    <div class="flow-legend"><span><i></i>komutan yapar</span><span><i class="me"></i>siz yaparsınız</span><span>Gerçek bir denemede iki görevlik bir hedef, iki işçiyle 33 saniyede tamamlandı.</span></div>
+  </div>
+</section>
+
+<section id="neden">
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">Neden</p>
+      <h2>Paralel çalışmanın zor kısmı, oturumları idare etmek.</h2>
+      <p>Birden fazla Claude açmak kolaydır. Zor olan, birbirini ezmemelerini sağlamak ve kimin sizi beklediğini kaçırmamaktır.</p>
+    </header>
+    <div class="problems">
+      <div class="problem"><p class="was">İki oturum aynı klasörde birbirinin dosyasını ezer.</p><p class="is">Her oturum <code>.legion/worktrees/&lt;ad&gt;</code> altında, kendi <code>legion/&lt;ad&gt;</code> dalında çalışır.</p></div>
+      <div class="problem"><p class="was">Hangi sekmenin onay beklediğini bulmak için dolaşırsınız.</p><p class="is">Onay gerekince ya da iş bitince zil çalar, bildirim gelir, panelin kenarı renklenir.</p></div>
+      <div class="problem"><p class="was">Büyük bir işi parçalara bölüp dağıtmak sizin işiniz olur.</p><p class="is">Komutan oturumu hedefi görevlere böler, işçileri açar ve biten işleri kontrol eder.</p></div>
+      <div class="problem"><p class="was">İki oturum aynı dosyayı aynı anda değiştirir.</p><p class="is">Oturumlar dosya kilitler; başka birinin kilitlediği dosyaya yazma engellenir.</p></div>
+      <div class="problem"><p class="was">Birleştirmeden önce çakışmayı görmezsiniz.</p><p class="is">İnceleme ekranı, birleştirmeden önce çakışmaları ve aynı dosyaya dokunan diğer oturumları gösterir.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band-ink" id="durumlar">
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">Durum işaretleri</p>
+      <h2>Her panel, ne yaptığını kendisi söyler.</h2>
+      <p>Durumu ekrandan tahmin etmeyiz. Claude Code her adımda Legion'a bir hook olayı gönderir; işaretler bu olaylardan gelir.</p>
+    </header>
+    <div class="legend">
+      <div class="legend-item"><span class="glyph s-run">● running</span><p>Prompt gönderildi, araç çalışıyor. Başlıkta o anki araç görünür.</p></div>
+      <div class="legend-item"><span class="glyph s-appr">◆ approval</span><p>Onay ekranı açıldı. Zil çalar, panele geçip cevap verirsiniz.</p></div>
+      <div class="legend-item"><span class="glyph s-done">✓ done</span><p>Tur bitti. Claude'un son mesajı görev panosuna yazılır.</p></div>
+      <div class="legend-item"><span class="glyph s-idle">○ idle</span><p>Oturum hazır, komut bekliyor. Sıradaki mesaj şimdi iletilir.</p></div>
+      <div class="legend-item"><span class="glyph s-err">✗ error</span><p>Tur bir API hatasıyla bitti. Görev "failed" olarak işaretlenir.</p></div>
+      <div class="legend-item"><span class="glyph" style="color: var(--term-quiet)">■ stopped</span><p>Durduruldu. <kbd style="background:transparent;color:inherit;border-color:var(--term-line);box-shadow:none">r</kbd> ile konuşma kaldığı yerden sürer.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band-white" id="akis">
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">Akış</p>
+      <h2>Görevden ana dala, altı adım.</h2>
+    </header>
+    <ol class="steps">
+      <li><div><h3>Görevi yazın</h3><p>Arayüzde <code>Ctrl+\ a</code> ya da başka bir terminalden <code>legion add "API'ye rate limiting ekle"</code>. Legion kapalıyken eklenen görev de panoda bekler.</p></div></li>
+      <li><div><h3>Atayın</h3><p>Panoda görevin üzerinde Enter. Oturum adı yazın ya da boş bırakın; Legion yeni bir worktree, yeni bir dal açar ve Claude'u görev metniyle başlatır.</p></div></li>
+      <li><div><h3>İzleyin</h3><p>Paneller kendi kendine güncellenir. Onay isteyen oturuma geçip cevap verin, gerisi çalışmaya devam eder.</p></div></li>
+      <li><div><h3>İnceleyin</h3><p><code>Ctrl+\ d</code>: ana dala göre diff, commit edilmemiş dosyalar, çakışma kontrolü ve aynı dosyaya dokunan diğer oturumlar tek ekranda.</p></div></li>
+      <li><div><h3>Birleştirin</h3><p>İnceleme ekranında <code>m</code>. Çakışma varsa hiçbir şey değişmez ve dosyalar listelenir. Ana dalınız kirliyse birleştirme reddedilir.</p></div></li>
+      <li><div><h3>Ara verin</h3><p><code>Ctrl+\ q</code> ile çıkın. Yeniden <code>legion</code> dediğinizde çalışan oturumlar konuşmalarıyla birlikte <code>--resume</code> ile geri gelir.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="band-steel" id="komutan">
+  <div class="wrap split">
+    <div class="copy-text">
+      <p class="eyebrow">Komutan</p>
+      <h2 style="margin-block: 12px 18px">Hedefi verin, dağıtımı o yapsın.</h2>
+      <p>Komutan, kod yazmayan özel bir Claude oturumudur. Kodu okur, hedefi mümkün olduğunca farklı dosyalara dokunan görevlere böler, her görevi yeni bir işçi oturumuna atar.</p>
+      <p>Bir işçi turunu bitirdiğinde Legion bunu son mesajıyla birlikte komutana kendisi iletir. Komutan işi kontrol eder, gerekirse düzeltme ister ve hangi dalı hangi sırayla birleştireceğinizi söyler. Birleştirme kararı sizde kalır.</p>
+      <p>Siz bir dalı birleştirdiğinizde Legion bunu komutana bildirir; komutan da bitmiş işçinin panelini kapatır. Commit edilmemiş işi olan oturumu kapatmaz, birleşmemiş dalı silmez.</p>
+      <p><code class="mono" style="font-size:.9em">legion commander "Kullanıcı hesapları ekle"</code> ya da <kbd>Ctrl+\</kbd> <kbd>C</kbd></p>
+    </div>
+    <div class="log" aria-label="Komutan panelinden bir kesit"><span class="who">❯</span> Goal: create hello.txt and world.txt, one task each.
+
+<span style="color:var(--st-done)">⏺</span> Calling legion 4 times…
+   create_task · create_task · assign_task new · assign_task new
+
+<span style="color:var(--term-focus)">❯ [Legion] worker "t1-create-hello-txt" finished a turn.</span>
+<span class="who">  Tasks: #1 Create hello.txt [review].
+  Its last message: I created hello.txt at the worktree root.
+  Check it with session_status / get_diff.</span>
+
+<span style="color:var(--st-done)">⏺</span> ALL DONE</div>
+  </div>
+</section>
+
+<section id="isbirligi">
+  <div class="wrap split">
+    <div class="log" aria-label="Kilitli dosyaya yazma girişiminin engellenmesi"><span style="color:var(--st-done)">⏺</span> Write(notes.txt)
+<span style="color:var(--st-appr)">  ⎿ Error: PreToolUse:Write hook error: Legion: notes.txt
+     is locked by session "alpha" (writing notes). Do not
+     edit it now: work on something else, or coordinate
+     with send_message to alpha.</span>
+
+<span style="color:var(--st-done)">⏺</span> Called legion · send_message → alpha
+
+<span class="who">alpha panelinde:</span>
+<span style="color:var(--term-focus)">❯ [Legion message from session "beta"]</span>
+  I need to write notes.txt, but you have it locked.</div>
+    <div class="copy-text">
+      <p class="eyebrow">İş birliği</p>
+      <h2 style="margin-block: 12px 18px">Oturumlar birbirini görür ve konuşur.</h2>
+      <p>Her oturum Legion'ın araçlarıyla diğer oturumları listeler, onlara mesaj gönderir, dosya kilitler. Bunlar için sizin bir şey yapmanız gerekmez.</p>
+      <p>Bir oturum başkasının kilitlediği dosyayı düzenlemeye kalkarsa Legion bunu engeller ve Claude'a nedenini söyler. Soldaki çıktı gerçek bir denemeden alındı: beta engellendi, alpha'ya yazdı, mesaj alpha'ya ulaştı.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band-white" id="tuslar">
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">Tuşlar</p>
+      <h2>Önce önek, sonra komut.</h2>
+      <p>Tuşlarınız odaktaki Claude'a gider. Legion komutları için <kbd>Ctrl+\</kbd> önekine basıp bırakın, ardından komut tuşuna basın.</p>
+    </header>
+    <div class="keys">
+      <div class="key"><kbd>n</kbd><span>Yeni oturum</span></div>
+      <div class="key"><kbd>t</kbd><span>Görev panosu</span></div>
+      <div class="key"><kbd>a</kbd><span>Görev ekle</span></div>
+      <div class="key"><kbd>d</kbd><span>Diff, commit, merge</span></div>
+      <div class="key"><kbd>C</kbd><span>Komutan</span></div>
+      <div class="key"><kbd>b</kbd><span>Herkese mesaj</span></div>
+      <div class="key"><kbd>←</kbd><kbd>→</kbd><span>Paneller arasında gezin</span></div>
+      <div class="key"><kbd>z</kbd><span>Paneli büyüt</span></div>
+      <div class="key"><kbd>s</kbd><kbd>r</kbd><span>Durdur, devam ettir</span></div>
+      <div class="key"><kbd>x</kbd><span>Oturumu kaldır</span></div>
+      <div class="key"><kbd>q</kbd><span>Çık</span></div>
+      <div class="key"><kbd>?</kbd><span>Yardım</span></div>
+    </div>
+    <p class="prefix-note">Türkçe ya da US dışı klavyede <kbd>\</kbd> zor erişilir; <kbd>Ctrl</kbd><kbd>4</kbd> de önek olarak çalışır. Terminalinin hangi tuşu gönderdiğini görmek için <code>legion keytest</code>.</p>
+    <p class="prefix-note">iTerm2'de <kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd> ile kullanmak için: Settings → Profiles → Keys → Key Mappings → + → "Send Hex Code" <code>0x1c</code>. <code>Cmd</code> tuşları terminale doğrudan ulaşmadığı için bu eşleme gerekir.</p>
+  </div>
+</section>
+
+<section class="band-steel" id="ajanlar">
+  <div class="wrap agents">
+    <div>
+      <p class="eyebrow">Diğer ajanlar</p>
+      <h2 style="margin-block: 12px 18px">Claude Code'un yanına başka CLI'lar.</h2>
+      <p style="color:var(--ink-2)">Codex, Gemini CLI, aider ya da cursor-agent gibi ajanlar <code>[agents]</code> ile eklenir ve aynı ızgarada, kendi worktree'lerinde çalışır. Bunların Legion hook'ları olmadığı için durumları ekrandan çıkarılır: Enter'dan sonra çıktı akıyorsa çalışıyor, bir süre sessizse bitti, imlecin yanında <code>(y/n)</code> gibi bir soru varsa onay bekliyor.</p>
+      <pre class="log" style="margin-top:18px">[agents.codex]
+command     = "codex"
+resume_args = ["resume", "--last"]
+prompt_arg  = true
+idle_after  = "4s"</pre>
+    </div>
+    <div class="agent-list">
+      <div class="agent-row"><b>claude</b><span><i class="cap yes">hook</i><i class="cap yes">MCP</i><i class="cap yes">kilit</i> Durum kesin, mesajlaşma ve dosya kilidi var.</span></div>
+      <div class="agent-row"><b>codex</b><span><i class="cap">ekran</i> Durum çıktıdan tahmin edilir; mesaj ve kilit araçları yok.</span></div>
+      <div class="agent-row"><b>gemini</b><span><i class="cap">ekran</i> Aynı şekilde, <code>[agents.gemini]</code> ile.</span></div>
+      <div class="agent-row"><b>cursor-agent</b><span><i class="cap">ekran</i> <code>resume_args = ["--resume", "{id}"]</code></span></div>
+      <div class="agent-row"><b>aider</b><span><i class="cap">ekran</i> İlk prompt yazılarak verilir (<code>prompt_arg = false</code>).</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="sss">
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">Sık sorulanlar</p>
+      <h2>Başlamadan önce.</h2>
+    </header>
+    <div class="faq">
+      <details><summary>Claude Code ayarlarıma dokunuyor mu?</summary><p>Hayır. Legion hook'larını ve araçlarını <code>--settings</code> ve <code>--mcp-config</code> ile yalnızca kendi başlattığı oturumlara ekler. <code>~/.claude</code> içindeki dosyalarınız değişmez; güven bilgisini sadece okur.</p></details>
+      <details><summary>Ek bir ücreti var mı?</summary><p>Legion'ın kendisi ücretsiz. Her oturum normal bir Claude Code oturumudur ve planınızdan kullanım harcar. Dört oturum, aynı sürede dört kat kullanım demektir.</p></details>
+      <details><summary>Kodum bir yere gönderiliyor mu?</summary><p>Legion tamamen yerelde çalışır. Oturumlar, görevler ve olay günlüğü projenizdeki <code>.legion/state.db</code> dosyasında durur. Dışarıyla konuşan tek şey Claude Code'un kendisidir.</p></details>
+      <details><summary>Legion'ı kapatınca işler ne olur?</summary><p>Oturumlar durur, worktree'ler ve dallar yerinde kalır. <code>legion</code> ile tekrar açtığınızda çalışan oturumlar konuşmalarıyla birlikte <code>--resume</code> ile geri gelir. O an süren bir tur yarıda kalır.</p></details>
+      <details><summary>Ana dalım nasıl korunuyor?</summary><p>Oturumlar ana dala hiç dokunmaz, kendi dallarında çalışır. Birleştirme yalnızca siz istediğinizde yapılır. Çakışma varsa hiçbir şey değişmez, ana dalınızda commit edilmemiş değişiklik varsa birleştirme reddedilir.</p></details>
+      <details><summary>Hangi terminallerde çalışır?</summary><p>macOS'ta iTerm2 ve Terminal.app ile kullanıldı; testler macOS ve Linux'ta çalışır. Türkçe klavyede önek için <kbd>Ctrl</kbd><kbd>4</kbd> kullanın; <code>legion keytest</code> terminalinizin hangi tuşu gönderdiğini gösterir.</p></details>
+      <details><summary>Aynı anda kaç oturum açabilirim?</summary><p>Varsayılan sınır 8, <code>max_sessions</code> ile değişir. Pratikte 2–4 oturum hem ekranda okunur hem de birleştirmesi kolay kalır.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="band-ink" id="kurulum">
+  <div class="wrap install">
+    <header style="margin-bottom: 8px">
+      <p class="eyebrow">Kurulum</p>
+      <h2>Tek satır, sonra üç komut.</h2>
+    </header>
+    <div class="req"><span>macOS · Linux</span><span>Intel · Apple Silicon · ARM</span><span>git 2.38+</span><span>Claude Code 2.1+</span></div>
+<pre id="install-cmds"><span class="p">$</span> curl -fsSL https://bagsiz.github.io/legion-site/install.sh | sh   <span class="c"># ~/.local/bin/legion</span>
+<span class="p">$</span> cd ~/code/myapp
+<span class="p">$</span> claude                   <span class="c"># bir kez: "Yes, I trust this folder"</span>
+<span class="p">$</span> legion init              <span class="c"># .legion/ hazırlanır, git'ten gizlenir</span>
+<span class="p">$</span> legion                   <span class="c"># arayüz açılır; Ctrl+\ n ile ilk oturum</span></pre>
+    <div class="cta-row"><button class="copy" type="button" data-copy="install-cmds">Komutları kopyala</button><span style="color:var(--ink-2); font-size:var(--step--1)">Sorun olursa <code>legion doctor</code> bağımlılıkları ve güveni kontrol eder. Güncellemek için aynı komutu tekrar çalıştırın.</span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Legion <span id="footer-version"></span>· Go, Bubble Tea ve SQLite ile yazıldı · Claude Code 2.1.322 ile test edildi</span>
+    <span>Codex, Gemini CLI ve cursor-agent gibi ajanlar da <code>[agents]</code> ile eklenebilir.</span>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="Sayfanın başına dön" title="Başa dön"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+<script>
+(() => {
+  // Back-to-top button: appears after scrolling down.
+  const toTop = document.getElementById('to-top');
+  const onScroll = () => toTop.classList.toggle('show', window.scrollY > 600);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  toTop.addEventListener('click', () => {
+    const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
+    document.querySelector('.wordmark')?.focus({ preventScroll: true });
+  });
+
+  // Copy buttons
+  document.querySelectorAll('button.copy').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const el = document.getElementById(btn.dataset.copy);
+      const text = el.innerText.replace(/^\$ /gm, '').replace(/\s+#.*$/gm, '').trim();
+      const label = btn.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = 'Kopyalandı';
+      } catch (e) {
+        const r = document.createRange(); r.selectNodeContents(el);
+        const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+        btn.textContent = 'Seçildi, ⌘C ile kopyalayın';
+      }
+      setTimeout(() => { btn.textContent = label; }, 1800);
+    });
+  });
+
+  // Latest release tag from GitHub (works on the published site; silently skipped elsewhere).
+  fetch('https://api.github.com/repos/bagsiz/legion-site/releases/latest')
+    .then(r => r.ok ? r.json() : null)
+    .then(rel => {
+      if (!rel || !rel.tag_name) return;
+      document.getElementById('release-tag').textContent = rel.tag_name;
+      document.getElementById('footer-version').textContent = rel.tag_name + ' ';
+      document.getElementById('release').href = rel.html_url;
+    })
+    .catch(() => {});
+
+  // Live terminal: a short scripted loop of hook-driven status changes.
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const S = {
+    run: ['● running', 's-run'], appr: ['◆ approval', 's-appr'], done: ['✓ done', 's-done'], idle: ['○ idle', 's-idle']
+  };
+  const state = { api: 'run', web: 'appr', cmd: 'done', docs: 'idle' };
+  const pane = id => document.getElementById('p-' + id);
+  const set = (id, st, act) => {
+    const p = pane(id), b = p.querySelector('.badge');
+    b.textContent = S[st][0]; b.className = 'badge ' + S[st][1];
+    if (act) p.querySelector('.act').textContent = act;
+    p.classList.toggle('attn', st === 'appr' || (st === 'done' && id !== 'cmd'));
+    state[id] = st;
+    const c = { run: 0, appr: 0, done: 0, idle: 0 };
+    Object.values(state).forEach(v => c[v]++);
+    document.getElementById('c-run').textContent = '● ' + c.run;
+    document.getElementById('c-appr').textContent = '◆ ' + c.appr;
+    document.getElementById('c-done').textContent = '✓ ' + c.done;
+    document.getElementById('c-idle').textContent = '○ ' + c.idle;
+  };
+  const line = (id, html) => {
+    const body = pane(id).querySelector('.pane-body');
+    body.insertAdjacentHTML('beforeend', '\n' + html);
+    const lines = body.innerHTML.split('\n');
+    if (lines.length > 6) body.innerHTML = lines.slice(lines.length - 6).join('\n');
+  };
+  const info = t => { document.getElementById('info').textContent = t; };
+  const snapshot = Object.fromEntries(['api', 'web', 'cmd', 'docs'].map(id => [id, pane(id).querySelector('.pane-body').innerHTML]));
+  const steps = [
+    () => { line('web', '<span class="l-q"> ❯ 1</span>'); set('web', 'run', 'Edit: src/App.tsx'); info('web: approved'); },
+    () => { line('api', '<span class="l-q">  ⎿ ok  myapp/internal/http  0.41s</span>'); },
+    () => { line('api', '<span class="l-tool">⏺</span> Rate limiter eklendi, testler geçiyor.'); set('api', 'done', 'turn finished'); info('api finished'); },
+    () => { line('cmd', '<span class="l-msg">❯ [Legion] worker "api" finished a turn.</span>'); set('cmd', 'run', 'mcp__legion__get_diff'); },
+    () => { line('docs', '<span class="l-msg">[Legion message from session "commander"]</span>'); set('docs', 'run', 'thinking'); info('commander → docs: message delivered'); },
+    () => { line('web', '<span class="l-tool">⏺</span> Doğrulama eklendi; 4 test yazdım.'); set('web', 'done', 'turn finished'); info('web finished'); },
+    () => { line('cmd', '<span class="l-tool">⏺</span> api ve web hazır: önce api, sonra web.'); set('cmd', 'done', 'turn finished'); },
+    () => { line('docs', '<span class="l-tool">⏺</span> Update(README.md)'); line('docs', '<span class="l-warn"> Do you want to make this edit?</span>'); set('docs', 'appr', 'approve Edit: README.md'); info('docs needs approval: Edit README.md'); },
+    () => { // reset to the resting frame
+      Object.entries(snapshot).forEach(([id, h]) => { pane(id).querySelector('.pane-body').innerHTML = h; });
+      set('api', 'run', 'Bash: go test ./...'); set('web', 'appr', 'approve Edit: src/App.tsx'); set('cmd', 'done', 'turn finished'); set('docs', 'idle', 'session started');
+      info('web needs approval: Edit src/App.tsx');
+    },
+  ];
+  let i = 0;
+  setInterval(() => { steps[i](); i = (i + 1) % steps.length; }, 2300);
+})();
+</script>
+
+</body>
+</html>
