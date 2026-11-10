@@ -193,6 +193,30 @@ kbd {
 .lang a[aria-current] { color: var(--accent); background: var(--accent-soft); }
 .lang a:not([aria-current]):hover { color: var(--ink); }
 
+/* commander band */
+.cband { background: var(--surface); border-block: 1px solid var(--line); padding-block: 64px; }
+.cband-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 40px; align-items: start; }
+.cband h2 { font-size: var(--step-3); font-weight: 800; margin-block: 12px 16px; }
+.cband h2 em { font-style: normal; color: var(--accent); }
+.cband .lead { color: var(--ink-2); font-size: var(--step-1); max-width: 46ch; }
+.compare { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.compare > div { padding: 18px 20px; display: grid; gap: 10px; align-content: start; }
+.compare > div + div { border-left: 1px solid var(--line); background: var(--accent-soft); }
+.compare h3 { font: 600 var(--step--1)/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 4px; }
+.compare > div + div h3 { color: var(--accent); }
+.compare p { font-size: 0.95rem; }
+.compare .you { color: var(--ink-2); }
+.flow { list-style: none; margin: 36px 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; counter-reset: f; }
+.flow li { counter-increment: f; border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 14px 16px; display: grid; gap: 6px; align-content: start; position: relative; background: var(--bg); }
+.flow li::before { content: counter(f); font: 700 0.8rem/1 var(--font-mono); color: var(--accent); }
+.flow li.me { border-style: dashed; background: transparent; }
+.flow li.me::before { color: var(--ink-2); }
+.flow b { font: 600 0.98rem/1.25 var(--font-display); }
+.flow span { color: var(--ink-2); font-size: 0.86rem; line-height: 1.45; }
+.flow-legend { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 18px; color: var(--ink-2); font-size: var(--step--1); }
+.flow-legend i { display: inline-block; width: 14px; height: 10px; border-radius: 3px; border: 1px solid var(--line); margin-right: 6px; vertical-align: -1px; background: var(--bg); }
+.flow-legend i.me { border-style: dashed; background: transparent; }
+
 /* release strip */
 .release { display: inline-flex; align-items: center; gap: 10px; font: 500 var(--step--1)/1.2 var(--font-mono); color: var(--ink-2); text-decoration: none; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px 6px 6px; width: fit-content; max-width: 100%; }
 .release b { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 4px 9px; font-weight: 600; }
@@ -220,7 +244,13 @@ kbd {
 footer { border-top: 1px solid var(--line); padding-block: 36px 48px; color: var(--ink-2); font-size: var(--step--1); }
 footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; }
 
+@media (max-width: 960px) {
+  .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 @media (max-width: 760px) {
+  .cband-grid, .compare { grid-template-columns: 1fr; }
+  .compare > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .grid { grid-template-columns: 1fr; }
   .agents { grid-template-columns: 1fr; }
   .agent-row { grid-template-columns: 1fr; gap: 2px; }
@@ -300,6 +330,47 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
     <p class="caption">Panellerde Claude Code'un kendi arayüzü çalışır. Başlıklar ve alttaki çubuk, Claude Code hook'larından gelen durumu gösterir.</p>
   </header>
 </div>
+
+<section class="cband" id="komutan-ozet" aria-labelledby="cband-title">
+  <div class="wrap">
+    <div class="cband-grid">
+      <div>
+        <p class="eyebrow">Komutan</p>
+        <h2 id="cband-title">Bir hedef yazın. <em>Planlama, dağıtım ve takip</em> onda.</h2>
+        <p class="lead">Komutan, işi sizin yerinize görevlere bölen ve işçi oturumlarını yöneten bir Claude'dur. Siz yalnızca hedefi verir ve hazır olanları birleştirirsiniz.</p>
+      </div>
+      <div class="compare">
+        <div>
+          <h3>Elle</h3>
+          <p>İşi kafanızda bölersiniz.</p>
+          <p>Her görev için açıklama yazarsınız.</p>
+          <p>Oturumları tek tek açıp atarsınız.</p>
+          <p>Kimin bittiğini panellerden takip edersiniz.</p>
+          <p>Her diff'i siz okursunuz.</p>
+          <p>Biten panelleri kapatırsınız.</p>
+        </div>
+        <div>
+          <h3>Komutanla</h3>
+          <p>Kodu okuyup dosyaları çakışmayacak görevlere böler.</p>
+          <p>Her göreve kabul ölçütü yazar.</p>
+          <p>İşçileri kendisi açar, görevleri atar.</p>
+          <p>Biten her iş ona otomatik bildirilir.</p>
+          <p>Diff'leri kontrol eder, eksikse düzelttirir, birleştirme sırasını söyler.</p>
+          <p class="you">Siz birleştirince işçinin panelini kapatır.</p>
+        </div>
+      </div>
+    </div>
+    <ol class="flow" aria-label="Komutanla bir işin akışı">
+      <li class="me"><b>Hedef</b><span>"Kullanıcı hesapları ekle: kayıt, giriş, sıfırlama"</span></li>
+      <li><b>Plan</b><span>Görevleri panoya yazar, her birine ölçüt koyar.</span></li>
+      <li><b>İşçiler</b><span>Her görev için kendi dalında yeni bir oturum açar.</span></li>
+      <li><b>Rapor</b><span>Biten işçinin son mesajı komutana gelir; diff'i kontrol eder.</span></li>
+      <li class="me"><b>Birleştirme</b><span>Komutan sırayı söyler, kararı siz verirsiniz.</span></li>
+      <li><b>Temizlik</b><span>Birleşen işçilerin panellerini kapatır.</span></li>
+    </ol>
+    <div class="flow-legend"><span><i></i>komutan yapar</span><span><i class="me"></i>siz yaparsınız</span><span>Gerçek bir denemede iki görevlik bir hedef, iki işçiyle 33 saniyede tamamlandı.</span></div>
+  </div>
+</section>
 
 <section id="neden">
   <div class="wrap">

@@ -193,6 +193,30 @@ kbd {
 .lang a[aria-current] { color: var(--accent); background: var(--accent-soft); }
 .lang a:not([aria-current]):hover { color: var(--ink); }
 
+/* commander band */
+.cband { background: var(--surface); border-block: 1px solid var(--line); padding-block: 64px; }
+.cband-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 40px; align-items: start; }
+.cband h2 { font-size: var(--step-3); font-weight: 800; margin-block: 12px 16px; }
+.cband h2 em { font-style: normal; color: var(--accent); }
+.cband .lead { color: var(--ink-2); font-size: var(--step-1); max-width: 46ch; }
+.compare { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.compare > div { padding: 18px 20px; display: grid; gap: 10px; align-content: start; }
+.compare > div + div { border-left: 1px solid var(--line); background: var(--accent-soft); }
+.compare h3 { font: 600 var(--step--1)/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 4px; }
+.compare > div + div h3 { color: var(--accent); }
+.compare p { font-size: 0.95rem; }
+.compare .you { color: var(--ink-2); }
+.flow { list-style: none; margin: 36px 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; counter-reset: f; }
+.flow li { counter-increment: f; border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 14px 16px; display: grid; gap: 6px; align-content: start; position: relative; background: var(--bg); }
+.flow li::before { content: counter(f); font: 700 0.8rem/1 var(--font-mono); color: var(--accent); }
+.flow li.me { border-style: dashed; background: transparent; }
+.flow li.me::before { color: var(--ink-2); }
+.flow b { font: 600 0.98rem/1.25 var(--font-display); }
+.flow span { color: var(--ink-2); font-size: 0.86rem; line-height: 1.45; }
+.flow-legend { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 18px; color: var(--ink-2); font-size: var(--step--1); }
+.flow-legend i { display: inline-block; width: 14px; height: 10px; border-radius: 3px; border: 1px solid var(--line); margin-right: 6px; vertical-align: -1px; background: var(--bg); }
+.flow-legend i.me { border-style: dashed; background: transparent; }
+
 /* release strip */
 .release { display: inline-flex; align-items: center; gap: 10px; font: 500 var(--step--1)/1.2 var(--font-mono); color: var(--ink-2); text-decoration: none; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px 6px 6px; width: fit-content; max-width: 100%; }
 .release b { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 4px 9px; font-weight: 600; }
@@ -220,7 +244,13 @@ kbd {
 footer { border-top: 1px solid var(--line); padding-block: 36px 48px; color: var(--ink-2); font-size: var(--step--1); }
 footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; }
 
+@media (max-width: 960px) {
+  .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 @media (max-width: 760px) {
+  .cband-grid, .compare { grid-template-columns: 1fr; }
+  .compare > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .grid { grid-template-columns: 1fr; }
   .agents { grid-template-columns: 1fr; }
   .agent-row { grid-template-columns: 1fr; gap: 2px; }
@@ -300,6 +330,47 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
     <p class="caption">Each pane runs Claude Code's own interface. The pane titles and the status bar come from Claude Code hooks.</p>
   </header>
 </div>
+
+<section class="cband" id="commander-summary" aria-labelledby="cband-title">
+  <div class="wrap">
+    <div class="cband-grid">
+      <div>
+        <p class="eyebrow">Commander</p>
+        <h2 id="cband-title">Write one goal. <em>Planning, hand-off and follow-up</em> are on it.</h2>
+        <p class="lead">The commander is a Claude that splits the work into tasks and runs the worker sessions for you. You give the goal and merge what is ready.</p>
+      </div>
+      <div class="compare">
+        <div>
+          <h3>By hand</h3>
+          <p>You split the job in your head.</p>
+          <p>You write a brief for every task.</p>
+          <p>You open sessions and assign them one by one.</p>
+          <p>You watch the panes to see who finished.</p>
+          <p>You read every diff yourself.</p>
+          <p>You close the finished panes.</p>
+        </div>
+        <div>
+          <h3>With the commander</h3>
+          <p>It reads the code and splits the goal into tasks that don't collide on files.</p>
+          <p>It writes acceptance criteria for each task.</p>
+          <p>It starts the workers and assigns the tasks.</p>
+          <p>Every finished job is reported to it automatically.</p>
+          <p>It checks the diffs, asks for fixes and tells you the merge order.</p>
+          <p class="you">When you merge, it closes that worker's pane.</p>
+        </div>
+      </div>
+    </div>
+    <ol class="flow" aria-label="How a job flows with the commander">
+      <li class="me"><b>Goal</b><span>"Add user accounts: signup, login, password reset"</span></li>
+      <li><b>Plan</b><span>Writes the tasks to the board, each with criteria.</span></li>
+      <li><b>Workers</b><span>Starts one session per task, each on its own branch.</span></li>
+      <li><b>Reports</b><span>A finished worker's last message reaches it; it checks the diff.</span></li>
+      <li class="me"><b>Merge</b><span>It suggests the order; you make the call.</span></li>
+      <li><b>Clean-up</b><span>Closes the panes of merged workers.</span></li>
+    </ol>
+    <div class="flow-legend"><span><i></i>the commander does it</span><span><i class="me"></i>you do it</span><span>In a real run, a two-task goal finished with two workers in 33 seconds.</span></div>
+  </div>
+</section>
 
 <section id="why">
   <div class="wrap">
