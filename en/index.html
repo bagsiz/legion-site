@@ -99,17 +99,18 @@ nav ul a { text-decoration: none; color: var(--ink-2); }
 nav ul a:hover { color: var(--ink); }
 
 /* hero */
-.hero { padding-block: 40px 28px; display: grid; gap: 28px; }
+.hero { padding-block: 40px 28px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
 .hero h1 { font-size: var(--step-4); font-weight: 800; max-width: 14ch; }
 .hero h1 em { font-style: normal; color: var(--accent); }
 .hero .lede { font-size: var(--step-1); color: var(--ink-2); max-width: 60ch; }
-.cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; min-width: 0; }
 .cmd {
   display: inline-flex; align-items: center; gap: 14px; background: var(--surface); border: 1px solid var(--line);
   border-radius: var(--radius); padding: 10px 10px 10px 16px; font: 400 0.95rem/1 var(--font-mono); max-width: 100%;
 }
-.cmd .prompt { color: var(--accent); }
-.cmd code { white-space: nowrap; overflow-x: auto; }
+.cmd .prompt { color: var(--accent); flex: none; }
+.cmd button { flex: none; }
+.cmd code { white-space: nowrap; overflow-x: auto; min-width: 0; flex: 1 1 auto; scrollbar-width: thin; }
 button.copy {
   font: 600 0.8rem/1 var(--font-body); border: 1px solid var(--line); background: var(--bg); color: var(--ink);
   border-radius: 7px; padding: 8px 12px; cursor: pointer;
@@ -190,7 +191,7 @@ kbd {
 .prefix-note { margin-top: 22px; color: var(--ink-2); max-width: 70ch; }
 .prefix-note kbd { margin-inline: 2px; }
 
-.install { display: grid; gap: 14px; }
+.install { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
 .install pre {
   margin: 0; background: var(--term-bg); color: var(--term-ink); border-radius: var(--radius); padding: 18px 20px;
   font: 400 13.5px/1.75 var(--font-mono); overflow-x: auto;
@@ -276,6 +277,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
   .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) {
+  .cmd { width: 100%; }
   .cband-grid, .compare { grid-template-columns: 1fr; }
   .compare > div + div { border-left: 0; border-top: 1px solid var(--line); }
   .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
