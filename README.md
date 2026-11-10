@@ -20,4 +20,8 @@ legion init
 legion          # Ctrl+\ then n starts a session; Ctrl+\ ? shows all keys
 ```
 
+Non-US keyboard (e.g. Turkish)? `Ctrl+4` works as the prefix too. Run `legion keytest` to see which keys your terminal sends.
+
+Update: run the install command again.
+
 This repository hosts the website and release binaries. The source code is private.
