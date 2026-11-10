@@ -47,17 +47,26 @@
   --step-3: clamp(2.1rem, 4.4vw, 3.4rem);
   --step-4: clamp(2.6rem, 7vw, 5.6rem);
   --radius: 10px;
+  --band-steel: #e2e8f0;
+  --band-accent: #f9e6f1;
+  --band-ink: #131a2a;
+  --band-ink-surface: #1c2538;
+  --band-ink-fg: #e9edf4;
+  --band-ink-fg2: #a3adc0;
+  --band-ink-line: #2c364c;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0b0e15; --surface: #121722; --ink: #e8ecf3; --ink-2: #9aa4b6; --line: #262e3d;
     --accent: #ff87d7; --accent-soft: #3a1d33; --term-bg: #080b11; --term-pane: #0d121c; --bar: #1b2130;
+    --band-steel: #0f141e; --band-accent: #221520; --band-ink: #05070c; --band-ink-surface: #121826; --band-ink-fg: #e8ecf3; --band-ink-fg2: #9aa4b6; --band-ink-line: #222b3c;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0b0e15; --surface: #121722; --ink: #e8ecf3; --ink-2: #9aa4b6; --line: #262e3d;
   --accent: #ff87d7; --accent-soft: #3a1d33; --term-bg: #080b11; --term-pane: #0d121c; --bar: #1b2130;
+    --band-steel: #0f141e; --band-accent: #221520; --band-ink: #05070c; --band-ink-surface: #121826; --band-ink-fg: #e8ecf3; --band-ink-fg2: #9aa4b6; --band-ink-line: #222b3c;
   color-scheme: dark;
 }
 
@@ -65,12 +74,15 @@
 body {
   background: var(--bg); color: var(--ink);
   font: 400 var(--step-0)/1.6 var(--font-body);
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
-.wrap { max-width: 1120px; margin: 0 auto; }
+.wrap {
+  max-width: 1168px; margin: 0 auto;
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+@media (max-width: 760px) { .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); } }
 h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; text-wrap: balance; margin: 0; letter-spacing: -0.02em; }
 p { margin: 0; }
 code, kbd, .mono { font-family: var(--font-mono); }
@@ -193,8 +205,24 @@ kbd {
 .lang a[aria-current] { color: var(--accent); background: var(--accent-soft); }
 .lang a:not([aria-current]):hover { color: var(--ink); }
 
+
+/* full-width colour bands between sections; the gutter lives on .wrap */
+section { background: var(--sec-bg, var(--bg)); border-top: 0; }
+.band-white { --sec-bg: var(--surface); }
+.band-steel { --sec-bg: var(--band-steel); }
+.band-accent { --sec-bg: var(--band-accent); }
+.band-ink {
+  --sec-bg: var(--band-ink); --bg: var(--band-ink); --surface: var(--band-ink-surface);
+  --ink: var(--band-ink-fg); --ink-2: var(--band-ink-fg2); --line: var(--band-ink-line);
+  --accent: #ff87d7; --accent-soft: #3a1d33;
+  color: var(--ink);
+}
+.band-ink .legend-item { background: var(--band-ink-surface); }
+.band-ink .install pre, .band-ink pre { border: 1px solid var(--band-ink-line); }
+.band-white .problems { background: var(--bg); }
+
 /* commander band */
-.cband { background: var(--surface); border-block: 1px solid var(--line); padding-block: 64px; }
+.cband { padding-block: 64px; }
 .cband-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 40px; align-items: start; }
 .cband h2 { font-size: var(--step-3); font-weight: 800; margin-block: 12px 16px; }
 .cband h2 em { font-style: normal; color: var(--accent); }
@@ -331,7 +359,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
   </header>
 </div>
 
-<section class="cband" id="komutan-ozet" aria-labelledby="cband-title">
+<section class="cband band-accent" id="komutan-ozet" aria-labelledby="cband-title">
   <div class="wrap">
     <div class="cband-grid">
       <div>
@@ -389,7 +417,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
   </div>
 </section>
 
-<section id="durumlar">
+<section class="band-ink" id="durumlar">
   <div class="wrap">
     <header>
       <p class="eyebrow">Durum işaretleri</p>
@@ -407,7 +435,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
   </div>
 </section>
 
-<section id="akis">
+<section class="band-white" id="akis">
   <div class="wrap">
     <header>
       <p class="eyebrow">Akış</p>
@@ -424,7 +452,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
   </div>
 </section>
 
-<section id="komutan">
+<section class="band-steel" id="komutan">
   <div class="wrap split">
     <div class="copy-text">
       <p class="eyebrow">Komutan</p>
@@ -470,7 +498,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
   </div>
 </section>
 
-<section id="tuslar">
+<section class="band-white" id="tuslar">
   <div class="wrap">
     <header>
       <p class="eyebrow">Tuşlar</p>
@@ -496,7 +524,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
   </div>
 </section>
 
-<section id="ajanlar">
+<section class="band-steel" id="ajanlar">
   <div class="wrap agents">
     <div>
       <p class="eyebrow">Diğer ajanlar</p>
@@ -536,7 +564,7 @@ idle_after  = "4s"</pre>
   </div>
 </section>
 
-<section id="kurulum">
+<section class="band-ink" id="kurulum">
   <div class="wrap install">
     <header style="margin-bottom: 8px">
       <p class="eyebrow">Kurulum</p>
