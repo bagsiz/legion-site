@@ -246,6 +246,22 @@ section { background: var(--sec-bg, var(--bg)); border-top: 0; }
 .flow-legend i { display: inline-block; width: 14px; height: 10px; border-radius: 3px; border: 1px solid var(--line); margin-right: 6px; vertical-align: -1px; background: var(--bg); }
 .flow-legend i.me { border-style: dashed; background: transparent; }
 
+/* back to top */
+.to-top {
+  position: fixed; z-index: 20;
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer;
+  background: var(--ink); color: var(--bg); border: 1px solid var(--line);
+  box-shadow: 0 10px 24px -10px rgba(10, 16, 30, 0.5);
+  opacity: 0; transform: translateY(8px); pointer-events: none;
+  transition: opacity .2s, transform .2s, background .2s;
+}
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { background: var(--accent); color: #fff; }
+.to-top svg { width: 20px; height: 20px; }
+
 /* release strip */
 .release { display: inline-flex; align-items: center; gap: 10px; font: 500 var(--step--1)/1.2 var(--font-mono); color: var(--ink-2); text-decoration: none; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px 6px 6px; width: fit-content; max-width: 100%; }
 .release b { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 4px 9px; font-weight: 600; }
@@ -588,8 +604,21 @@ idle_after  = "4s"</pre>
   </div>
 </footer>
 
+<button class="to-top" id="to-top" type="button" aria-label="Sayfanın başına dön" title="Başa dön"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
 <script>
 (() => {
+  // Back-to-top button: appears after scrolling down.
+  const toTop = document.getElementById('to-top');
+  const onScroll = () => toTop.classList.toggle('show', window.scrollY > 600);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  toTop.addEventListener('click', () => {
+    const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
+    document.querySelector('.wordmark')?.focus({ preventScroll: true });
+  });
+
   // Copy buttons
   document.querySelectorAll('button.copy').forEach(btn => {
     btn.addEventListener('click', async () => {
