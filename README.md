@@ -24,4 +24,4 @@ Non-US keyboard (e.g. Turkish)? `Ctrl+4` works as the prefix too. Run `legion ke
 
 Update: run the install command again.
 
-This repository hosts the website and release binaries. The source code is private.
+This repository hosts the website and release binaries. Legion is proprietary and free to use; see [LICENSE.txt](LICENSE.txt). Open-source components it includes are listed with their licenses in `THIRD_PARTY_LICENSES.txt` inside every release.
