@@ -186,11 +186,37 @@ kbd {
 .req { display: flex; flex-wrap: wrap; gap: 10px; }
 .req span { font: 500 var(--step--1)/1 var(--font-mono); border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; background: var(--surface); }
 
+/* release strip */
+.release { display: inline-flex; align-items: center; gap: 10px; font: 500 var(--step--1)/1.2 var(--font-mono); color: var(--ink-2); text-decoration: none; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px 6px 6px; width: fit-content; max-width: 100%; }
+.release b { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 4px 9px; font-weight: 600; }
+.release:hover { border-color: var(--ink-2); }
+
+/* agents */
+.agents { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.agent-list { display: grid; gap: 10px; }
+.agent-row { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 14px; padding-block: 10px; border-bottom: 1px solid var(--line); }
+.agent-row b { font-family: var(--font-mono); font-size: 0.92rem; }
+.agent-row span { color: var(--ink-2); }
+.cap { display: inline-block; font: 600 0.72rem/1 var(--font-mono); letter-spacing: .04em; padding: 4px 7px; border-radius: 5px; margin-right: 6px; border: 1px solid var(--line); }
+.cap.yes { color: var(--accent); border-color: var(--accent); }
+
+/* faq */
+.faq { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); padding-block: 4px; }
+.faq summary { cursor: pointer; list-style: none; padding-block: 14px; font: 600 var(--step-1)/1.3 var(--font-display); display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--accent); font-family: var(--font-mono); }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { color: var(--ink-2); max-width: 70ch; padding-bottom: 16px; }
+.faq code { color: var(--ink); font-size: 0.9em; }
+
 footer { border-top: 1px solid var(--line); padding-block: 36px 48px; color: var(--ink-2); font-size: var(--step--1); }
 footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; }
 
 @media (max-width: 760px) {
   .grid { grid-template-columns: 1fr; }
+  .agents { grid-template-columns: 1fr; }
+  .agent-row { grid-template-columns: 1fr; gap: 2px; }
   .pane { min-height: 0; }
   .problem, .split { grid-template-columns: 1fr; gap: 10px; }
   .steps li { grid-template-columns: 44px minmax(0, 1fr); gap: 12px; }
@@ -207,6 +233,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
       <li><a href="#neden">Neden</a></li>
       <li><a href="#akis">Akış</a></li>
       <li><a href="#komutan">Komutan</a></li>
+      <li><a href="#sss">SSS</a></li>
       <li><a href="#tuslar">Tuşlar</a></li>
       <li><a href="#kurulum">Kurulum</a></li>
       <li><a href="https://github.com/bagsiz/legion-site/releases">İndir</a></li>
@@ -214,6 +241,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
   </nav>
 
   <header class="hero" id="top">
+    <a class="release" id="release" href="https://github.com/bagsiz/legion-site/releases"><b id="release-tag">Yeni</b><span id="release-text">Komutan artık birleştirilen işçilerin panellerini kapatıyor</span></a>
     <p class="eyebrow">Claude Code için terminal</p>
     <h1>Bir proje. Birçok Claude. <em>Tek ekran.</em></h1>
     <p class="lede">Legion, aynı projede birden fazla Claude Code oturumunu yan yana panellerde çalıştırır. Her oturum kendi git worktree'sinde ve dalında çalışır; kim çalışıyor, kim onay bekliyor, kim bitirdi, tek bakışta görürsünüz.</p>
@@ -324,6 +352,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
       <h2 style="margin-block: 12px 18px">Hedefi verin, dağıtımı o yapsın.</h2>
       <p>Komutan, kod yazmayan özel bir Claude oturumudur. Kodu okur, hedefi mümkün olduğunca farklı dosyalara dokunan görevlere böler, her görevi yeni bir işçi oturumuna atar.</p>
       <p>Bir işçi turunu bitirdiğinde Legion bunu son mesajıyla birlikte komutana kendisi iletir. Komutan işi kontrol eder, gerekirse düzeltme ister ve hangi dalı hangi sırayla birleştireceğinizi söyler. Birleştirme kararı sizde kalır.</p>
+      <p>Siz bir dalı birleştirdiğinizde Legion bunu komutana bildirir; komutan da bitmiş işçinin panelini kapatır. Commit edilmemiş işi olan oturumu kapatmaz, birleşmemiş dalı silmez.</p>
       <p><code class="mono" style="font-size:.9em">legion commander "Kullanıcı hesapları ekle"</code> ya da <kbd>Ctrl+\</kbd> <kbd>C</kbd></p>
     </div>
     <div class="log" aria-label="Komutan panelinden bir kesit"><span class="who">❯</span> Goal: create hello.txt and world.txt, one task each.
@@ -388,6 +417,46 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
   </div>
 </section>
 
+<section id="ajanlar">
+  <div class="wrap agents">
+    <div>
+      <p class="eyebrow">Diğer ajanlar</p>
+      <h2 style="margin-block: 12px 18px">Claude Code'un yanına başka CLI'lar.</h2>
+      <p style="color:var(--ink-2)">Codex, Gemini CLI, aider ya da cursor-agent gibi ajanlar <code>[agents]</code> ile eklenir ve aynı ızgarada, kendi worktree'lerinde çalışır. Bunların Legion hook'ları olmadığı için durumları ekrandan çıkarılır: Enter'dan sonra çıktı akıyorsa çalışıyor, bir süre sessizse bitti, imlecin yanında <code>(y/n)</code> gibi bir soru varsa onay bekliyor.</p>
+      <pre class="log" style="margin-top:18px">[agents.codex]
+command     = "codex"
+resume_args = ["resume", "--last"]
+prompt_arg  = true
+idle_after  = "4s"</pre>
+    </div>
+    <div class="agent-list">
+      <div class="agent-row"><b>claude</b><span><i class="cap yes">hook</i><i class="cap yes">MCP</i><i class="cap yes">kilit</i> Durum kesin, mesajlaşma ve dosya kilidi var.</span></div>
+      <div class="agent-row"><b>codex</b><span><i class="cap">ekran</i> Durum çıktıdan tahmin edilir; mesaj ve kilit araçları yok.</span></div>
+      <div class="agent-row"><b>gemini</b><span><i class="cap">ekran</i> Aynı şekilde, <code>[agents.gemini]</code> ile.</span></div>
+      <div class="agent-row"><b>cursor-agent</b><span><i class="cap">ekran</i> <code>resume_args = ["--resume", "{id}"]</code></span></div>
+      <div class="agent-row"><b>aider</b><span><i class="cap">ekran</i> İlk prompt yazılarak verilir (<code>prompt_arg = false</code>).</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="sss">
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">Sık sorulanlar</p>
+      <h2>Başlamadan önce.</h2>
+    </header>
+    <div class="faq">
+      <details><summary>Claude Code ayarlarıma dokunuyor mu?</summary><p>Hayır. Legion hook'larını ve araçlarını <code>--settings</code> ve <code>--mcp-config</code> ile yalnızca kendi başlattığı oturumlara ekler. <code>~/.claude</code> içindeki dosyalarınız değişmez; güven bilgisini sadece okur.</p></details>
+      <details><summary>Ek bir ücreti var mı?</summary><p>Legion'ın kendisi ücretsiz. Her oturum normal bir Claude Code oturumudur ve planınızdan kullanım harcar. Dört oturum, aynı sürede dört kat kullanım demektir.</p></details>
+      <details><summary>Kodum bir yere gönderiliyor mu?</summary><p>Legion tamamen yerelde çalışır. Oturumlar, görevler ve olay günlüğü projenizdeki <code>.legion/state.db</code> dosyasında durur. Dışarıyla konuşan tek şey Claude Code'un kendisidir.</p></details>
+      <details><summary>Legion'ı kapatınca işler ne olur?</summary><p>Oturumlar durur, worktree'ler ve dallar yerinde kalır. <code>legion</code> ile tekrar açtığınızda çalışan oturumlar konuşmalarıyla birlikte <code>--resume</code> ile geri gelir. O an süren bir tur yarıda kalır.</p></details>
+      <details><summary>Ana dalım nasıl korunuyor?</summary><p>Oturumlar ana dala hiç dokunmaz, kendi dallarında çalışır. Birleştirme yalnızca siz istediğinizde yapılır. Çakışma varsa hiçbir şey değişmez, ana dalınızda commit edilmemiş değişiklik varsa birleştirme reddedilir.</p></details>
+      <details><summary>Hangi terminallerde çalışır?</summary><p>macOS'ta iTerm2 ve Terminal.app ile kullanıldı; testler macOS ve Linux'ta çalışır. Türkçe klavyede önek için <kbd>Ctrl</kbd><kbd>4</kbd> kullanın; <code>legion keytest</code> terminalinizin hangi tuşu gönderdiğini gösterir.</p></details>
+      <details><summary>Aynı anda kaç oturum açabilirim?</summary><p>Varsayılan sınır 8, <code>max_sessions</code> ile değişir. Pratikte 2–4 oturum hem ekranda okunur hem de birleştirmesi kolay kalır.</p></details>
+    </div>
+  </div>
+</section>
+
 <section id="kurulum">
   <div class="wrap install">
     <header style="margin-bottom: 8px">
@@ -406,7 +475,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
 
 <footer>
   <div class="wrap">
-    <span>Legion · Go, Bubble Tea ve SQLite ile yazıldı · Claude Code 2.1.322 ile test edildi</span>
+    <span>Legion <span id="footer-version"></span>· Go, Bubble Tea ve SQLite ile yazıldı · Claude Code 2.1.322 ile test edildi · <a href="https://github.com/bagsiz/legion-site/releases">Sürümler</a></span>
     <span>Codex, Gemini CLI ve cursor-agent gibi ajanlar da <code>[agents]</code> ile eklenebilir.</span>
   </div>
 </footer>
@@ -430,6 +499,17 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
       setTimeout(() => { btn.textContent = label; }, 1800);
     });
   });
+
+  // Latest release tag from GitHub (works on the published site; silently skipped elsewhere).
+  fetch('https://api.github.com/repos/bagsiz/legion-site/releases/latest')
+    .then(r => r.ok ? r.json() : null)
+    .then(rel => {
+      if (!rel || !rel.tag_name) return;
+      document.getElementById('release-tag').textContent = rel.tag_name;
+      document.getElementById('footer-version').textContent = rel.tag_name + ' ';
+      document.getElementById('release').href = rel.html_url;
+    })
+    .catch(() => {});
 
   // Live terminal: a short scripted loop of hook-driven status changes.
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
