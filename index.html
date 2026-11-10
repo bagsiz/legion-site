@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="alternate" hreflang="tr" href="https://bagsiz.github.io/legion-site/">
+<link rel="alternate" hreflang="en" href="https://bagsiz.github.io/legion-site/en/">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
@@ -186,6 +188,11 @@ kbd {
 .req { display: flex; flex-wrap: wrap; gap: 10px; }
 .req span { font: 500 var(--step--1)/1 var(--font-mono); border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; background: var(--surface); }
 
+.lang { display: inline-flex; gap: 6px; align-items: center; font: 600 var(--step--1)/1 var(--font-mono); color: var(--ink-2); }
+.lang a { text-decoration: none; padding: 4px 6px; border-radius: 5px; }
+.lang a[aria-current] { color: var(--accent); background: var(--accent-soft); }
+.lang a:not([aria-current]):hover { color: var(--ink); }
+
 /* release strip */
 .release { display: inline-flex; align-items: center; gap: 10px; font: 500 var(--step--1)/1.2 var(--font-mono); color: var(--ink-2); text-decoration: none; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px 6px 6px; width: fit-content; max-width: 100%; }
 .release b { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 4px 9px; font-weight: 600; }
@@ -238,6 +245,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
       <li><a href="#kurulum">Kurulum</a></li>
       <li><a href="https://github.com/bagsiz/legion-site/releases">İndir</a></li>
     </ul>
+    <div class="lang"><a aria-current="page">TR</a><span aria-hidden="true">·</span><a href="en/" hreflang="en" lang="en">EN</a></div>
   </nav>
 
   <header class="hero" id="top">

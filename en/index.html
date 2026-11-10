@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="alternate" hreflang="tr" href="https://bagsiz.github.io/legion-site/">
+<link rel="alternate" hreflang="en" href="https://bagsiz.github.io/legion-site/en/">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Legion</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Legion runs several Claude Code sessions side by side in one terminal, each in its own git worktree and branch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a steel-blue page around one live terminal — the product's own grid of panes is the hero; sections below read like a field manual (legend, drill sequence, key chart). */
+:root {
+  --bg: #eef1f5;
+  --surface: #ffffff;
+  --ink: #141b2b;
+  --ink-2: #4a5468;
+  --line: #d5dbe5;
+  --accent: #c2338f;          /* Legion focus pink (xterm 212, deepened for light bg) */
+  --accent-soft: #f6dcec;
+  /* terminal: deliberately dark in both themes */
+  --term-bg: #0f1420;
+  --term-pane: #131a28;
+  --term-ink: #d9dee8;
+  --term-quiet: #7d8799;
+  --term-line: #3a4458;
+  --term-focus: #ff87d7;
+  --st-run: #00afff;
+  --st-appr: #ffaf00;
+  --st-done: #00d787;
+  --st-err: #ff3b3b;
+  --st-idle: #d0d0d0;
+  --bar: #252b38;
+  --font-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --font-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.25rem;
+  --step-2: 1.75rem;
+  --step-3: clamp(2.1rem, 4.4vw, 3.4rem);
+  --step-4: clamp(2.6rem, 7vw, 5.6rem);
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b0e15; --surface: #121722; --ink: #e8ecf3; --ink-2: #9aa4b6; --line: #262e3d;
+    --accent: #ff87d7; --accent-soft: #3a1d33; --term-bg: #080b11; --term-pane: #0d121c; --bar: #1b2130;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b0e15; --surface: #121722; --ink: #e8ecf3; --ink-2: #9aa4b6; --line: #262e3d;
+  --accent: #ff87d7; --accent-soft: #3a1d33; --term-bg: #080b11; --term-pane: #0d121c; --bar: #1b2130;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 400 var(--step-0)/1.6 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 1120px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; text-wrap: balance; margin: 0; letter-spacing: -0.02em; }
+p { margin: 0; }
+code, kbd, .mono { font-family: var(--font-mono); }
+.eyebrow { font: 600 var(--step--1)/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+
+/* nav */
+nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 22px; flex-wrap: wrap; }
+.wordmark { font: 800 1.15rem/1 var(--font-display); letter-spacing: 0.32em; display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.wordmark span.glyph { display: inline-grid; grid-template-columns: repeat(2, 7px); gap: 2px; }
+.wordmark span.glyph i { width: 7px; height: 7px; border-radius: 1.5px; background: var(--ink); }
+.wordmark span.glyph i:nth-child(2) { background: var(--accent); }
+nav ul { list-style: none; display: flex; gap: 22px; margin: 0; padding: 0; flex-wrap: wrap; font-size: var(--step--1); }
+nav ul a { text-decoration: none; color: var(--ink-2); }
+nav ul a:hover { color: var(--ink); }
+
+/* hero */
+.hero { padding-block: 40px 28px; display: grid; gap: 28px; }
+.hero h1 { font-size: var(--step-4); font-weight: 800; max-width: 14ch; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero .lede { font-size: var(--step-1); color: var(--ink-2); max-width: 60ch; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.cmd {
+  display: inline-flex; align-items: center; gap: 14px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 10px 10px 10px 16px; font: 400 0.95rem/1 var(--font-mono); max-width: 100%;
+}
+.cmd .prompt { color: var(--accent); }
+.cmd code { white-space: nowrap; overflow-x: auto; }
+button.copy {
+  font: 600 0.8rem/1 var(--font-body); border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+  border-radius: 7px; padding: 8px 12px; cursor: pointer;
+}
+button.copy:hover { border-color: var(--ink-2); }
+.btn-link { font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 2px; }
+
+/* terminal mock */
+.term {
+  margin-top: 8px; background: var(--term-bg); border-radius: 14px; padding: 10px; color: var(--term-ink);
+  font: 400 12.5px/1.55 var(--font-mono); box-shadow: 0 30px 60px -30px rgba(10, 16, 30, 0.55);
+}
+.term-chrome { display: flex; gap: 6px; padding: 4px 6px 10px; align-items: center; }
+.term-chrome i { width: 10px; height: 10px; border-radius: 50%; background: var(--term-line); }
+.term-chrome span { margin-left: 10px; color: var(--term-quiet); font-size: 11.5px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.pane { border: 1px solid var(--term-line); border-radius: 8px; background: var(--term-pane); min-width: 0; display: flex; flex-direction: column; min-height: 196px; transition: border-color .3s; }
+.pane.focus { border-color: var(--term-focus); }
+.pane.attn { border-color: var(--st-appr); }
+.pane-head { display: flex; gap: 8px; align-items: baseline; padding: 6px 10px; border-bottom: 1px solid var(--term-line); flex-wrap: wrap; }
+.pane-head .n { color: var(--term-quiet); }
+.pane-head .name { font-weight: 600; color: #fff; }
+.pane-head .name.star { color: #ffd75f; }
+.pane-head .badge { font-weight: 600; transition: color .3s; }
+.pane-head .act { color: var(--term-quiet); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; flex: 1 1 120px; }
+.pane-body { padding: 8px 10px; flex: 1; white-space: pre-wrap; overflow-wrap: anywhere; }
+.pane-foot { padding: 2px 10px 6px; color: var(--term-quiet); text-align: right; font-size: 11.5px; }
+.l-prompt { color: #fff; }
+.l-tool { color: var(--st-done); }
+.l-q { color: var(--term-quiet); }
+.l-warn { color: var(--st-appr); }
+.l-msg { color: var(--term-focus); }
+.status-bar { margin-top: 6px; background: var(--bar); border-radius: 6px; padding: 5px 10px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.status-bar .lg { color: var(--term-focus); font-weight: 600; letter-spacing: .08em; }
+.status-bar .info { margin-left: auto; color: var(--term-ink); }
+.s-run { color: var(--st-run); } .s-appr { color: var(--st-appr); } .s-done { color: var(--st-done); } .s-idle { color: var(--st-idle); } .s-err { color: var(--st-err); }
+.caption { margin-top: 12px; font-size: var(--step--1); color: var(--ink-2); }
+
+/* sections */
+section { padding-block: 72px; border-top: 1px solid var(--line); }
+section > .wrap > header { display: grid; gap: 12px; margin-bottom: 36px; max-width: 70ch; }
+section h2 { font-size: var(--step-3); font-weight: 700; }
+section header p { color: var(--ink-2); font-size: var(--step-1); }
+
+.problems { display: grid; gap: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
+.problem { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 24px; padding: 20px 24px; border-top: 1px solid var(--line); }
+.problem:first-child { border-top: 0; }
+.problem .was { color: var(--ink-2); }
+.problem .is { font-weight: 500; }
+.problem .is code { font-size: 0.9em; background: var(--bg); padding: 1px 6px; border-radius: 5px; }
+
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.legend-item { background: var(--term-bg); color: var(--term-ink); border-radius: var(--radius); padding: 16px 18px; display: grid; gap: 6px; }
+.legend-item .glyph { font: 600 1rem/1 var(--font-mono); }
+.legend-item p { color: var(--term-quiet); font-size: var(--step--1); }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 18px; padding-block: 20px; border-top: 1px solid var(--line); }
+.steps li:first-child { border-top: 0; }
+.steps li::before { content: counter(s, decimal-leading-zero); font: 700 var(--step-2)/1 var(--font-display); color: var(--accent); }
+.steps h3 { font-size: var(--step-1); margin-bottom: 4px; letter-spacing: -0.01em; }
+.steps p { color: var(--ink-2); max-width: 64ch; }
+.steps code { color: var(--ink); background: var(--surface); border: 1px solid var(--line); padding: 1px 6px; border-radius: 5px; font-size: 0.88em; }
+
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.split p + p { margin-top: 14px; }
+.split .copy-text p { color: var(--ink-2); }
+.log { background: var(--term-bg); color: var(--term-ink); border-radius: var(--radius); padding: 18px; font: 400 12.5px/1.65 var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; min-width: 0; }
+.log .who { color: var(--term-quiet); }
+
+.keys { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px 28px; }
+.key { display: flex; align-items: center; gap: 12px; padding-block: 8px; border-bottom: 1px dashed var(--line); }
+kbd {
+  font: 600 0.85rem/1 var(--font-mono); min-width: 30px; text-align: center; padding: 7px 8px; border-radius: 7px;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: 0 2px 0 var(--line);
+}
+.key span { color: var(--ink-2); }
+.prefix-note { margin-top: 22px; color: var(--ink-2); max-width: 70ch; }
+.prefix-note kbd { margin-inline: 2px; }
+
+.install { display: grid; gap: 14px; }
+.install pre {
+  margin: 0; background: var(--term-bg); color: var(--term-ink); border-radius: var(--radius); padding: 18px 20px;
+  font: 400 13.5px/1.75 var(--font-mono); overflow-x: auto;
+}
+.install pre .c { color: var(--term-quiet); }
+.install pre .p { color: var(--term-focus); }
+.req { display: flex; flex-wrap: wrap; gap: 10px; }
+.req span { font: 500 var(--step--1)/1 var(--font-mono); border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; background: var(--surface); }
+
+.lang { display: inline-flex; gap: 6px; align-items: center; font: 600 var(--step--1)/1 var(--font-mono); color: var(--ink-2); }
+.lang a { text-decoration: none; padding: 4px 6px; border-radius: 5px; }
+.lang a[aria-current] { color: var(--accent); background: var(--accent-soft); }
+.lang a:not([aria-current]):hover { color: var(--ink); }
+
+/* release strip */
+.release { display: inline-flex; align-items: center; gap: 10px; font: 500 var(--step--1)/1.2 var(--font-mono); color: var(--ink-2); text-decoration: none; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px 6px 6px; width: fit-content; max-width: 100%; }
+.release b { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 4px 9px; font-weight: 600; }
+.release:hover { border-color: var(--ink-2); }
+
+/* agents */
+.agents { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.agent-list { display: grid; gap: 10px; }
+.agent-row { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 14px; padding-block: 10px; border-bottom: 1px solid var(--line); }
+.agent-row b { font-family: var(--font-mono); font-size: 0.92rem; }
+.agent-row span { color: var(--ink-2); }
+.cap { display: inline-block; font: 600 0.72rem/1 var(--font-mono); letter-spacing: .04em; padding: 4px 7px; border-radius: 5px; margin-right: 6px; border: 1px solid var(--line); }
+.cap.yes { color: var(--accent); border-color: var(--accent); }
+
+/* faq */
+.faq { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); padding-block: 4px; }
+.faq summary { cursor: pointer; list-style: none; padding-block: 14px; font: 600 var(--step-1)/1.3 var(--font-display); display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--accent); font-family: var(--font-mono); }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { color: var(--ink-2); max-width: 70ch; padding-bottom: 16px; }
+.faq code { color: var(--ink); font-size: 0.9em; }
+
+footer { border-top: 1px solid var(--line); padding-block: 36px 48px; color: var(--ink-2); font-size: var(--step--1); }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; }
+
+@media (max-width: 760px) {
+  .grid { grid-template-columns: 1fr; }
+  .agents { grid-template-columns: 1fr; }
+  .agent-row { grid-template-columns: 1fr; gap: 2px; }
+  .pane { min-height: 0; }
+  .problem, .split { grid-template-columns: 1fr; gap: 10px; }
+  .steps li { grid-template-columns: 44px minmax(0, 1fr); gap: 12px; }
+  section { padding-block: 52px; }
+  .status-bar .info { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <nav>
+    <a class="wordmark" href="#top" aria-label="Legion"><span class="glyph" aria-hidden="true"><i></i><i></i><i></i><i></i></span>LEGION</a>
+    <ul>
+      <li><a href="#why">Why</a></li>
+      <li><a href="#flow">Workflow</a></li>
+      <li><a href="#commander">Commander</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#keys">Keys</a></li>
+      <li><a href="#install">Install</a></li>
+      <li><a href="https://github.com/bagsiz/legion-site/releases">Download</a></li>
+    </ul>
+    <div class="lang"><a href="../" hreflang="tr" lang="tr">TR</a><span aria-hidden="true">·</span><a aria-current="page">EN</a></div>
+  </nav>
+
+  <header class="hero" id="top">
+    <a class="release" id="release" href="https://github.com/bagsiz/legion-site/releases"><b id="release-tag">New</b><span id="release-text">The commander now closes workers once you merge them</span></a>
+    <p class="eyebrow">A terminal for Claude Code</p>
+    <h1>One repo. Many Claudes. <em>One screen.</em></h1>
+    <p class="lede">Legion runs several Claude Code sessions side by side in one terminal. Each session works in its own git worktree and branch, so they never trample each other, and you can see at a glance who is working, who needs you and who is done.</p>
+    <div class="cta-row">
+      <div class="cmd"><span class="prompt">$</span><code id="cmd-hero">curl -fsSL https://bagsiz.github.io/legion-site/install.sh | sh</code><button class="copy" type="button" data-copy="cmd-hero">Copy</button></div>
+      <a class="btn-link" href="#install">Install steps</a>
+    </div>
+
+    <div class="term" role="img" aria-label="Legion: four Claude sessions in four panes, with the status bar below">
+      <div class="term-chrome" aria-hidden="true"><i></i><i></i><i></i><span>legion · myapp</span></div>
+      <div class="grid" id="grid">
+        <div class="pane focus" id="p-api">
+          <div class="pane-head"><span class="n">1</span><span class="name">api</span><span class="badge s-run">● running</span><span class="act">Bash: go test ./...</span></div>
+          <div class="pane-body"><span class="l-prompt">❯ Task #2: Add rate limiting to the API</span>
+<span class="l-tool">⏺</span> Reading the router and middleware first.
+<span class="l-q">  ⎿ Read internal/http/router.go</span>
+<span class="l-tool">⏺</span> Bash(go test ./...)</div>
+          <div class="pane-foot">legion/api</div>
+        </div>
+        <div class="pane attn" id="p-web">
+          <div class="pane-head"><span class="n">2</span><span class="name">web</span><span class="badge s-appr">◆ approval</span><span class="act">approve Edit: src/App.tsx</span></div>
+          <div class="pane-body"><span class="l-prompt">❯ Task #3: Validate the signup form</span>
+<span class="l-tool">⏺</span> Update(src/App.tsx)
+<span class="l-warn"> Do you want to make this edit?</span>
+<span class="l-q"> ❯ 1. Yes   2. No</span></div>
+          <div class="pane-foot">legion/web</div>
+        </div>
+        <div class="pane" id="p-cmd">
+          <div class="pane-head"><span class="n">3</span><span class="name star">★ commander</span><span class="badge s-done">✓ done</span><span class="act">turn finished</span></div>
+          <div class="pane-body"><span class="l-prompt">❯ User accounts: signup, login, password reset</span>
+<span class="l-tool">⏺</span> Created 3 tasks and started 2 workers.
+<span class="l-msg">❯ [Legion] worker "api" finished a turn.</span>
+<span class="l-tool">⏺</span> api is ready; merge it first.</div>
+          <div class="pane-foot">legion/commander</div>
+        </div>
+        <div class="pane" id="p-docs">
+          <div class="pane-head"><span class="n">4</span><span class="name">docs</span><span class="badge s-idle">○ idle</span><span class="act">session started</span></div>
+          <div class="pane-body"><span class="l-prompt">❯ </span><span class="l-q">Try "how does &lt;filepath&gt; work?"</span></div>
+          <div class="pane-foot">legion/docs</div>
+        </div>
+      </div>
+      <div class="status-bar" id="bar">
+        <span class="lg">LEGION</span><span>myapp</span>
+        <span class="s-run" id="c-run">● 1</span><span class="s-appr" id="c-appr">◆ 1</span><span class="s-done" id="c-done">✓ 1</span><span class="s-idle" id="c-idle">○ 1</span>
+        <span class="info" id="info">web needs approval: Edit src/App.tsx</span>
+      </div>
+    </div>
+    <p class="caption">Each pane runs Claude Code's own interface. The pane titles and the status bar come from Claude Code hooks.</p>
+  </header>
+</div>
+
+<section id="why">
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">Why</p>
+      <h2>Running agents in parallel is easy. Keeping them out of each other's way is not.</h2>
+      <p>Opening a few Claude sessions takes seconds. The work is in making sure they don't overwrite each other and that you notice when one is waiting for you.</p>
+    </header>
+    <div class="problems">
+      <div class="problem"><p class="was">Two sessions in one folder overwrite each other's files.</p><p class="is">Every session works under <code>.legion/worktrees/&lt;name&gt;</code> on its own <code>legion/&lt;name&gt;</code> branch.</p></div>
+      <div class="problem"><p class="was">You click through tabs to find the one asking for approval.</p><p class="is">When a session needs you or finishes, the bell rings, a notification appears and its pane border lights up.</p></div>
+      <div class="problem"><p class="was">Splitting a big job into pieces and handing them out is on you.</p><p class="is">The commander session splits the goal into tasks, starts workers and checks what they finish.</p></div>
+      <div class="problem"><p class="was">Two sessions edit the same file at the same time.</p><p class="is">Sessions lock files; an edit to a file someone else has locked is blocked.</p></div>
+      <div class="problem"><p class="was">You find the conflict only after you merge.</p><p class="is">The review screen shows conflicts, and other sessions touching the same files, before you merge.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="status">
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">Status markers</p>
+      <h2>Every pane tells you what it is doing.</h2>
+      <p>Legion doesn't guess from the screen. Claude Code sends Legion a hook event at every step, and the markers come from those events.</p>
+    </header>
+    <div class="legend">
+      <div class="legend-item"><span class="glyph s-run">● running</span><p>A prompt was submitted and tools are running. The title shows the current tool.</p></div>
+      <div class="legend-item"><span class="glyph s-appr">◆ approval</span><p>An approval prompt is open. The bell rings; switch to the pane and answer.</p></div>
+      <div class="legend-item"><span class="glyph s-done">✓ done</span><p>The turn is over. Claude's last message is saved on the task board.</p></div>
+      <div class="legend-item"><span class="glyph s-idle">○ idle</span><p>The session is ready for input. The next queued message goes out now.</p></div>
+      <div class="legend-item"><span class="glyph s-err">✗ error</span><p>The turn ended with an API error. The task is marked "failed".</p></div>
+      <div class="legend-item"><span class="glyph" style="color: var(--term-quiet)">■ stopped</span><p>Stopped. Press <kbd style="background:transparent;color:inherit;border-color:var(--term-line);box-shadow:none">r</kbd> to pick the conversation up where it left off.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="flow">
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">Workflow</p>
+      <h2>From task to main branch in six steps.</h2>
+    </header>
+    <ol class="steps">
+      <li><div><h3>Write the task</h3><p>Press <code>Ctrl+\ a</code> in Legion, or run <code>legion add "Add rate limiting to the API"</code> from another terminal. Tasks added while Legion is closed wait on the board.</p></div></li>
+      <li><div><h3>Assign it</h3><p>Press Enter on the task in the board. Type a session name or leave it empty: Legion creates a new worktree and branch and starts Claude with the task as its first prompt.</p></div></li>
+      <li><div><h3>Watch</h3><p>Panes update on their own. Switch to the session that asks for approval and answer it; the others keep working.</p></div></li>
+      <li><div><h3>Review</h3><p><code>Ctrl+\ d</code> shows the diff against the base branch, uncommitted files, a conflict check and other sessions touching the same files, all on one screen.</p></div></li>
+      <li><div><h3>Merge</h3><p>Press <code>m</code> on the review screen. If there are conflicts nothing changes and the files are listed. If your main checkout has uncommitted changes the merge is refused.</p></div></li>
+      <li><div><h3>Take a break</h3><p>Quit with <code>Ctrl+\ q</code>. Run <code>legion</code> again and the sessions that were running come back with their conversations, via <code>--resume</code>.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section id="commander">
+  <div class="wrap split">
+    <div class="copy-text">
+      <p class="eyebrow">Commander</p>
+      <h2 style="margin-block: 12px 18px">Give it the goal. It hands out the work.</h2>
+      <p>The commander is a special Claude session that doesn't write code. It reads the codebase, splits the goal into tasks that touch as few of the same files as possible, and gives each task to a new worker session.</p>
+      <p>When a worker finishes a turn, Legion passes its last message to the commander automatically. The commander checks the work, asks for fixes if needed and tells you which branches to merge, in which order. Merging stays your call.</p>
+      <p>When you merge a branch, Legion tells the commander, and it closes that worker's pane. It never closes a session with uncommitted work and never deletes a branch that isn't merged.</p>
+      <p><code class="mono" style="font-size:.9em">legion commander "Add user accounts"</code> or <kbd>Ctrl+\</kbd> <kbd>C</kbd></p>
+    </div>
+    <div class="log" aria-label="An excerpt from the commander pane"><span class="who">❯</span> Goal: create hello.txt and world.txt, one task each.
+
+<span style="color:var(--st-done)">⏺</span> Calling legion 4 times…
+   create_task · create_task · assign_task new · assign_task new
+
+<span style="color:var(--term-focus)">❯ [Legion] worker "t1-create-hello-txt" finished a turn.</span>
+<span class="who">  Tasks: #1 Create hello.txt [review].
+  Its last message: I created hello.txt at the worktree root.
+  Check it with session_status / get_diff.</span>
+
+<span style="color:var(--st-done)">⏺</span> ALL DONE</div>
+  </div>
+</section>
+
+<section id="collaboration">
+  <div class="wrap split">
+    <div class="log" aria-label="An edit to a locked file being blocked"><span style="color:var(--st-done)">⏺</span> Write(notes.txt)
+<span style="color:var(--st-appr)">  ⎿ Error: PreToolUse:Write hook error: Legion: notes.txt
+     is locked by session "alpha" (writing notes). Do not
+     edit it now: work on something else, or coordinate
+     with send_message to alpha.</span>
+
+<span style="color:var(--st-done)">⏺</span> Called legion · send_message → alpha
+
+<span class="who">in alpha's pane:</span>
+<span style="color:var(--term-focus)">❯ [Legion message from session "beta"]</span>
+  I need to write notes.txt, but you have it locked.</div>
+    <div class="copy-text">
+      <p class="eyebrow">Collaboration</p>
+      <h2 style="margin-block: 12px 18px">Sessions see each other and talk.</h2>
+      <p>Through Legion's tools, every session can list the others, send them messages and lock files. You don't have to set anything up.</p>
+      <p>If a session tries to edit a file another session has locked, Legion blocks it and tells Claude why. The output on the left is from a real run: beta was blocked, wrote to alpha, and the message reached alpha.</p>
+    </div>
+  </div>
+</section>
+
+<section id="keys">
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">Keys</p>
+      <h2>Prefix first, then the command.</h2>
+      <p>Your keystrokes go to the focused Claude. For Legion commands, press and release the <kbd>Ctrl+\</kbd> prefix, then the command key.</p>
+    </header>
+    <div class="keys">
+      <div class="key"><kbd>n</kbd><span>New session</span></div>
+      <div class="key"><kbd>t</kbd><span>Task board</span></div>
+      <div class="key"><kbd>a</kbd><span>Add a task</span></div>
+      <div class="key"><kbd>d</kbd><span>Diff, commit, merge</span></div>
+      <div class="key"><kbd>C</kbd><span>Commander</span></div>
+      <div class="key"><kbd>b</kbd><span>Message everyone</span></div>
+      <div class="key"><kbd>←</kbd><kbd>→</kbd><span>Move between panes</span></div>
+      <div class="key"><kbd>z</kbd><span>Zoom the pane</span></div>
+      <div class="key"><kbd>s</kbd><kbd>r</kbd><span>Stop, resume</span></div>
+      <div class="key"><kbd>x</kbd><span>Remove the session</span></div>
+      <div class="key"><kbd>q</kbd><span>Quit</span></div>
+      <div class="key"><kbd>?</kbd><span>Help</span></div>
+    </div>
+    <p class="prefix-note">On keyboards where <kbd>\</kbd> is awkward to reach (Turkish, German, French…), <kbd>Ctrl</kbd><kbd>4</kbd> works as the prefix too. To see what your terminal actually sends, run <code>legion keytest</code>.</p>
+    <p class="prefix-note">To use <kbd>⌘</kbd><kbd>⇧</kbd><kbd>L</kbd> in iTerm2: Settings → Profiles → Keys → Key Mappings → + → "Send Hex Code" <code>0x1c</code>. <code>Cmd</code> shortcuts never reach terminal apps directly, so the mapping is needed.</p>
+  </div>
+</section>
+
+<section id="agents">
+  <div class="wrap agents">
+    <div>
+      <p class="eyebrow">Other agents</p>
+      <h2 style="margin-block: 12px 18px">Other CLIs next to Claude Code.</h2>
+      <p style="color:var(--ink-2)">Agents such as Codex, Gemini CLI, aider or cursor-agent are added under <code>[agents]</code> and run in the same grid, in their own worktrees. They have no Legion hooks, so their status is read from the screen: output after Enter means running, a quiet stretch means done, and a question like <code>(y/n)</code> near the cursor means it is waiting for approval.</p>
+      <pre class="log" style="margin-top:18px">[agents.codex]
+command     = "codex"
+resume_args = ["resume", "--last"]
+prompt_arg  = true
+idle_after  = "4s"</pre>
+    </div>
+    <div class="agent-list">
+      <div class="agent-row"><b>claude</b><span><i class="cap yes">hooks</i><i class="cap yes">MCP</i><i class="cap yes">locks</i> Exact status, messaging and file locks.</span></div>
+      <div class="agent-row"><b>codex</b><span><i class="cap">screen</i> Status is inferred from output; no messaging or lock tools.</span></div>
+      <div class="agent-row"><b>gemini</b><span><i class="cap">screen</i> The same, with <code>[agents.gemini]</code>.</span></div>
+      <div class="agent-row"><b>cursor-agent</b><span><i class="cap">screen</i> <code>resume_args = ["--resume", "{id}"]</code></span></div>
+      <div class="agent-row"><b>aider</b><span><i class="cap">screen</i> The first prompt is typed in (<code>prompt_arg = false</code>).</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">FAQ</p>
+      <h2>Before you start.</h2>
+    </header>
+    <div class="faq">
+      <details><summary>Does it change my Claude Code settings?</summary><p>No. Legion adds its hooks and tools only to the sessions it starts, with <code>--settings</code> and <code>--mcp-config</code>. Your files under <code>~/.claude</code> stay as they are; Legion only reads the workspace-trust flag.</p></details>
+      <details><summary>Does it cost anything?</summary><p>Legion itself is free. Each session is an ordinary Claude Code session and uses your plan like any other. Four sessions use about four times as much in the same time.</p></details>
+      <details><summary>Is my code sent anywhere?</summary><p>Legion runs entirely on your machine. Sessions, tasks and the event log live in <code>.legion/state.db</code> in your project. The only thing that talks to the outside world is Claude Code itself.</p></details>
+      <details><summary>What happens when I quit Legion?</summary><p>Sessions stop; worktrees and branches stay. Run <code>legion</code> again and the sessions that were running come back with their conversations via <code>--resume</code>. A turn that was in progress is cut short.</p></details>
+      <details><summary>How is my main branch protected?</summary><p>Sessions never touch it; they work on their own branches. Merges happen only when you ask. On conflicts nothing changes, and if your main checkout has uncommitted changes the merge is refused.</p></details>
+      <details><summary>Which terminals does it work in?</summary><p>It has been used with iTerm2 and Terminal.app on macOS, and the test suite runs on macOS and Linux. On non-US keyboards use <kbd>Ctrl</kbd><kbd>4</kbd> as the prefix; <code>legion keytest</code> shows what your terminal sends.</p></details>
+      <details><summary>How many sessions can I run at once?</summary><p>The default limit is 8, set with <code>max_sessions</code>. In practice 2–4 sessions stay readable on screen and easy to merge.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap install">
+    <header style="margin-bottom: 8px">
+      <p class="eyebrow">Install</p>
+      <h2>One line, then three commands.</h2>
+    </header>
+    <div class="req"><span>macOS · Linux</span><span>Intel · Apple Silicon · ARM</span><span>git 2.38+</span><span>Claude Code 2.1+</span></div>
+<pre id="install-cmds"><span class="p">$</span> curl -fsSL https://bagsiz.github.io/legion-site/install.sh | sh   <span class="c"># ~/.local/bin/legion</span>
+<span class="p">$</span> cd ~/code/myapp
+<span class="p">$</span> claude                   <span class="c"># once: "Yes, I trust this folder"</span>
+<span class="p">$</span> legion init              <span class="c"># sets up .legion/, hidden from git</span>
+<span class="p">$</span> legion                   <span class="c"># opens Legion; Ctrl+\ n starts a session</span></pre>
+    <div class="cta-row"><button class="copy" type="button" data-copy="install-cmds">Copy commands</button><span style="color:var(--ink-2); font-size:var(--step--1)">If something is off, <code>legion doctor</code> checks dependencies and trust. Binaries and checksums are on the <a href="https://github.com/bagsiz/legion-site/releases">Releases</a> page.</span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Legion <span id="footer-version"></span>· Built with Go, Bubble Tea and SQLite · Tested with Claude Code 2.1.322 · <a href="https://github.com/bagsiz/legion-site/releases">Releases</a></span>
+    <span>Codex, Gemini CLI, cursor-agent and other agents can be added under <code>[agents]</code>.</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  // Copy buttons
+  document.querySelectorAll('button.copy').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const el = document.getElementById(btn.dataset.copy);
+      const text = el.innerText.replace(/^\$ /gm, '').replace(/\s+#.*$/gm, '').trim();
+      const label = btn.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = 'Copied';
+      } catch (e) {
+        const r = document.createRange(); r.selectNodeContents(el);
+        const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+        btn.textContent = 'Selected — press ⌘C';
+      }
+      setTimeout(() => { btn.textContent = label; }, 1800);
+    });
+  });
+
+  // Latest release tag from GitHub (works on the published site; silently skipped elsewhere).
+  fetch('https://api.github.com/repos/bagsiz/legion-site/releases/latest')
+    .then(r => r.ok ? r.json() : null)
+    .then(rel => {
+      if (!rel || !rel.tag_name) return;
+      document.getElementById('release-tag').textContent = rel.tag_name;
+      document.getElementById('footer-version').textContent = rel.tag_name + ' ';
+      document.getElementById('release').href = rel.html_url;
+    })
+    .catch(() => {});
+
+  // Live terminal: a short scripted loop of hook-driven status changes.
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const S = {
+    run: ['● running', 's-run'], appr: ['◆ approval', 's-appr'], done: ['✓ done', 's-done'], idle: ['○ idle', 's-idle']
+  };
+  const state = { api: 'run', web: 'appr', cmd: 'done', docs: 'idle' };
+  const pane = id => document.getElementById('p-' + id);
+  const set = (id, st, act) => {
+    const p = pane(id), b = p.querySelector('.badge');
+    b.textContent = S[st][0]; b.className = 'badge ' + S[st][1];
+    if (act) p.querySelector('.act').textContent = act;
+    p.classList.toggle('attn', st === 'appr' || (st === 'done' && id !== 'cmd'));
+    state[id] = st;
+    const c = { run: 0, appr: 0, done: 0, idle: 0 };
+    Object.values(state).forEach(v => c[v]++);
+    document.getElementById('c-run').textContent = '● ' + c.run;
+    document.getElementById('c-appr').textContent = '◆ ' + c.appr;
+    document.getElementById('c-done').textContent = '✓ ' + c.done;
+    document.getElementById('c-idle').textContent = '○ ' + c.idle;
+  };
+  const line = (id, html) => {
+    const body = pane(id).querySelector('.pane-body');
+    body.insertAdjacentHTML('beforeend', '\n' + html);
+    const lines = body.innerHTML.split('\n');
+    if (lines.length > 6) body.innerHTML = lines.slice(lines.length - 6).join('\n');
+  };
+  const info = t => { document.getElementById('info').textContent = t; };
+  const snapshot = Object.fromEntries(['api', 'web', 'cmd', 'docs'].map(id => [id, pane(id).querySelector('.pane-body').innerHTML]));
+  const steps = [
+    () => { line('web', '<span class="l-q"> ❯ 1</span>'); set('web', 'run', 'Edit: src/App.tsx'); info('web: approved'); },
+    () => { line('api', '<span class="l-q">  ⎿ ok  myapp/internal/http  0.41s</span>'); },
+    () => { line('api', '<span class="l-tool">⏺</span> Rate limiter added; tests pass.'); set('api', 'done', 'turn finished'); info('api finished'); },
+    () => { line('cmd', '<span class="l-msg">❯ [Legion] worker "api" finished a turn.</span>'); set('cmd', 'run', 'mcp__legion__get_diff'); },
+    () => { line('docs', '<span class="l-msg">[Legion message from session "commander"]</span>'); set('docs', 'run', 'thinking'); info('commander → docs: message delivered'); },
+    () => { line('web', '<span class="l-tool">⏺</span> Validation added; wrote 4 tests.'); set('web', 'done', 'turn finished'); info('web finished'); },
+    () => { line('cmd', '<span class="l-tool">⏺</span> api and web are ready: merge api first, then web.'); set('cmd', 'done', 'turn finished'); },
+    () => { line('docs', '<span class="l-tool">⏺</span> Update(README.md)'); line('docs', '<span class="l-warn"> Do you want to make this edit?</span>'); set('docs', 'appr', 'approve Edit: README.md'); info('docs needs approval: Edit README.md'); },
+    () => { // reset to the resting frame
+      Object.entries(snapshot).forEach(([id, h]) => { pane(id).querySelector('.pane-body').innerHTML = h; });
+      set('api', 'run', 'Bash: go test ./...'); set('web', 'appr', 'approve Edit: src/App.tsx'); set('cmd', 'done', 'turn finished'); set('docs', 'idle', 'session started');
+      info('web needs approval: Edit src/App.tsx');
+    },
+  ];
+  let i = 0;
+  setInterval(() => { steps[i](); i = (i + 1) % steps.length; }, 2300);
+})();
+</script>
+
+</body>
+</html>
