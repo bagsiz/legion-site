@@ -592,7 +592,7 @@ idle_after  = "4s"</pre>
     <div class="faq">
       <details><summary>Claude Code ayarlarıma dokunuyor mu?</summary><p>Hayır. Legion hook'larını ve araçlarını <code>--settings</code> ve <code>--mcp-config</code> ile yalnızca kendi başlattığı oturumlara ekler. <code>~/.claude</code> içindeki dosyalarınız değişmez; güven bilgisini sadece okur.</p></details>
       <details><summary>Ek bir ücreti var mı?</summary><p>Legion'ın kendisi ücretsiz. Her oturum normal bir Claude Code oturumudur ve planınızdan kullanım harcar. Dört oturum, aynı sürede dört kat kullanım demektir.</p></details>
-      <details><summary>Kodum bir yere gönderiliyor mu?</summary><p>Legion tamamen yerelde çalışır. Oturumlar, görevler ve olay günlüğü projenizdeki <code>.legion/state.db</code> dosyasında durur. Dışarıyla konuşan tek şey Claude Code'un kendisidir.</p></details>
+      <details><summary>Kodum bir yere gönderiliyor mu?</summary><p>Legion tamamen yerelde çalışır. Oturumlar, görevler ve olay günlüğü projenizdeki <code>.legion/state.db</code> dosyasında durur. Kodunuz makinenizden yalnızca Claude Code üzerinden çıkar. Legion'ın tek dış isteği, günde bir kez GitHub'da yeni sürüm olup olmadığına bakmaktır; sizinle ya da projenizle ilgili hiçbir şey göndermez. <code>LEGION_NO_UPDATE_CHECK=1</code> ile kapatılır.</p></details>
       <details><summary>Legion'ı kapatınca işler ne olur?</summary><p>Oturumlar durur, worktree'ler ve dallar yerinde kalır. <code>legion</code> ile tekrar açtığınızda çalışan oturumlar konuşmalarıyla birlikte <code>--resume</code> ile geri gelir. O an süren bir tur yarıda kalır.</p></details>
       <details><summary>Ana dalım nasıl korunuyor?</summary><p>Oturumlar ana dala hiç dokunmaz, kendi dallarında çalışır. Birleştirme yalnızca siz istediğinizde yapılır. Çakışma varsa hiçbir şey değişmez, ana dalınızda commit edilmemiş değişiklik varsa birleştirme reddedilir.</p></details>
       <details><summary>Hangi terminallerde çalışır?</summary><p>macOS'ta iTerm2 ve Terminal.app ile kullanıldı; testler macOS ve Linux'ta çalışır. Türkçe klavyede önek için <kbd>Ctrl</kbd><kbd>4</kbd> kullanın; <code>legion keytest</code> terminalinizin hangi tuşu gönderdiğini gösterir.</p></details>
@@ -612,7 +612,7 @@ idle_after  = "4s"</pre>
 <span class="p">$</span> cd ~/code/myapp
 <span class="p">$</span> claude                   <span class="c"># bir kez: "Yes, I trust this folder"</span>
 <span class="p">$</span> legion                   <span class="c"># gerekirse git ve .legion/ kurulur, arayüz açılır; Ctrl+\ n ile ilk oturum</span></pre>
-    <div class="cta-row"><button class="copy" type="button" data-copy="install-cmds">Komutları kopyala</button><span style="color:var(--ink-2); font-size:var(--step--1)">Sorun olursa <code>legion doctor</code> bağımlılıkları ve güveni kontrol eder. Güncellemek için aynı komutu tekrar çalıştırın.</span></div>
+    <div class="cta-row"><button class="copy" type="button" data-copy="install-cmds">Komutları kopyala</button><span style="color:var(--ink-2); font-size:var(--step--1)">Sorun olursa <code>legion doctor</code> bağımlılıkları ve güveni kontrol eder. Güncellemek için <code>legion update</code>.</span></div>
   </div>
 </section>
 

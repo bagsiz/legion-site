@@ -592,7 +592,7 @@ idle_after  = "4s"</pre>
     <div class="faq">
       <details><summary>Does it change my Claude Code settings?</summary><p>No. Legion adds its hooks and tools only to the sessions it starts, with <code>--settings</code> and <code>--mcp-config</code>. Your files under <code>~/.claude</code> stay as they are; Legion only reads the workspace-trust flag.</p></details>
       <details><summary>Does it cost anything?</summary><p>Legion itself is free. Each session is an ordinary Claude Code session and uses your plan like any other. Four sessions use about four times as much in the same time.</p></details>
-      <details><summary>Is my code sent anywhere?</summary><p>Legion runs entirely on your machine. Sessions, tasks and the event log live in <code>.legion/state.db</code> in your project. The only thing that talks to the outside world is Claude Code itself.</p></details>
+      <details><summary>Is my code sent anywhere?</summary><p>Legion runs entirely on your machine. Sessions, tasks and the event log live in <code>.legion/state.db</code> in your project. Your code only leaves your machine through Claude Code itself. Legion's one outbound request is a daily check for a new release on GitHub, which sends nothing about you or your project; <code>LEGION_NO_UPDATE_CHECK=1</code> turns it off.</p></details>
       <details><summary>What happens when I quit Legion?</summary><p>Sessions stop; worktrees and branches stay. Run <code>legion</code> again and the sessions that were running come back with their conversations via <code>--resume</code>. A turn that was in progress is cut short.</p></details>
       <details><summary>How is my main branch protected?</summary><p>Sessions never touch it; they work on their own branches. Merges happen only when you ask. On conflicts nothing changes, and if your main checkout has uncommitted changes the merge is refused.</p></details>
       <details><summary>Which terminals does it work in?</summary><p>It has been used with iTerm2 and Terminal.app on macOS, and the test suite runs on macOS and Linux. On non-US keyboards use <kbd>Ctrl</kbd><kbd>4</kbd> as the prefix; <code>legion keytest</code> shows what your terminal sends.</p></details>
@@ -612,7 +612,7 @@ idle_after  = "4s"</pre>
 <span class="p">$</span> cd ~/code/myapp
 <span class="p">$</span> claude                   <span class="c"># once: "Yes, I trust this folder"</span>
 <span class="p">$</span> legion                   <span class="c"># sets up git + .legion/ if needed, then opens; Ctrl+\ n starts a session</span></pre>
-    <div class="cta-row"><button class="copy" type="button" data-copy="install-cmds">Copy commands</button><span style="color:var(--ink-2); font-size:var(--step--1)">If something is off, <code>legion doctor</code> checks dependencies and trust. To update, run the same command again.</span></div>
+    <div class="cta-row"><button class="copy" type="button" data-copy="install-cmds">Copy commands</button><span style="color:var(--ink-2); font-size:var(--step--1)">If something is off, <code>legion doctor</code> checks dependencies and trust. To update, run <code>legion update</code>.</span></div>
   </div>
 </section>
 
