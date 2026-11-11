@@ -148,6 +148,7 @@
           <tr><td><span class="st done">✓ done</span></td><td>Finished its turn. You get a bell and a notification.</td></tr>
           <tr><td><span class="st err">✗ error</span></td><td>The turn failed, for example because of an API error.</td></tr>
           <tr><td><span class="st quiet">■ stopped</span></td><td>The process is not running. Its worktree and conversation are kept; press <kbd>r</kbd> or <kbd>Enter</kbd> in the pane to resume.</td></tr>
+          <tr><td><span class="st quiet">☾ asleep</span></td><td>Legion stopped the process to save battery: its turn was over, nothing happened for <code>idle_sleep</code> (15 minutes by default) and you were not looking at it. The commander and the focused pane never sleep. It wakes with its conversation when it gets a message, a task or a broadcast, or when you press <kbd>Enter</kbd> in the pane.</td></tr>
         </tbody>
       </table></div>
       <h3 id="questions">Questions and permission requests</h3>
@@ -365,6 +366,7 @@ idle_after = "4s"      <span class="c"># this long without output after a prompt
 branch_prefix = "legion/"   <span class="c"># session branches are legion/&lt;name&gt;</span>
 max_sessions = 8            <span class="c"># at most this many running at once</span>
 show_activity = true        <span class="c"># open the activity feed on wide terminals</span>
+idle_sleep = "15m"          <span class="c"># stop idle sessions after this long to save battery; "0" = never</span>
 <span class="c"># default_agent = "claude"</span>
 
 [keys]
@@ -373,6 +375,7 @@ mouse = true                <span class="c"># wheel scrolls the pane under the p
 
 [claude]
 command = "claude"
+reduce_motion = true        <span class="c"># no spinner animations in Legion's sessions (less CPU and battery)</span>
 <span class="c"># permission_mode = "acceptEdits"   # default | acceptEdits | plan | auto | bypassPermissions</span>
 <span class="c"># extra_args = ["--model", "opus"]</span>
 

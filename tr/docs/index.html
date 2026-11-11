@@ -148,6 +148,7 @@
           <tr><td><span class="st done">✓ done</span></td><td>Turunu bitirdi. Zil çalar, bildirim gelir.</td></tr>
           <tr><td><span class="st err">✗ error</span></td><td>Tur başarısız oldu, örneğin bir API hatası yüzünden.</td></tr>
           <tr><td><span class="st quiet">■ stopped</span></td><td>Süreç çalışmıyor. Worktree'si ve konuşması duruyor; devam ettirmek için panelde <kbd>r</kbd> ya da <kbd>Enter</kbd>.</td></tr>
+          <tr><td><span class="st quiet">☾ asleep</span></td><td>Legion süreci pil için durdurdu: turu bitmişti, <code>idle_sleep</code> süresince (varsayılan 15 dakika) hiçbir şey olmadı ve ona bakmıyordunuz. Komutan ve odaktaki panel hiç uyumaz. Bir mesaj, görev ya da broadcast geldiğinde veya panelde <kbd>Enter</kbd>'a bastığınızda konuşmasıyla birlikte uyanır.</td></tr>
         </tbody>
       </table></div>
       <h3 id="sorular">Sorular ve izin istekleri</h3>
@@ -365,6 +366,7 @@ idle_after = "4s"      <span class="c"># prompt'tan sonra bu kadar sessizlik "bi
 branch_prefix = "legion/"   <span class="c"># oturum dalları legion/&lt;ad&gt;</span>
 max_sessions = 8            <span class="c"># aynı anda en fazla bu kadar çalışır</span>
 show_activity = true        <span class="c"># geniş terminalde akış paneli açık gelir</span>
+idle_sleep = "15m"          <span class="c"># boşta kalan oturumu bu süre sonra uyutur (pil); "0" = hiç</span>
 <span class="c"># default_agent = "claude"</span>
 
 [keys]
@@ -373,6 +375,7 @@ mouse = true                <span class="c"># tekerlek imlecin altındaki paneli
 
 [claude]
 command = "claude"
+reduce_motion = true        <span class="c"># Legion oturumlarında spinner animasyonu yok (daha az işlemci ve pil)</span>
 <span class="c"># permission_mode = "acceptEdits"   # default | acceptEdits | plan | auto | bypassPermissions</span>
 <span class="c"># extra_args = ["--model", "opus"]</span>
 
