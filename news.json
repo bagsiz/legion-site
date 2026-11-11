@@ -1,1 +1,1 @@
-{"version":"v0.1.23","en":{"text":"The activity feed starts closed: click ▸ Activity in the status bar to open it, × to close","href":"docs/#activity"},"tr":{"text":"Akış paneli kapalı başlar: durum çubuğundaki ▸ Activity ile açılır, × ile kapanır","href":"docs/#akis"}}
+{"version":"v0.1.24","en":{"text":"Fixed stray text (like \"nder\") left on Claude panes: titles with ✳/✻ no longer leak onto the screen","href":"docs/#keys"},"tr":{"text":"Claude panellerinde kalan artık yazılar (\"nder\" gibi) düzeldi: ✳/✻ içeren başlıklar artık ekrana taşmıyor","href":"docs/#tuslar"}}
