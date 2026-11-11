@@ -164,7 +164,7 @@
       <h3 id="akis">Takipte kalmak: akış paneli ve özetler</h3>
       <p>Oturumlar birbirleriyle çok konuştuğunda neler olduğunu kaçırmak kolaydır. Üç şey bunları tek yerde toplar:</p>
       <ul>
-        <li><strong>Akış paneli</strong> (önek <kbd>f</kbd>; terminal en az 150 sütun genişse kendiliğinden açık gelir, <code>show_activity = false</code> ile kapatılır): sağda açılan bir panel. Oturumlar arası her mesajı (<code>commander → api</code>), sizin gönderdiğiniz mesajları, görev atamalarını, son mesajıyla biten turları, soruları, birleştirme önerilerini, birleştirmeleri ve dosya kilitlerini sırasıyla listeler. <kbd>↑</kbd> <kbd>↓</kbd> ile seçip <kbd>Enter</kbd> ile o oturuma gidersiniz. Panel kapalıyken durum çubuğu yeni kayıtları sayar.</li>
+        <li><strong>Akış paneli</strong> (kapalı başlar; durum çubuğunun sağ ucundaki <strong>▸ Activity</strong> butonuna tıklayarak ya da önek <kbd>f</kbd> ile açılır; başlığındaki <strong>×</strong> ya da buton tekrar kapatır): sağda açılan bir panel. Oturumlar arası her mesajı (<code>commander → api</code>), sizin gönderdiğiniz mesajları, görev atamalarını, son mesajıyla biten turları, soruları, birleştirme önerilerini, birleştirmeleri ve dosya kilitlerini sırasıyla listeler. <kbd>↑</kbd> <kbd>↓</kbd> ile seçip <kbd>Enter</kbd> ile o oturuma gidersiniz. Panel kapalıyken buton yeni kayıtları sayar.</li>
         <li><strong>Her panelde son mesaj</strong>: panelin alt kenarında o oturumun aldığı son mesaj ve kimden geldiği 30 dakika boyunca görünür, örneğin <code>← commander: 429 için test ekle</code>.</li>
         <li><strong>Ne oldu?</strong> (önek <kbd>i</kbd>): oturum başına özet (biten turlar ve son mesajları, kimden kaç mesaj geldiği, birleştirmeler) ve sizi bekleyenler: açık sorular, birleştirme önerisi, incelemeye hazır görevler. Terminale beş dakika ya da daha uzun aradan sonra döndüğünüzde bir şey olduysa “While you were away” başlığıyla kendiliğinden açılır. Legion'ın kendi kaydından üretilir; anında gelir, token harcamaz.</li>
       </ul>
@@ -365,7 +365,6 @@ idle_after = "4s"      <span class="c"># prompt'tan sonra bu kadar sessizlik "bi
       <pre><code>base_branch = "main"        <span class="c"># oturumlar bu daldan ayrılır ve buna birleşir</span>
 branch_prefix = "legion/"   <span class="c"># oturum dalları legion/&lt;ad&gt;</span>
 max_sessions = 8            <span class="c"># aynı anda en fazla bu kadar çalışır</span>
-show_activity = true        <span class="c"># geniş terminalde akış paneli açık gelir</span>
 idle_sleep = "15m"          <span class="c"># boşta kalan oturumu bu süre sonra uyutur (pil); "0" = hiç</span>
 <span class="c"># default_agent = "claude"</span>
 
