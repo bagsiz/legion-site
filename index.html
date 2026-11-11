@@ -345,7 +345,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
   </nav>
 
   <header class="hero" id="top">
-    <a class="release" id="release" href="https://github.com/bagsiz/legion-site/releases"><b id="release-tag">New</b><span id="release-text">The commander now closes workers once you merge them</span></a>
+    <a class="release" id="release" href="docs/#activity"><b id="release-tag">v0.1.13</b><span id="release-text">Activity feed and “what happened” summaries keep you in the loop</span></a>
     <p class="eyebrow">A terminal for Claude Code</p>
     <h1>One repo. Many Claudes. <em>One screen.</em></h1>
     <p class="lede">Legion runs several Claude Code sessions side by side in one terminal. Each session works in its own git worktree and branch, so they never trample each other, and you can see at a glance who is working, who needs you and who is done.</p>
@@ -662,9 +662,19 @@ idle_after  = "4s"</pre>
     .then(r => r.ok ? r.json() : null)
     .then(rel => {
       if (!rel || !rel.tag_name) return;
-      document.getElementById('release-tag').textContent = rel.tag_name;
       document.getElementById('footer-version').textContent = rel.tag_name + ' ';
-      document.getElementById('release').href = rel.html_url;
+    })
+    .catch(() => {});
+
+  // Headline of the latest release, kept with the site (site/news.json; the release script requires it).
+  fetch('news.json', { cache: 'no-cache' })
+    .then(r => r.ok ? r.json() : null)
+    .then(n => {
+      const item = n && n['en'];
+      if (!item || !item.text) return;
+      document.getElementById('release-tag').textContent = n.version;
+      document.getElementById('release-text').textContent = item.text;
+      if (item.href) document.getElementById('release').href = item.href;
     })
     .catch(() => {});
 
