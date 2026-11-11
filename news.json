@@ -1,5 +1,5 @@
 {
-  "version": "v0.1.14",
-  "en": {"text": "Scroll any pane with the mouse wheel; click to focus", "href": "docs/#mouse"},
-  "tr": {"text": "Fare tekerleğiyle her panelde yukarı kaydır, tıklayıp odaklan", "href": "docs/#fare"}
+  "version": "v0.1.15",
+  "en": {"text": "A calmer commander: worker updates arrive as one batched message", "href": "docs/#commander"},
+  "tr": {"text": "Daha sakin komutan: işçi güncellemeleri tek toplu mesajda gelir", "href": "docs/#komutan"}
 }

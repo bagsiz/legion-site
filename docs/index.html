@@ -163,7 +163,7 @@
       <h3 id="activity">Keeping track: activity feed and summaries</h3>
       <p>When sessions talk to each other a lot, it is easy to lose the thread. Three things keep it in one place:</p>
       <ul>
-        <li><strong>Activity feed</strong> (prefix <kbd>f</kbd>): a panel on the right that lists, in order, every message between sessions (<code>commander → api</code>), messages you broadcast, task assignments, finished turns with the session's last message, questions, merge proposals, merges and file locks. <kbd>↑</kbd> <kbd>↓</kbd> select an entry, <kbd>Enter</kbd> jumps to that session. While it is closed, the status bar counts new entries.</li>
+        <li><strong>Activity feed</strong> (prefix <kbd>f</kbd>; open by default when the terminal is at least 150 columns wide, <code>show_activity = false</code> turns that off): a panel on the right that lists, in order, every message between sessions (<code>commander → api</code>), messages you broadcast, task assignments, finished turns with the session's last message, questions, merge proposals, merges and file locks. <kbd>↑</kbd> <kbd>↓</kbd> select an entry, <kbd>Enter</kbd> jumps to that session. While it is closed, the status bar counts new entries.</li>
         <li><strong>Latest message on each pane</strong>: the bottom border of a pane shows the last message that session received and who sent it, for example <code>← commander: add a test for 429</code>, for 30 minutes.</li>
         <li><strong>What happened</strong> (prefix <kbd>i</kbd>): a summary per session (finished turns and their last message, messages received and from whom, merges) plus what is waiting for you: open questions, a merge proposal, tasks ready for review. When you come back to the terminal after five minutes or more and something happened, it opens by itself as “While you were away”. It is built from Legion's own log, so it is instant and uses no tokens.</li>
       </ul>
@@ -292,7 +292,7 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># several prefixes, comma-separated
       <ol>
         <li>Reads the code and splits the goal into tasks that can be done in parallel without stepping on each other.</li>
         <li>Puts them on the task board and starts a worker session for each.</li>
-        <li>Is told automatically when a worker finishes, with the worker's last message. It reviews the diff and sends follow-ups if something is missing.</li>
+        <li>Is told automatically when workers finish or get merged. Updates are batched: they arrive together in one short message once things are quiet and the commander is free, so its pane does not fill up with notices. It reviews the diff and sends follow-ups if something is missing.</li>
         <li>Proposes the ready branches as one <a href="#batch">batch merge</a> in a sensible order, which you approve with one key. <strong>It never merges on its own</strong>; merging stays your decision.</li>
         <li>Is told when you merge a worker, and closes finished workers' panes. A worker with uncommitted changes is never closed, and its branch is deleted only if fully merged.</li>
       </ol>
@@ -364,6 +364,7 @@ idle_after = "4s"      <span class="c"># this long without output after a prompt
       <pre><code>base_branch = "main"        <span class="c"># sessions branch off and merge into this</span>
 branch_prefix = "legion/"   <span class="c"># session branches are legion/&lt;name&gt;</span>
 max_sessions = 8            <span class="c"># at most this many running at once</span>
+show_activity = true        <span class="c"># open the activity feed on wide terminals</span>
 <span class="c"># default_agent = "claude"</span>
 
 [keys]

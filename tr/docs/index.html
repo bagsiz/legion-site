@@ -163,7 +163,7 @@
       <h3 id="akis">Takipte kalmak: akış paneli ve özetler</h3>
       <p>Oturumlar birbirleriyle çok konuştuğunda neler olduğunu kaçırmak kolaydır. Üç şey bunları tek yerde toplar:</p>
       <ul>
-        <li><strong>Akış paneli</strong> (önek <kbd>f</kbd>): sağda açılan bir panel. Oturumlar arası her mesajı (<code>commander → api</code>), sizin gönderdiğiniz mesajları, görev atamalarını, son mesajıyla biten turları, soruları, birleştirme önerilerini, birleştirmeleri ve dosya kilitlerini sırasıyla listeler. <kbd>↑</kbd> <kbd>↓</kbd> ile seçip <kbd>Enter</kbd> ile o oturuma gidersiniz. Panel kapalıyken durum çubuğu yeni kayıtları sayar.</li>
+        <li><strong>Akış paneli</strong> (önek <kbd>f</kbd>; terminal en az 150 sütun genişse kendiliğinden açık gelir, <code>show_activity = false</code> ile kapatılır): sağda açılan bir panel. Oturumlar arası her mesajı (<code>commander → api</code>), sizin gönderdiğiniz mesajları, görev atamalarını, son mesajıyla biten turları, soruları, birleştirme önerilerini, birleştirmeleri ve dosya kilitlerini sırasıyla listeler. <kbd>↑</kbd> <kbd>↓</kbd> ile seçip <kbd>Enter</kbd> ile o oturuma gidersiniz. Panel kapalıyken durum çubuğu yeni kayıtları sayar.</li>
         <li><strong>Her panelde son mesaj</strong>: panelin alt kenarında o oturumun aldığı son mesaj ve kimden geldiği 30 dakika boyunca görünür, örneğin <code>← commander: 429 için test ekle</code>.</li>
         <li><strong>Ne oldu?</strong> (önek <kbd>i</kbd>): oturum başına özet (biten turlar ve son mesajları, kimden kaç mesaj geldiği, birleştirmeler) ve sizi bekleyenler: açık sorular, birleştirme önerisi, incelemeye hazır görevler. Terminale beş dakika ya da daha uzun aradan sonra döndüğünüzde bir şey olduysa “While you were away” başlığıyla kendiliğinden açılır. Legion'ın kendi kaydından üretilir; anında gelir, token harcamaz.</li>
       </ul>
@@ -292,7 +292,7 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># virgülle birden fazla önek</spa
       <ol>
         <li>Kodu okur ve hedefi, birbirine karışmadan paralel yapılabilecek görevlere böler.</li>
         <li>Görevleri panoya koyar ve her biri için bir işçi oturumu açar.</li>
-        <li>Bir işçi bitirdiğinde, işçinin son mesajıyla birlikte otomatik haber alır. Diff'i inceler, eksik varsa işçiye ek iş gönderir.</li>
+        <li>İşçiler bitirdiğinde ya da birleştirildiğinde otomatik haber alır. Bu güncellemeler toplanır: ortalık sakinleşip komutan boşa çıkınca tek bir kısa mesaj olarak gelir, böylece komutan paneli bildirimlerle dolmaz. Diff'i inceler, eksik varsa işçiye ek iş gönderir.</li>
         <li>Hazır dalları mantıklı bir sırayla tek bir <a href="#toplu">toplu birleştirme</a> önerisi olarak sunar; siz tek tuşla onaylarsınız. <strong>Kendi başına asla birleştirmez</strong>; karar sizde kalır.</li>
         <li>Bir işçiyi birleştirdiğinizde haber alır ve bitmiş işçilerin panellerini kapatır. Commit edilmemiş değişikliği olan işçi asla kapatılmaz; dalı da yalnızca tamamen birleştiyse silinir.</li>
       </ol>
@@ -364,6 +364,7 @@ idle_after = "4s"      <span class="c"># prompt'tan sonra bu kadar sessizlik "bi
       <pre><code>base_branch = "main"        <span class="c"># oturumlar bu daldan ayrılır ve buna birleşir</span>
 branch_prefix = "legion/"   <span class="c"># oturum dalları legion/&lt;ad&gt;</span>
 max_sessions = 8            <span class="c"># aynı anda en fazla bu kadar çalışır</span>
+show_activity = true        <span class="c"># geniş terminalde akış paneli açık gelir</span>
 <span class="c"># default_agent = "claude"</span>
 
 [keys]
