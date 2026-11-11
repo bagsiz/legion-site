@@ -153,7 +153,7 @@
       <h3>Status bar</h3>
       <p>The bottom line shows the project name, how many sessions are in each status, and on the right either a short message about the last action, the list of prefix commands while the prefix is active, or a reminder of how to open help. The terminal window title shows <code>(2) legion · myapp</code> when two sessions need your attention.</p>
       <h3>Notifications</h3>
-      <p>When a session needs approval or finishes, Legion rings the terminal bell and shows a desktop notification (on macOS through <code>osascript</code>, or <code>terminal-notifier</code> if you have it). Nothing is sent for the pane you are looking at while Legion is in the foreground. Both can be switched off under <a href="#config"><code>[notify]</code></a>.</p>
+      <p>When a session needs approval or finishes, Legion rings the terminal bell and shows a desktop notification. In iTerm2, Ghostty, WezTerm and kitty the notification comes from the terminal itself, and clicking it brings the terminal to the front. In other terminals Legion uses <code>terminal-notifier</code> on macOS (<code>brew install terminal-notifier</code>) or <code>notify-send</code> on Linux; without them you get the bell only. <code>legion doctor</code> shows which one is used. Nothing is sent for the pane you are looking at while Legion is in the foreground. Both can be switched off under <a href="#config"><code>[notify]</code></a>.</p>
     </section>
 
     <section id="keys">

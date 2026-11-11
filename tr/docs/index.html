@@ -153,7 +153,7 @@
       <h3>Durum çubuğu</h3>
       <p>En alttaki satırda proje adı ve her durumda kaç oturum olduğu görünür. Sağ tarafta son işlemle ilgili kısa bir mesaj, önek basılıyken komut listesi ya da yardımın nasıl açılacağı yazar. İki oturum ilginizi beklediğinde terminal penceresinin başlığı <code>(2) legion · myapp</code> olur.</p>
       <h3>Bildirimler</h3>
-      <p>Bir oturum onay istediğinde ya da bitirdiğinde Legion terminal zilini çalar ve masaüstü bildirimi gösterir (macOS'ta <code>osascript</code> ile, kuruluysa <code>terminal-notifier</code> ile). Legion öndeyken baktığınız panel için bildirim gelmez. İkisi de <a href="#yapilandirma"><code>[notify]</code></a> altından kapatılabilir.</p>
+      <p>Bir oturum onay istediğinde ya da bitirdiğinde Legion terminal zilini çalar ve masaüstü bildirimi gösterir. iTerm2, Ghostty, WezTerm ve kitty'de bildirim terminalin kendisinden gelir; tıklayınca terminal öne gelir. Diğer terminallerde macOS'ta <code>terminal-notifier</code> (<code>brew install terminal-notifier</code>), Linux'ta <code>notify-send</code> kullanılır; bunlar yoksa yalnızca zil çalar. Hangisinin kullanıldığını <code>legion doctor</code> gösterir. Legion öndeyken baktığınız panel için bildirim gelmez. İkisi de <a href="#yapilandirma"><code>[notify]</code></a> altından kapatılabilir.</p>
     </section>
 
     <section id="tuslar">
