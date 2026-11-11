@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://bagsiz.github.io/legion-site/docs/">
+<link rel="icon" href="https://bagsiz.github.io/legion-site/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="https://bagsiz.github.io/legion-site/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="https://bagsiz.github.io/legion-site/assets/apple-touch-icon.png">
+<link rel="manifest" href="https://bagsiz.github.io/legion-site/site.webmanifest">
+<meta name="theme-color" content="#eef1f5">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Legion">
+<meta property="og:title" content="Legion Docs">
+<meta property="og:description" content="Legion documentation: install and update, every key and command, the task board, review and merge, the commander, configuration and troubleshooting.">
+<meta property="og:url" content="https://bagsiz.github.io/legion-site/docs/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://bagsiz.github.io/legion-site/assets/og-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Legion Docs">
+<meta name="twitter:description" content="Legion documentation: install and update, every key and command, the task board, review and merge, the commander, configuration and troubleshooting.">
+<meta name="twitter:image" content="https://bagsiz.github.io/legion-site/assets/og-en.png">
+<link rel="alternate" hreflang="en" href="https://bagsiz.github.io/legion-site/docs/">
+<link rel="alternate" hreflang="tr" href="https://bagsiz.github.io/legion-site/tr/docs/">
+<link rel="alternate" hreflang="x-default" href="https://bagsiz.github.io/legion-site/docs/">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Legion Docs</title>
+<meta name="description" content="Legion documentation: install and update, every key and command, the task board, review and merge, the commander, configuration and troubleshooting.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/docs.css">
+
+<header class="top">
+  <div class="wrap">
+    <a class="wordmark" href="../" aria-label="Legion home"><span class="glyph" aria-hidden="true"><i></i><i></i><i></i><i></i></span>LEGION</a>
+    <span class="tag">Docs</span>
+    <span class="spacer"></span>
+    <nav aria-label="Site">
+      <a class="home" href="../">Home</a>
+      <a href="https://github.com/bagsiz/legion-site/releases">Releases</a>
+      <span class="lang"><a aria-current="page">EN</a><span aria-hidden="true">·</span><a href="../tr/docs/" hreflang="tr" lang="tr">TR</a></span>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <aside class="toc" aria-label="Contents">
+    <p>Contents</p>
+    <ol>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#install">Install</a></li>
+      <li><a href="#update">Update</a></li>
+      <li><a href="#quick-start">Quick start</a></li>
+      <li><a href="#screen">The screen</a></li>
+      <li><a href="#keys">Keys</a></li>
+      <li><a href="#sessions">Sessions</a></li>
+      <li><a href="#tasks">Task board</a></li>
+      <li><a href="#review">Review &amp; merge</a></li>
+      <li><a href="#broadcast">Broadcast &amp; messages</a></li>
+      <li><a href="#commander">Commander</a></li>
+      <li><a href="#collaboration">Messaging &amp; file locks</a></li>
+      <li><a href="#agents">Other agents</a></li>
+      <li><a href="#cli">Command line</a></li>
+      <li><a href="#config">Configuration</a></li>
+      <li><a href="#files">Where things live</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+      <li><a href="#uninstall">Uninstall</a></li>
+    </ol>
+  </aside>
+
+  <main>
+    <div class="intro">
+      <h1>Legion documentation</h1>
+      <p>Everything you need to run several Claude Code sessions side by side: how to install and update, what every key does, and how work gets from a session's branch into yours.</p>
+    </div>
+
+    <section id="overview">
+      <h2><span class="n">01</span>Overview</h2>
+      <p>Legion is a terminal app that runs several Claude Code sessions at once, each in its own pane. Every session works in its own <strong>git worktree</strong> on its own <strong>branch</strong>, so sessions never overwrite each other's files and your main checkout stays untouched until you merge.</p>
+      <ul>
+        <li><strong>Session</strong>: one Claude Code process in a pane. It lives in <code>.legion/worktrees/&lt;name&gt;</code> on the branch <code>legion/&lt;name&gt;</code>. Inside the pane you use Claude's own interface: you type, approve edits and run slash commands as usual.</li>
+        <li><strong>Status</strong>: Legion knows whether each session is running, waiting for your approval, done or failed. The status comes from Claude Code hooks, not from guessing at the screen.</li>
+        <li><strong>Task board</strong>: a shared list of work. Assigning a task sends its text to a session.</li>
+        <li><strong>Review &amp; merge</strong>: see a session's diff, check it against your branch for conflicts, then merge.</li>
+        <li><strong>Commander</strong>: a special session that splits a large goal into tasks, starts workers and tells you what to merge.</li>
+      </ul>
+    </section>
+
+    <section id="install">
+      <h2><span class="n">02</span>Install</h2>
+      <p>Requirements: macOS or Linux (Intel or ARM), <strong>git 2.38 or newer</strong>, and <a href="https://docs.claude.com/claude-code">Claude Code</a> 2.1 or newer, logged in.</p>
+      <pre><code><span class="p">$ </span>curl -fsSL https://bagsiz.github.io/legion-site/install.sh | sh</code></pre>
+      <p>The script picks the build for your OS and CPU, downloads it from the <a href="https://github.com/bagsiz/legion-site/releases">releases page</a>, checks its SHA-256 checksum and installs the <code>legion</code> binary to <code>~/.local/bin</code>. Nothing else on your system is changed.</p>
+      <p>Two optional settings:</p>
+      <pre><code><span class="c"># a specific version</span>
+<span class="p">$ </span>curl -fsSL https://bagsiz.github.io/legion-site/install.sh | LEGION_VERSION=v0.1.9 sh
+<span class="c"># a different install directory</span>
+<span class="p">$ </span>curl -fsSL https://bagsiz.github.io/legion-site/install.sh | LEGION_BIN_DIR=/usr/local/bin sh</code></pre>
+      <p>If the script says the directory is not on your <code>PATH</code>, add it to your shell profile (for zsh: <code>echo 'export PATH="$HOME/.local/bin:$PATH"' &gt;&gt; ~/.zshrc</code>) and open a new terminal.</p>
+      <p>Then check everything:</p>
+      <pre><code><span class="p">$ </span>legion doctor</code></pre>
+      <p><code>doctor</code> checks git, Claude Code, your prefix key, notifications, whether a newer Legion is out, and, inside a project, whether Claude Code trusts the folder.</p>
+    </section>
+
+    <section id="update">
+      <h2><span class="n">03</span>Update</h2>
+      <pre><code><span class="p">$ </span>legion update            <span class="c"># install the latest release</span>
+<span class="p">$ </span>legion update --check    <span class="c"># only tell me if there is one</span>
+<span class="p">$ </span>legion update --version v0.1.8   <span class="c"># install a specific release (also to go back)</span></code></pre>
+      <p><code>legion update</code> downloads the release for your machine, verifies its checksum and replaces the binary you ran. If the checksum does not match, nothing is changed. A Legion window that is already open keeps running the old version until you quit and start it again; sessions pick up where they left off.</p>
+      <h3>How you find out about new versions</h3>
+      <p>When Legion starts, it checks GitHub in the background for a newer release, at most once a day. If there is one, the status bar shows <code>v0.x.y available: legion update</code> on the right, and <code>legion doctor</code> shows it too. The check sends nothing about you or your projects. To turn it off, set <code>LEGION_NO_UPDATE_CHECK=1</code> in your shell profile.</p>
+      <div class="note"><p>Running the install command again also updates Legion; <code>legion update</code> is just quicker.</p></div>
+    </section>
+
+    <section id="quick-start">
+      <h2><span class="n">04</span>Quick start</h2>
+      <pre><code><span class="p">$ </span>cd ~/code/myapp
+<span class="p">$ </span>claude        <span class="c"># once per project: answer "Yes, I trust this folder", then quit</span>
+<span class="p">$ </span>legion        <span class="c"># sets the project up if needed and opens Legion</span></code></pre>
+      <p>The first time you run <code>legion</code> in a folder it prepares it:</p>
+      <ul>
+        <li>If the folder is not a git repository, it runs <code>git init</code>.</li>
+        <li>If the repository has no commits yet, it commits the files that are there (respecting <code>.gitignore</code>) as <em>Initial commit</em>, so sessions start from your code.</li>
+        <li>It creates <code>.legion/</code> for its state and hides it from git via <code>.git/info/exclude</code>. Your <code>.gitignore</code> is not changed.</li>
+      </ul>
+      <p>Legion never does this in your home directory or in <code>/</code>. <code>legion init</code> does the same setup without opening the interface.</p>
+      <p>Now press <kbd>Ctrl</kbd>+<kbd>\</kbd> and then <kbd>n</kbd>, give the session a name and a first prompt, and it starts in its own pane. Start a second one the same way and the screen splits.</p>
+      <div class="note"><p><b>Why trust the folder first?</b> Claude Code asks whether you trust a folder the first time it runs there. It remembers the answer for the main repository, and all of Legion's worktrees inherit it. If you skip this step, every new session asks again. <code>legion doctor</code> tells you if the folder is not trusted yet.</p></div>
+    </section>
+
+    <section id="screen">
+      <h2><span class="n">05</span>The screen</h2>
+      <p>Sessions are laid out in a grid: one fills the screen, two sit side by side, four make a 2×2 grid, and so on. Each pane has a title with its number, name, status and what it is doing right now (for example <code>Bash: go test ./...</code>), and the branch at the bottom. The focused pane has a pink border; your typing goes there.</p>
+      <h3>Statuses</h3>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Label</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><span class="st quiet">… starting</span></td><td>Claude Code is launching.</td></tr>
+          <tr><td><span class="st idle">○ idle</span></td><td>Ready and waiting for a prompt.</td></tr>
+          <tr><td><span class="st run">● running</span></td><td>Working: thinking, reading files, running tools.</td></tr>
+          <tr><td><span class="st appr">◆ approval</span></td><td>Waiting for you to approve something, such as an edit or a command. You get a bell and a desktop notification.</td></tr>
+          <tr><td><span class="st done">✓ done</span></td><td>Finished its turn. You get a bell and a notification.</td></tr>
+          <tr><td><span class="st err">✗ error</span></td><td>The turn failed, for example because of an API error.</td></tr>
+          <tr><td><span class="st quiet">■ stopped</span></td><td>The process is not running. Its worktree and conversation are kept; press <kbd>r</kbd> or <kbd>Enter</kbd> in the pane to resume.</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Status bar</h3>
+      <p>The bottom line shows the project name, how many sessions are in each status, and on the right either a short message about the last action, the list of prefix commands while the prefix is active, or a reminder of how to open help. The terminal window title shows <code>(2) legion · myapp</code> when two sessions need your attention.</p>
+      <h3>Notifications</h3>
+      <p>When a session needs approval or finishes, Legion rings the terminal bell and shows a desktop notification (on macOS through <code>osascript</code>, or <code>terminal-notifier</code> if you have it). Nothing is sent for the pane you are looking at while Legion is in the foreground. Both can be switched off under <a href="#config"><code>[notify]</code></a>.</p>
+    </section>
+
+    <section id="keys">
+      <h2><span class="n">06</span>Keys</h2>
+      <p>Every key you press goes to the focused session, exactly as if Claude Code were running on its own. Legion's own commands start with a <strong>prefix key</strong>, like tmux: press <kbd>Ctrl</kbd>+<kbd>\</kbd>, let go, then press the command key. While the prefix is active the status bar shows <code>PREFIX</code> and the list of commands.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Prefix, then</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>n</kbd> or <kbd>c</kbd></td><td>New session: asks for a name, an optional first prompt and, if you set up other agents, which agent to use.</td></tr>
+          <tr><td><kbd>←</kbd> <kbd>↑</kbd> <kbd>↓</kbd> <kbd>→</kbd> or <kbd>h</kbd> <kbd>j</kbd> <kbd>k</kbd> <kbd>l</kbd></td><td>Move focus to the pane in that direction.</td></tr>
+          <tr><td><kbd>1</kbd> … <kbd>9</kbd></td><td>Focus the session with that number.</td></tr>
+          <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Next / previous session.</td></tr>
+          <tr><td><kbd>z</kbd></td><td>Zoom: the focused pane fills the screen. Press again to go back to the grid.</td></tr>
+          <tr><td><kbd>t</kbd></td><td>Open the <a href="#tasks">task board</a>, or close it.</td></tr>
+          <tr><td><kbd>a</kbd></td><td>Add a task without opening the board.</td></tr>
+          <tr><td><kbd>d</kbd></td><td><a href="#review">Review</a> the focused session: diff, commit, merge.</td></tr>
+          <tr><td><kbd>b</kbd></td><td><a href="#broadcast">Broadcast</a> a message to every session.</td></tr>
+          <tr><td><kbd>C</kbd> (capital)</td><td>Open the <a href="#commander">commander</a>, or start one by giving it a goal.</td></tr>
+          <tr><td><kbd>s</kbd></td><td>Stop the focused session.</td></tr>
+          <tr><td><kbd>r</kbd></td><td>Resume the focused session if it is stopped.</td></tr>
+          <tr><td><kbd>x</kbd></td><td>Remove the focused session (asks first).</td></tr>
+          <tr><td><kbd>q</kbd></td><td>Quit Legion (asks first). Running sessions come back next time.</td></tr>
+          <tr><td><kbd>?</kbd></td><td>Show help. Any key closes it.</td></tr>
+          <tr><td>the prefix again</td><td>Send <kbd>Ctrl</kbd>+<kbd>\</kbd> itself to the session.</td></tr>
+        </tbody>
+      </table></div>
+      <p>In the dialogs Legion opens, <kbd>Enter</kbd> confirms a step, <kbd>Esc</kbd> cancels, and in yes/no questions the letters shown in the hint (<kbd>y</kbd>, <kbd>n</kbd>, …) choose.</p>
+      <h3>If <kbd>Ctrl</kbd>+<kbd>\</kbd> is awkward on your keyboard</h3>
+      <p>On Turkish and many other non-US layouts the backslash is hard to reach. <kbd>Ctrl</kbd>+<kbd>4</kbd> sends the same signal and works as the prefix out of the box. To use something else, run <code>legion keytest</code>, press the key you want and copy the name it prints into <code>.legion/config.toml</code>:</p>
+      <pre><code>[keys]
+prefix = "ctrl+\\, ctrl+g"   <span class="c"># several prefixes, comma-separated</span></code></pre>
+      <p><kbd>Cmd</kbd> shortcuts never reach terminal programs. In iTerm2 you can still map one: Settings → Profiles → Keys → Key Mappings → <kbd>+</kbd> → choose <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd> → action “Send Hex Code” → <code>0x1c</code>.</p>
+    </section>
+
+    <section id="sessions">
+      <h2><span class="n">07</span>Sessions</h2>
+      <h3>Start one</h3>
+      <p>Press the prefix and <kbd>n</kbd>. Give it a name of lowercase letters, digits and dashes (or leave it empty for an automatic one) and, optionally, a first prompt; Claude starts working on it right away. From another terminal: <code>legion session new docs -p "Tidy up the docs folder"</code>.</p>
+      <p>Each session gets a fresh worktree branched from your base branch (the branch you were on when you ran <code>legion init</code>, usually <code>main</code>). It sees committed code only: uncommitted changes in your main checkout are not in its worktree.</p>
+      <h3>Stop, resume, remove</h3>
+      <ul>
+        <li><strong>Stop</strong> (<kbd>s</kbd> or <code>legion stop name</code>) ends the Claude process. The worktree, branch and conversation stay.</li>
+        <li><strong>Resume</strong> (<kbd>r</kbd>, or <kbd>Enter</kbd> in a stopped pane, or <code>legion resume name</code>) starts it again with <code>--resume</code>, so the conversation continues where it stopped.</li>
+        <li><strong>Remove</strong> (<kbd>x</kbd>) deletes the worktree. The branch is kept, so no committed work is lost. If the worktree has uncommitted changes Legion refuses, unless you choose <kbd>f</kbd> to discard them.</li>
+      </ul>
+      <h3>Quitting</h3>
+      <p>Quitting (prefix <kbd>q</kbd>) stops all sessions but remembers which were running. Next time you run <code>legion</code> in the project, those sessions resume automatically with their conversations. Sessions you stopped yourself stay stopped. A turn that was in progress when you quit is cut short.</p>
+    </section>
+
+    <section id="tasks">
+      <h2><span class="n">08</span>Task board</h2>
+      <p>The board is a shared to-do list for the project. Prefix <kbd>t</kbd> opens it on the right side of the screen; on a narrow terminal it takes the whole screen.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>On the board</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>↑</kbd> <kbd>↓</kbd> / <kbd>k</kbd> <kbd>j</kbd></td><td>Select a task.</td></tr>
+          <tr><td><kbd>a</kbd></td><td>Add a task: a title and an optional description.</td></tr>
+          <tr><td><kbd>Enter</kbd></td><td>Assign the selected task to a session by name, or to <code>new</code> to start a session for it. The task text is sent to that session as a prompt.</td></tr>
+          <tr><td><kbd>g</kbd></td><td>Go to the session the task is assigned to.</td></tr>
+          <tr><td><kbd>d</kbd></td><td>Mark the task done.</td></tr>
+          <tr><td><kbd>r</kbd></td><td>Reopen it.</td></tr>
+          <tr><td><kbd>x</kbd></td><td>Delete it (asks first).</td></tr>
+          <tr><td><kbd>Tab</kbd></td><td>Leave the board open but give the keyboard back to the panes.</td></tr>
+          <tr><td><kbd>Esc</kbd> / <kbd>q</kbd></td><td>Close the board.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Task statuses follow the session: <code>todo</code> → <code>assigned</code> → <code>in_progress</code> while it works → <code>review</code> when it finishes → <code>merged</code> when you merge its branch, or <code>failed</code>.</p>
+      <p>If the session you assign to is busy, the prompt is queued and delivered as soon as it is idle. From the command line: <code>legion add "Fix the signup form" --to web</code>, <code>legion assign 3 api</code>, <code>legion ls</code>.</p>
+    </section>
+
+    <section id="review">
+      <h2><span class="n">09</span>Review &amp; merge</h2>
+      <p>Prefix <kbd>d</kbd> opens a review of the focused session. At the top it shows what would happen if you merged:</p>
+      <ul>
+        <li>how many commits the branch is ahead, and which files changed;</li>
+        <li>uncommitted files in the session's worktree;</li>
+        <li>whether merging into your base branch would <strong>conflict</strong>, checked with <code>git merge-tree</code> without touching any files;</li>
+        <li><strong>other sessions</strong> that changed the same files, so you can merge in a sensible order.</li>
+      </ul>
+      <p>Below that is the full diff, including new untracked files.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>In the review</th><th>What happens</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>↑</kbd> <kbd>↓</kbd> <kbd>j</kbd> <kbd>k</kbd>, <kbd>Space</kbd> / <kbd>b</kbd>, <kbd>g</kbd> / <kbd>G</kbd></td><td>Scroll by line, by page, to the top / bottom.</td></tr>
+          <tr><td><kbd>c</kbd></td><td>Commit the session's uncommitted changes. An empty message uses the task title.</td></tr>
+          <tr><td><kbd>m</kbd></td><td>Merge. Then <kbd>y</kbd> merges, <kbd>r</kbd> merges and removes the session (worktree and branch), <kbd>n</kbd> cancels. Uncommitted changes are committed first.</td></tr>
+          <tr><td><kbd>r</kbd></td><td>Refresh.</td></tr>
+          <tr><td><kbd>Esc</kbd> / <kbd>q</kbd></td><td>Close.</td></tr>
+        </tbody>
+      </table></div>
+      <h3>How the merge is done</h3>
+      <ul>
+        <li>If there are conflicts, Legion does not merge. Ask the session to rebase or resolve them, then review again.</li>
+        <li>If your base branch is checked out in your main folder, Legion runs <code>git merge --no-ff</code> there. If that folder has uncommitted changes, the merge is refused so your work is never mixed in.</li>
+        <li>If the base branch is not checked out, Legion creates the merge commit directly on the branch without touching any working folder.</li>
+        <li>With “merge and remove”, the session is stopped first, and the branch is deleted only if it is fully merged.</li>
+      </ul>
+      <p>Same from the command line: <code>legion diff api --stat</code>, <code>legion merge api --commit --rm</code>.</p>
+    </section>
+
+    <section id="broadcast">
+      <h2><span class="n">10</span>Broadcast &amp; messages</h2>
+      <p>Prefix <kbd>b</kbd> sends one message to every session, for example “rebase on main and run the tests”. Sessions that are idle or done get it at once. Sessions that are busy get it when they finish their current turn, so nothing interrupts work in progress.</p>
+      <pre><code><span class="p">$ </span>legion broadcast "Rebase on main and run the tests"
+<span class="p">$ </span>legion send api "Also add a test for the 429 response"   <span class="c"># one session</span></code></pre>
+    </section>
+
+    <section id="commander">
+      <h2><span class="n">11</span>Commander</h2>
+      <p>The commander is a Claude session that manages the others instead of writing code. Give it a goal and it plans the work, starts workers and keeps track of them.</p>
+      <pre><code><span class="p">$ </span>legion commander "Add user accounts: signup, login, password reset, with tests"</code></pre>
+      <p>Or press prefix <kbd>C</kbd> in Legion and type the goal. Pressing prefix <kbd>C</kbd> again later takes you back to the commander.</p>
+      <p>What it does:</p>
+      <ol>
+        <li>Reads the code and splits the goal into tasks that can be done in parallel without stepping on each other.</li>
+        <li>Puts them on the task board and starts a worker session for each.</li>
+        <li>Is told automatically when a worker finishes, with the worker's last message. It reviews the diff and sends follow-ups if something is missing.</li>
+        <li>Tells you which branches are ready and in what order to merge them. <strong>It never merges itself</strong>; merging stays your decision.</li>
+        <li>Is told when you merge a worker, and closes finished workers' panes. A worker with uncommitted changes is never closed, and its branch is deleted only if fully merged.</li>
+      </ol>
+      <p>There is one commander per project. Its tools: <code>create_task</code>, <code>assign_task</code>, <code>create_session</code>, <code>broadcast</code>, <code>session_status</code>, <code>get_diff</code>, <code>close_session</code>.</p>
+    </section>
+
+    <section id="collaboration">
+      <h2><span class="n">12</span>Messaging &amp; file locks</h2>
+      <p>Every Claude session started by Legion gets a few extra tools, so sessions can coordinate without you relaying messages:</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Tool</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>list_sessions</code></td><td>Who else is working, on which branch, on what.</td></tr>
+          <tr><td><code>send_message</code></td><td>Send a message to another session or to all of them.</td></tr>
+          <tr><td><code>lock_files</code> / <code>unlock_files</code></td><td>Claim files before changing them. All or nothing: if any file is held by someone else, nothing is locked and the owner is named.</td></tr>
+          <tr><td><code>list_locks</code></td><td>All current locks.</td></tr>
+          <tr><td><code>list_tasks</code></td><td>The task board.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Locks are enforced: if a session tries to edit a file another session has locked, the edit is blocked and Claude is told who holds it. This covers Claude's edit tools (Edit, Write, MultiEdit, NotebookEdit); writes made through shell commands cannot be blocked. Locks are released when a session is merged or removed. See them with <code>legion locks</code>.</p>
+      <p>These tools are allowed without a permission prompt, and they only reach your local Legion.</p>
+    </section>
+
+    <section id="agents">
+      <h2><span class="n">13</span>Other agents</h2>
+      <p>Legion is built for Claude Code, but it can also run other agent CLIs such as Codex, Gemini CLI, aider or cursor-agent in a pane. Add them to the config:</p>
+      <pre><code>[agents.codex]
+command = "codex"
+resume_args = ["resume", "--last"]
+prompt_arg = true      <span class="c"># pass the first prompt as an argument (otherwise it is typed in)</span>
+idle_after = "4s"      <span class="c"># this long without output after a prompt counts as done</span></code></pre>
+      <p>Pick the agent in the last step of the new-session dialog, or with <code>legion session new name --agent codex</code>. <code>default_agent</code> changes the default.</p>
+      <p>These agents have no hooks, so their status is inferred from the screen: output after you press Enter means running, silence for <code>idle_after</code> means done, and a question like <code>(y/n)</code> on the last lines means approval. They do not get the messaging and locking tools.</p>
+    </section>
+
+    <section id="cli">
+      <h2><span class="n">14</span>Command line</h2>
+      <p>Everything below also works from another terminal while Legion is open; the interface updates immediately. <code>add</code>, <code>ls</code>, <code>diff</code>, <code>merge</code> and <code>task</code> also work when Legion is closed.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>legion</code></td><td>Open Legion in the current project (sets it up first if needed).</td></tr>
+          <tr><td><code>legion init [--base main]</code></td><td>Set the project up without opening the interface.</td></tr>
+          <tr><td><code>legion add "title" [-b text] [--to name | --new]</code></td><td>Add a task; optionally assign it to a session or to a new one.</td></tr>
+          <tr><td><code>legion assign 3 api</code></td><td>Assign task #3 to <code>api</code> (or <code>new</code>).</td></tr>
+          <tr><td><code>legion ls</code></td><td>Show the board and the sessions.</td></tr>
+          <tr><td><code>legion task done|fail|reopen|rm 3</code></td><td>Change or delete task #3.</td></tr>
+          <tr><td><code>legion send api "text"</code></td><td>Message one session.</td></tr>
+          <tr><td><code>legion broadcast "text"</code></td><td>Message all sessions.</td></tr>
+          <tr><td><code>legion diff api [--stat]</code></td><td>Show a session's changes and the conflict check.</td></tr>
+          <tr><td><code>legion merge api [--commit] [--rm]</code></td><td>Merge a session; <code>--commit</code> commits its uncommitted changes first, <code>--rm</code> removes it afterwards.</td></tr>
+          <tr><td><code>legion session new name [-p prompt] [--agent x]</code></td><td>Start a session.</td></tr>
+          <tr><td><code>legion stop [name]</code> / <code>legion resume [name]</code></td><td>Stop or resume one session, or all of them without a name.</td></tr>
+          <tr><td><code>legion commander "goal"</code></td><td>Start the commander with a goal.</td></tr>
+          <tr><td><code>legion locks</code></td><td>List file locks.</td></tr>
+          <tr><td><code>legion projects</code></td><td>Every Legion project on this machine, with open tasks and sessions.</td></tr>
+          <tr><td><code>legion update [--check] [--version v]</code></td><td>Update Legion (<a href="#update">details</a>).</td></tr>
+          <tr><td><code>legion doctor</code></td><td>Check dependencies and setup.</td></tr>
+          <tr><td><code>legion keytest</code></td><td>Show the name of each key you press, for choosing a prefix.</td></tr>
+          <tr><td><code>legion --version</code></td><td>Show the installed version.</td></tr>
+        </tbody>
+      </table></div>
+      <p><code>legion hook</code> and <code>legion mcp</code> also exist; Claude Code calls them, you don't need to.</p>
+    </section>
+
+    <section id="config">
+      <h2><span class="n">15</span>Configuration</h2>
+      <p>Legion reads <code>~/.config/legion/config.toml</code> for all projects and <code>.legion/config.toml</code> for one project; project settings win. <code>legion init</code> writes a commented project file. All keys are optional:</p>
+      <pre><code>base_branch = "main"        <span class="c"># sessions branch off and merge into this</span>
+branch_prefix = "legion/"   <span class="c"># session branches are legion/&lt;name&gt;</span>
+max_sessions = 8            <span class="c"># at most this many running at once</span>
+<span class="c"># default_agent = "claude"</span>
+
+[keys]
+prefix = "ctrl+\\, ctrl+4"  <span class="c"># comma-separate several; see legion keytest</span>
+
+[claude]
+command = "claude"
+<span class="c"># permission_mode = "acceptEdits"   # default | acceptEdits | plan | auto | bypassPermissions</span>
+<span class="c"># extra_args = ["--model", "opus"]</span>
+
+[notify]
+bell = true
+desktop = true</code></pre>
+      <p>Legion never changes your Claude Code settings. It gives each session its hooks and tools on the command line (<code>--settings</code>, <code>--mcp-config</code>), and only reads Claude's config to see whether a folder is trusted.</p>
+      <h3>Environment variables</h3>
+      <div class="table-scroll"><table>
+        <tbody>
+          <tr><td><code>LEGION_NO_UPDATE_CHECK=1</code></td><td>Turn off the daily update check.</td></tr>
+          <tr><td><code>LEGION_HOME</code></td><td>Where Legion keeps machine-wide data (default <code>~/.legion</code>).</td></tr>
+          <tr><td><code>LEGION_VERSION</code>, <code>LEGION_BIN_DIR</code></td><td>For the install script: which version, and where to install.</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="files">
+      <h2><span class="n">16</span>Where things live</h2>
+      <div class="table-scroll"><table>
+        <tbody>
+          <tr><td><code>~/.local/bin/legion</code></td><td>The program.</td></tr>
+          <tr><td><code>&lt;project&gt;/.legion/config.toml</code></td><td>Project settings.</td></tr>
+          <tr><td><code>&lt;project&gt;/.legion/state.db</code></td><td>Sessions, tasks, locks and the event log (SQLite).</td></tr>
+          <tr><td><code>&lt;project&gt;/.legion/worktrees/&lt;name&gt;</code></td><td>Each session's working folder.</td></tr>
+          <tr><td><code>&lt;project&gt;/.legion/logs/</code></td><td>Logs.</td></tr>
+          <tr><td><code>~/.legion/projects.json</code></td><td>The list behind <code>legion projects</code>.</td></tr>
+          <tr><td><code>~/.legion/run/</code></td><td>Sockets that let the CLI and hooks talk to a running Legion.</td></tr>
+          <tr><td><code>~/.legion/update-check.json</code></td><td>When the update check last ran and what it found.</td></tr>
+        </tbody>
+      </table></div>
+      <p><code>.legion/</code> is listed in <code>.git/info/exclude</code>, so git and most tools ignore it. Nothing leaves your machine except what Claude Code itself sends, and the daily version check.</p>
+    </section>
+
+    <section id="troubleshooting">
+      <h2><span class="n">17</span>Troubleshooting</h2>
+      <p>Start with <code>legion doctor</code>; it catches most problems and says how to fix them.</p>
+      <dl class="faq">
+        <dt>Every new session asks whether I trust the folder.</dt>
+        <dd>Run <code>claude</code> once in the project's main folder and answer “Yes, I trust this folder”. Worktrees inherit that answer.</dd>
+        <dt>The prefix key does nothing.</dt>
+        <dd>Run <code>legion keytest</code> and press <kbd>Ctrl</kbd>+<kbd>\</kbd>. If nothing or something else shows up, your terminal or keyboard layout does not send it. Try <kbd>Ctrl</kbd>+<kbd>4</kbd>, or put the key <code>keytest</code> shows into <code>[keys] prefix</code>.</dd>
+        <dt>“is Legion already running for this project?”</dt>
+        <dd>Legion is open for this project in another terminal window. Use that one, or quit it first.</dd>
+        <dt>“branch has no commits yet”</dt>
+        <dd>Sessions branch off a commit. Run <code>legion init</code> (it makes the first commit) or commit something yourself.</dd>
+        <dt>The merge is refused because of uncommitted changes.</dt>
+        <dd>Your main folder has uncommitted work on the base branch. Commit or stash it, then merge again. Legion refuses so your work is never mixed into a merge.</dd>
+        <dt>A session shows the wrong status.</dt>
+        <dd>Statuses come from Claude Code hooks. If you updated Claude Code and they look off, <code>legion doctor</code> shows the Claude version Legion was tested with. Press <kbd>Esc</kbd> in the pane to interrupt a stuck turn.</dd>
+        <dt><code>legion update</code> fails with “permission denied”.</dt>
+        <dd>The folder the binary is in is not writable for you, for example if you installed to <code>/usr/local/bin</code>. Run the install command again with the same <code>LEGION_BIN_DIR</code> and <code>sudo</code> if needed.</dd>
+        <dt>A session needs something from my main folder that isn't committed.</dt>
+        <dd>Sessions only see committed code. Commit it on your base branch; new sessions will have it, and existing ones can merge or rebase onto it.</dd>
+      </dl>
+    </section>
+
+    <section id="uninstall">
+      <h2><span class="n">18</span>Uninstall</h2>
+      <pre><code><span class="p">$ </span>rm ~/.local/bin/legion
+<span class="p">$ </span>rm -rf ~/.legion
+<span class="c"># in each project, after merging or saving any work you want to keep:</span>
+<span class="p">$ </span>rm -rf .legion &amp;&amp; git worktree prune
+<span class="p">$ </span>git branch --list 'legion/*'        <span class="c"># session branches; delete the ones you don't need</span></code></pre>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">Legion · <a href="../">Home</a> · <a href="https://github.com/bagsiz/legion-site/releases">Releases</a> · <a href="https://github.com/bagsiz/legion-site/blob/main/LICENSE.txt">License</a></div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="Back to top"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+<script>
+(() => {
+  const links = [...document.querySelectorAll('.toc a')];
+  const byId = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+  const spy = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      links.forEach(a => a.classList.remove('on'));
+      byId.get(e.target.id)?.classList.add('on');
+    }
+  }, { rootMargin: '-90px 0px -70% 0px' });
+  document.querySelectorAll('main section[id]').forEach(s => spy.observe(s));
+
+  const toTop = document.getElementById('to-top');
+  const onScroll = () => toTop.classList.toggle('show', window.scrollY > 600);
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  toTop.addEventListener('click', () => {
+    const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
+    document.querySelector('.wordmark')?.focus({ preventScroll: true });
+  });
+})();
+</script>
+
+</body>
+</html>

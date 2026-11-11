@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://bagsiz.github.io/legion-site/tr/docs/">
+<link rel="icon" href="https://bagsiz.github.io/legion-site/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="https://bagsiz.github.io/legion-site/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="https://bagsiz.github.io/legion-site/assets/apple-touch-icon.png">
+<link rel="manifest" href="https://bagsiz.github.io/legion-site/site.webmanifest">
+<meta name="theme-color" content="#eef1f5">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Legion">
+<meta property="og:title" content="Legion Belgeler">
+<meta property="og:description" content="Legion belgeleri: kurulum ve güncelleme, tüm tuşlar ve komutlar, görev panosu, inceleme ve birleştirme, komutan, yapılandırma ve sorun giderme.">
+<meta property="og:url" content="https://bagsiz.github.io/legion-site/tr/docs/">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:image" content="https://bagsiz.github.io/legion-site/assets/og-tr.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Legion Belgeler">
+<meta name="twitter:description" content="Legion belgeleri: kurulum ve güncelleme, tüm tuşlar ve komutlar, görev panosu, inceleme ve birleştirme, komutan, yapılandırma ve sorun giderme.">
+<meta name="twitter:image" content="https://bagsiz.github.io/legion-site/assets/og-tr.png">
+<link rel="alternate" hreflang="en" href="https://bagsiz.github.io/legion-site/docs/">
+<link rel="alternate" hreflang="tr" href="https://bagsiz.github.io/legion-site/tr/docs/">
+<link rel="alternate" hreflang="x-default" href="https://bagsiz.github.io/legion-site/docs/">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Legion Belgeler</title>
+<meta name="description" content="Legion belgeleri: kurulum ve güncelleme, tüm tuşlar ve komutlar, görev panosu, inceleme ve birleştirme, komutan, yapılandırma ve sorun giderme.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../../assets/docs.css">
+
+<header class="top">
+  <div class="wrap">
+    <a class="wordmark" href="../" aria-label="Legion ana sayfa"><span class="glyph" aria-hidden="true"><i></i><i></i><i></i><i></i></span>LEGION</a>
+    <span class="tag">Belgeler</span>
+    <span class="spacer"></span>
+    <nav aria-label="Site">
+      <a class="home" href="../">Ana sayfa</a>
+      <a href="https://github.com/bagsiz/legion-site/releases">Sürümler</a>
+      <span class="lang"><a href="../../docs/" hreflang="en" lang="en">EN</a><span aria-hidden="true">·</span><a aria-current="page">TR</a></span>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <aside class="toc" aria-label="İçindekiler">
+    <p>İçindekiler</p>
+    <ol>
+      <li><a href="#genel">Genel bakış</a></li>
+      <li><a href="#kurulum">Kurulum</a></li>
+      <li><a href="#guncelleme">Güncelleme</a></li>
+      <li><a href="#hizli-baslangic">Hızlı başlangıç</a></li>
+      <li><a href="#ekran">Ekran</a></li>
+      <li><a href="#tuslar">Tuşlar</a></li>
+      <li><a href="#oturumlar">Oturumlar</a></li>
+      <li><a href="#gorevler">Görev panosu</a></li>
+      <li><a href="#inceleme">İnceleme ve birleştirme</a></li>
+      <li><a href="#broadcast">Broadcast ve mesajlar</a></li>
+      <li><a href="#komutan">Komutan</a></li>
+      <li><a href="#isbirligi">Mesajlaşma ve dosya kilitleri</a></li>
+      <li><a href="#ajanlar">Diğer ajanlar</a></li>
+      <li><a href="#cli">Komut satırı</a></li>
+      <li><a href="#yapilandirma">Yapılandırma</a></li>
+      <li><a href="#dosyalar">Dosyalar nerede</a></li>
+      <li><a href="#sorunlar">Sorun giderme</a></li>
+      <li><a href="#kaldirma">Kaldırma</a></li>
+    </ol>
+  </aside>
+
+  <main>
+    <div class="intro">
+      <h1>Legion belgeleri</h1>
+      <p>Birden fazla Claude Code oturumunu yan yana çalıştırmak için gereken her şey: nasıl kurulur ve güncellenir, hangi tuş ne yapar, bir oturumun dalındaki iş sizin dalınıza nasıl gelir.</p>
+    </div>
+
+    <section id="genel">
+      <h2><span class="n">01</span>Genel bakış</h2>
+      <p>Legion, birden fazla Claude Code oturumunu aynı anda, her birini ayrı bir panelde çalıştıran bir terminal uygulamasıdır. Her oturum kendi <strong>git worktree</strong>'sinde ve kendi <strong>dalında</strong> çalışır. Böylece oturumlar birbirinin dosyalarını ezmez, ana klasörünüz de siz birleştirene kadar değişmez.</p>
+      <ul>
+        <li><strong>Oturum</strong>: bir paneldeki bir Claude Code süreci. <code>.legion/worktrees/&lt;ad&gt;</code> klasöründe, <code>legion/&lt;ad&gt;</code> dalında çalışır. Panelin içinde Claude'un kendi arayüzü vardır: her zamanki gibi yazar, düzenlemeleri onaylar, slash komutlarını kullanırsınız.</li>
+        <li><strong>Durum</strong>: Legion her oturumun çalışıp çalışmadığını, onayınızı bekleyip beklemediğini, bitirip bitirmediğini bilir. Bu bilgi ekrandan tahmin edilmez, Claude Code hook'larından gelir.</li>
+        <li><strong>Görev panosu</strong>: projenin ortak iş listesi. Bir görevi atamak, metnini o oturuma gönderir.</li>
+        <li><strong>İnceleme ve birleştirme</strong>: bir oturumun diff'ini görür, dalınızla çakışıp çakışmadığını kontrol eder, sonra birleştirirsiniz.</li>
+        <li><strong>Komutan</strong>: büyük bir hedefi görevlere bölen, işçi oturumları açan ve neyin birleştirileceğini söyleyen özel bir oturum.</li>
+      </ul>
+    </section>
+
+    <section id="kurulum">
+      <h2><span class="n">02</span>Kurulum</h2>
+      <p>Gereksinimler: macOS veya Linux (Intel ya da ARM), <strong>git 2.38 veya üstü</strong> ve giriş yapılmış <a href="https://docs.claude.com/claude-code">Claude Code</a> 2.1 veya üstü.</p>
+      <pre><code><span class="p">$ </span>curl -fsSL https://bagsiz.github.io/legion-site/install.sh | sh</code></pre>
+      <p>Betik işletim sisteminize ve işlemcinize uygun sürümü <a href="https://github.com/bagsiz/legion-site/releases">sürümler sayfasından</a> indirir, SHA-256 checksum'ını kontrol eder ve <code>legion</code> programını <code>~/.local/bin</code> içine kurar. Sisteminizde başka hiçbir şey değişmez.</p>
+      <p>İsteğe bağlı iki ayar:</p>
+      <pre><code><span class="c"># belirli bir sürüm</span>
+<span class="p">$ </span>curl -fsSL https://bagsiz.github.io/legion-site/install.sh | LEGION_VERSION=v0.1.9 sh
+<span class="c"># başka bir kurulum klasörü</span>
+<span class="p">$ </span>curl -fsSL https://bagsiz.github.io/legion-site/install.sh | LEGION_BIN_DIR=/usr/local/bin sh</code></pre>
+      <p>Betik klasörün <code>PATH</code>'te olmadığını söylerse kabuk profilinize ekleyin (zsh için: <code>echo 'export PATH="$HOME/.local/bin:$PATH"' &gt;&gt; ~/.zshrc</code>) ve yeni bir terminal açın.</p>
+      <p>Sonra her şeyi kontrol edin:</p>
+      <pre><code><span class="p">$ </span>legion doctor</code></pre>
+      <p><code>doctor</code>; git'i, Claude Code'u, önek tuşunuzu, bildirimleri ve yeni bir Legion sürümü olup olmadığını kontrol eder. Bir proje içinde çalıştırırsanız Claude Code'un o klasöre güvenip güvenmediğine de bakar.</p>
+    </section>
+
+    <section id="guncelleme">
+      <h2><span class="n">03</span>Güncelleme</h2>
+      <pre><code><span class="p">$ </span>legion update            <span class="c"># son sürümü kurar</span>
+<span class="p">$ </span>legion update --check    <span class="c"># sadece yeni sürüm var mı söyler</span>
+<span class="p">$ </span>legion update --version v0.1.8   <span class="c"># belirli bir sürümü kurar (geri dönmek için de)</span></code></pre>
+      <p><code>legion update</code> makinenize uygun sürümü indirir, checksum'ını doğrular ve çalıştırdığınız programın yerine koyar. Checksum tutmazsa hiçbir şey değişmez. Açık olan bir Legion, siz kapatıp yeniden açana kadar eski sürümle çalışmaya devam eder; oturumlar kaldıkları yerden devam eder.</p>
+      <h3>Yeni sürümden nasıl haberiniz olur</h3>
+      <p>Legion açılırken arka planda, günde en fazla bir kez GitHub'da yeni sürüm olup olmadığına bakar. Varsa durum çubuğunun sağında <code>v0.x.y available: legion update</code> yazar; <code>legion doctor</code> da gösterir. Bu kontrol sizinle ya da projelerinizle ilgili hiçbir şey göndermez. Kapatmak için kabuk profilinize <code>LEGION_NO_UPDATE_CHECK=1</code> ekleyin.</p>
+      <div class="note"><p>Kurulum komutunu yeniden çalıştırmak da Legion'ı günceller; <code>legion update</code> sadece daha kısa.</p></div>
+    </section>
+
+    <section id="hizli-baslangic">
+      <h2><span class="n">04</span>Hızlı başlangıç</h2>
+      <pre><code><span class="p">$ </span>cd ~/code/myapp
+<span class="p">$ </span>claude        <span class="c"># proje başına bir kez: "Yes, I trust this folder" deyip çıkın</span>
+<span class="p">$ </span>legion        <span class="c"># gerekirse projeyi hazırlar ve Legion'ı açar</span></code></pre>
+      <p>Bir klasörde ilk kez <code>legion</code> çalıştırdığınızda klasörü hazırlar:</p>
+      <ul>
+        <li>Klasör git deposu değilse <code>git init</code> çalıştırır.</li>
+        <li>Depoda hiç commit yoksa oradaki dosyaları (<code>.gitignore</code>'a uyarak) <em>Initial commit</em> olarak kaydeder; böylece oturumlar kodunuzdan başlar.</li>
+        <li>Durum bilgileri için <code>.legion/</code> klasörünü oluşturur ve <code>.git/info/exclude</code> ile git'ten gizler. <code>.gitignore</code> dosyanız değişmez.</li>
+      </ul>
+      <p>Legion bunu ev klasörünüzde ya da <code>/</code> içinde asla yapmaz. <code>legion init</code> aynı hazırlığı arayüzü açmadan yapar.</p>
+      <p>Şimdi <kbd>Ctrl</kbd>+<kbd>\</kbd> sonra <kbd>n</kbd>'ye basın, oturuma bir ad ve ilk prompt verin; kendi panelinde başlar. İkincisini de aynı şekilde açın, ekran ikiye bölünür.</p>
+      <div class="note"><p><b>Neden önce klasöre güvenmek gerekiyor?</b> Claude Code bir klasörde ilk kez çalışırken o klasöre güvenip güvenmediğinizi sorar. Cevabı ana depo için hatırlar ve Legion'ın tüm worktree'leri bu cevabı miras alır. Bu adımı atlarsanız her yeni oturum tekrar sorar. <code>legion doctor</code> klasör henüz güvenilir değilse söyler.</p></div>
+    </section>
+
+    <section id="ekran">
+      <h2><span class="n">05</span>Ekran</h2>
+      <p>Oturumlar ızgara halinde dizilir: bir oturum tüm ekranı kaplar, iki oturum yan yana durur, dört oturum 2×2 olur, vb. Her panelin başlığında numarası, adı, durumu ve o an ne yaptığı (örneğin <code>Bash: go test ./...</code>), altında da dalı yazar. Odaktaki panelin çerçevesi pembedir; yazdıklarınız oraya gider.</p>
+      <h3>Durumlar</h3>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Etiket</th><th>Anlamı</th></tr></thead>
+        <tbody>
+          <tr><td><span class="st quiet">… starting</span></td><td>Claude Code açılıyor.</td></tr>
+          <tr><td><span class="st idle">○ idle</span></td><td>Hazır, prompt bekliyor.</td></tr>
+          <tr><td><span class="st run">● running</span></td><td>Çalışıyor: düşünüyor, dosya okuyor, araç çalıştırıyor.</td></tr>
+          <tr><td><span class="st appr">◆ approval</span></td><td>Bir düzenleme ya da komut için onayınızı bekliyor. Zil çalar, masaüstü bildirimi gelir.</td></tr>
+          <tr><td><span class="st done">✓ done</span></td><td>Turunu bitirdi. Zil çalar, bildirim gelir.</td></tr>
+          <tr><td><span class="st err">✗ error</span></td><td>Tur başarısız oldu, örneğin bir API hatası yüzünden.</td></tr>
+          <tr><td><span class="st quiet">■ stopped</span></td><td>Süreç çalışmıyor. Worktree'si ve konuşması duruyor; devam ettirmek için panelde <kbd>r</kbd> ya da <kbd>Enter</kbd>.</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Durum çubuğu</h3>
+      <p>En alttaki satırda proje adı ve her durumda kaç oturum olduğu görünür. Sağ tarafta son işlemle ilgili kısa bir mesaj, önek basılıyken komut listesi ya da yardımın nasıl açılacağı yazar. İki oturum ilginizi beklediğinde terminal penceresinin başlığı <code>(2) legion · myapp</code> olur.</p>
+      <h3>Bildirimler</h3>
+      <p>Bir oturum onay istediğinde ya da bitirdiğinde Legion terminal zilini çalar ve masaüstü bildirimi gösterir (macOS'ta <code>osascript</code> ile, kuruluysa <code>terminal-notifier</code> ile). Legion öndeyken baktığınız panel için bildirim gelmez. İkisi de <a href="#yapilandirma"><code>[notify]</code></a> altından kapatılabilir.</p>
+    </section>
+
+    <section id="tuslar">
+      <h2><span class="n">06</span>Tuşlar</h2>
+      <p>Bastığınız her tuş, Claude Code tek başına çalışıyormuş gibi odaktaki oturuma gider. Legion'ın kendi komutları tmux'taki gibi bir <strong>önek tuşu</strong> ile başlar: <kbd>Ctrl</kbd>+<kbd>\</kbd>'e basıp bırakın, sonra komut tuşuna basın. Önek etkinken durum çubuğunda <code>PREFIX</code> ve komut listesi görünür.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Önek, sonra</th><th>Ne olur</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>n</kbd> veya <kbd>c</kbd></td><td>Yeni oturum: ad, isteğe bağlı ilk prompt ve başka ajanlar tanımladıysanız hangi ajanın kullanılacağını sorar.</td></tr>
+          <tr><td><kbd>←</kbd> <kbd>↑</kbd> <kbd>↓</kbd> <kbd>→</kbd> veya <kbd>h</kbd> <kbd>j</kbd> <kbd>k</kbd> <kbd>l</kbd></td><td>Odağı o yöndeki panele taşır.</td></tr>
+          <tr><td><kbd>1</kbd> … <kbd>9</kbd></td><td>O numaralı oturuma odaklanır.</td></tr>
+          <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Sonraki / önceki oturum.</td></tr>
+          <tr><td><kbd>z</kbd></td><td>Büyüt: odaktaki panel tüm ekranı kaplar. Tekrar basınca ızgaraya döner.</td></tr>
+          <tr><td><kbd>t</kbd></td><td><a href="#gorevler">Görev panosunu</a> açar ya da kapatır.</td></tr>
+          <tr><td><kbd>a</kbd></td><td>Panoyu açmadan görev ekler.</td></tr>
+          <tr><td><kbd>d</kbd></td><td>Odaktaki oturumu <a href="#inceleme">inceler</a>: diff, commit, merge.</td></tr>
+          <tr><td><kbd>b</kbd></td><td>Tüm oturumlara <a href="#broadcast">mesaj gönderir</a>.</td></tr>
+          <tr><td><kbd>C</kbd> (büyük harf)</td><td><a href="#komutan">Komutanı</a> açar ya da bir hedef vererek başlatır.</td></tr>
+          <tr><td><kbd>s</kbd></td><td>Odaktaki oturumu durdurur.</td></tr>
+          <tr><td><kbd>r</kbd></td><td>Durmuşsa odaktaki oturumu devam ettirir.</td></tr>
+          <tr><td><kbd>x</kbd></td><td>Odaktaki oturumu kaldırır (önce sorar).</td></tr>
+          <tr><td><kbd>q</kbd></td><td>Legion'dan çıkar (önce sorar). Çalışan oturumlar bir dahaki açılışta geri gelir.</td></tr>
+          <tr><td><kbd>?</kbd></td><td>Yardımı gösterir. Herhangi bir tuş kapatır.</td></tr>
+          <tr><td>öneki bir daha</td><td><kbd>Ctrl</kbd>+<kbd>\</kbd>'in kendisini oturuma gönderir.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Legion'ın açtığı pencerelerde <kbd>Enter</kbd> adımı onaylar, <kbd>Esc</kbd> iptal eder; evet/hayır sorularında ipucunda yazan harfler (<kbd>y</kbd>, <kbd>n</kbd>, …) seçer.</p>
+      <h3><kbd>Ctrl</kbd>+<kbd>\</kbd> klavyenizde zorsa</h3>
+      <p>Türkçe ve birçok US dışı klavyede ters bölüye ulaşmak zordur. <kbd>Ctrl</kbd>+<kbd>4</kbd> aynı sinyali gönderir ve hiçbir ayar yapmadan önek olarak çalışır. Başka bir tuş kullanmak için <code>legion keytest</code> çalıştırın, istediğiniz tuşa basın ve yazdığı adı <code>.legion/config.toml</code>'a koyun:</p>
+      <pre><code>[keys]
+prefix = "ctrl+\\, ctrl+g"   <span class="c"># virgülle birden fazla önek</span></code></pre>
+      <p><kbd>Cmd</kbd> kısayolları terminal programlarına hiç ulaşmaz. iTerm2'de yine de eşleyebilirsiniz: Settings → Profiles → Keys → Key Mappings → <kbd>+</kbd> → <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd> → “Send Hex Code” → <code>0x1c</code>.</p>
+    </section>
+
+    <section id="oturumlar">
+      <h2><span class="n">07</span>Oturumlar</h2>
+      <h3>Oturum açmak</h3>
+      <p>Önek, sonra <kbd>n</kbd>. Küçük harf, rakam ve tireden oluşan bir ad verin (boş bırakırsanız otomatik ad verilir) ve isterseniz ilk prompt'u yazın; Claude hemen işe başlar. Başka bir terminalden: <code>legion session new docs -p "Docs klasörünü düzenle"</code>.</p>
+      <p>Her oturum, temel dalınızdan (<code>legion init</code> çalıştırdığınızda bulunduğunuz dal, genelde <code>main</code>) ayrılan yeni bir worktree alır. Sadece commit edilmiş kodu görür: ana klasörünüzdeki commit edilmemiş değişiklikler onun worktree'sinde yoktur.</p>
+      <h3>Durdurmak, devam ettirmek, kaldırmak</h3>
+      <ul>
+        <li><strong>Durdur</strong> (<kbd>s</kbd> ya da <code>legion stop ad</code>) Claude sürecini kapatır. Worktree, dal ve konuşma durur.</li>
+        <li><strong>Devam ettir</strong> (<kbd>r</kbd>, durmuş panelde <kbd>Enter</kbd> ya da <code>legion resume ad</code>) oturumu <code>--resume</code> ile yeniden başlatır; konuşma kaldığı yerden sürer.</li>
+        <li><strong>Kaldır</strong> (<kbd>x</kbd>) worktree'yi siler. Dal kalır, yani commit edilmiş hiçbir iş kaybolmaz. Worktree'de commit edilmemiş değişiklik varsa Legion reddeder; <kbd>f</kbd> ile bunları silmeyi seçebilirsiniz.</li>
+      </ul>
+      <h3>Çıkış</h3>
+      <p>Çıkmak (önek <kbd>q</kbd>) tüm oturumları durdurur ama hangilerinin çalıştığını hatırlar. Projede bir dahaki <code>legion</code>'da bu oturumlar konuşmalarıyla birlikte kendiliğinden devam eder. Sizin durdurduğunuz oturumlar durmuş kalır. Çıkarken yarıda kalan tur kesilir.</p>
+    </section>
+
+    <section id="gorevler">
+      <h2><span class="n">08</span>Görev panosu</h2>
+      <p>Pano, projenin ortak yapılacaklar listesidir. Önek <kbd>t</kbd> onu ekranın sağında açar; dar bir terminalde tüm ekranı kaplar.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Panoda</th><th>Ne olur</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>↑</kbd> <kbd>↓</kbd> / <kbd>k</kbd> <kbd>j</kbd></td><td>Görev seçer.</td></tr>
+          <tr><td><kbd>a</kbd></td><td>Görev ekler: başlık ve isteğe bağlı açıklama.</td></tr>
+          <tr><td><kbd>Enter</kbd></td><td>Seçili görevi adıyla bir oturuma ya da onun için yeni oturum açmak üzere <code>new</code>'a atar. Görev metni o oturuma prompt olarak gider.</td></tr>
+          <tr><td><kbd>g</kbd></td><td>Görevin atandığı oturuma gider.</td></tr>
+          <tr><td><kbd>d</kbd></td><td>Görevi bitti olarak işaretler.</td></tr>
+          <tr><td><kbd>r</kbd></td><td>Yeniden açar.</td></tr>
+          <tr><td><kbd>x</kbd></td><td>Siler (önce sorar).</td></tr>
+          <tr><td><kbd>Tab</kbd></td><td>Pano açık kalır ama klavye panellere döner.</td></tr>
+          <tr><td><kbd>Esc</kbd> / <kbd>q</kbd></td><td>Panoyu kapatır.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Görev durumu oturumu izler: <code>todo</code> → <code>assigned</code> → çalışırken <code>in_progress</code> → bitirince <code>review</code> → dalını birleştirince <code>merged</code>, ya da <code>failed</code>.</p>
+      <p>Atadığınız oturum meşgulse prompt kuyruğa alınır ve boşa çıkar çıkmaz iletilir. Komut satırından: <code>legion add "Signup formunu düzelt" --to web</code>, <code>legion assign 3 api</code>, <code>legion ls</code>.</p>
+    </section>
+
+    <section id="inceleme">
+      <h2><span class="n">09</span>İnceleme ve birleştirme</h2>
+      <p>Önek <kbd>d</kbd> odaktaki oturumun incelemesini açar. En üstte birleştirirseniz ne olacağını gösterir:</p>
+      <ul>
+        <li>dalın kaç commit önde olduğu ve hangi dosyaların değiştiği;</li>
+        <li>oturumun worktree'sindeki commit edilmemiş dosyalar;</li>
+        <li>temel dalınıza birleştirmenin <strong>çakışma</strong> çıkarıp çıkarmayacağı (hiçbir dosyaya dokunmadan <code>git merge-tree</code> ile kontrol edilir);</li>
+        <li>aynı dosyaları değiştiren <strong>diğer oturumlar</strong>; böylece mantıklı bir sırayla birleştirebilirsiniz.</li>
+      </ul>
+      <p>Altında, yeni (untracked) dosyalar dahil tam diff vardır.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>İncelemede</th><th>Ne olur</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>↑</kbd> <kbd>↓</kbd> <kbd>j</kbd> <kbd>k</kbd>, <kbd>Space</kbd> / <kbd>b</kbd>, <kbd>g</kbd> / <kbd>G</kbd></td><td>Satır satır, sayfa sayfa, en başa / en sona kaydırır.</td></tr>
+          <tr><td><kbd>c</kbd></td><td>Oturumun commit edilmemiş değişikliklerini commit eder. Boş mesaj görev başlığını kullanır.</td></tr>
+          <tr><td><kbd>m</kbd></td><td>Birleştir. Ardından <kbd>y</kbd> birleştirir, <kbd>r</kbd> birleştirip oturumu (worktree ve dal) kaldırır, <kbd>n</kbd> vazgeçer. Commit edilmemiş değişiklikler önce commit edilir.</td></tr>
+          <tr><td><kbd>r</kbd></td><td>Yeniler.</td></tr>
+          <tr><td><kbd>Esc</kbd> / <kbd>q</kbd></td><td>Kapatır.</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Birleştirme nasıl yapılır</h3>
+      <ul>
+        <li>Çakışma varsa Legion birleştirmez. Oturumdan rebase etmesini ya da çakışmayı çözmesini isteyin, sonra tekrar inceleyin.</li>
+        <li>Temel dalınız ana klasörünüzde açıksa Legion orada <code>git merge --no-ff</code> çalıştırır. O klasörde commit edilmemiş değişiklik varsa birleştirme reddedilir; böylece sizin işiniz asla karışmaz.</li>
+        <li>Temel dal açık değilse Legion birleştirme commit'ini hiçbir çalışma klasörüne dokunmadan doğrudan dalda oluşturur.</li>
+        <li>“Birleştir ve kaldır”da önce oturum durdurulur; dal yalnızca tamamen birleştiyse silinir.</li>
+      </ul>
+      <p>Komut satırından da aynısı: <code>legion diff api --stat</code>, <code>legion merge api --commit --rm</code>.</p>
+    </section>
+
+    <section id="broadcast">
+      <h2><span class="n">10</span>Broadcast ve mesajlar</h2>
+      <p>Önek <kbd>b</kbd> tek bir mesajı tüm oturumlara gönderir, örneğin “main'e rebase edip testleri çalıştır”. Boşta ya da bitmiş oturumlar mesajı hemen alır. Meşgul olanlar ise o anki turlarını bitirince alır; yani süren hiçbir iş kesilmez.</p>
+      <pre><code><span class="p">$ </span>legion broadcast "main'e rebase edip testleri çalıştır"
+<span class="p">$ </span>legion send api "429 cevabı için de test ekle"   <span class="c"># tek oturum</span></code></pre>
+    </section>
+
+    <section id="komutan">
+      <h2><span class="n">11</span>Komutan</h2>
+      <p>Komutan, kod yazmak yerine diğer oturumları yöneten bir Claude oturumudur. Ona bir hedef verirsiniz; işi planlar, işçileri başlatır ve takip eder.</p>
+      <pre><code><span class="p">$ </span>legion commander "Kullanıcı hesapları ekle: kayıt, giriş, şifre sıfırlama, testlerle"</code></pre>
+      <p>Ya da Legion'da önek <kbd>C</kbd>'ye basıp hedefi yazın. Sonradan önek <kbd>C</kbd> sizi komutana geri götürür.</p>
+      <p>Yaptıkları:</p>
+      <ol>
+        <li>Kodu okur ve hedefi, birbirine karışmadan paralel yapılabilecek görevlere böler.</li>
+        <li>Görevleri panoya koyar ve her biri için bir işçi oturumu açar.</li>
+        <li>Bir işçi bitirdiğinde, işçinin son mesajıyla birlikte otomatik haber alır. Diff'i inceler, eksik varsa işçiye ek iş gönderir.</li>
+        <li>Hangi dalların hazır olduğunu ve hangi sırayla birleştirileceğini size söyler. <strong>Kendisi asla birleştirmez</strong>; birleştirme kararı sizde kalır.</li>
+        <li>Bir işçiyi birleştirdiğinizde haber alır ve bitmiş işçilerin panellerini kapatır. Commit edilmemiş değişikliği olan işçi asla kapatılmaz; dalı da yalnızca tamamen birleştiyse silinir.</li>
+      </ol>
+      <p>Her projede bir komutan olur. Araçları: <code>create_task</code>, <code>assign_task</code>, <code>create_session</code>, <code>broadcast</code>, <code>session_status</code>, <code>get_diff</code>, <code>close_session</code>.</p>
+    </section>
+
+    <section id="isbirligi">
+      <h2><span class="n">12</span>Mesajlaşma ve dosya kilitleri</h2>
+      <p>Legion'ın başlattığı her Claude oturumu birkaç ek araç alır. Böylece oturumlar, siz aracılık etmeden birbirleriyle koordine olur:</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Araç</th><th>Ne yapar</th></tr></thead>
+        <tbody>
+          <tr><td><code>list_sessions</code></td><td>Başka kim çalışıyor, hangi dalda, ne üzerinde.</td></tr>
+          <tr><td><code>send_message</code></td><td>Başka bir oturuma ya da hepsine mesaj gönderir.</td></tr>
+          <tr><td><code>lock_files</code> / <code>unlock_files</code></td><td>Değiştirmeden önce dosyaları sahiplenir. Ya hepsi ya hiçbiri: dosyalardan biri başkasındaysa hiçbiri kilitlenmez ve sahibi söylenir.</td></tr>
+          <tr><td><code>list_locks</code></td><td>Tüm geçerli kilitler.</td></tr>
+          <tr><td><code>list_tasks</code></td><td>Görev panosu.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Kilitler zorlanır: bir oturum başka bir oturumun kilitlediği dosyayı düzenlemeye çalışırsa düzenleme engellenir ve Claude'a kilidin kimde olduğu söylenir. Bu, Claude'un düzenleme araçları (Edit, Write, MultiEdit, NotebookEdit) için geçerlidir; shell komutlarıyla yapılan yazmalar engellenemez. Kilitler oturum birleştirildiğinde ya da kaldırıldığında düşer. Görmek için: <code>legion locks</code>.</p>
+      <p>Bu araçlar izin sorulmadan kullanılır ve yalnızca sizin yerel Legion'ınıza ulaşır.</p>
+    </section>
+
+    <section id="ajanlar">
+      <h2><span class="n">13</span>Diğer ajanlar</h2>
+      <p>Legion, Claude Code için yapıldı; ama Codex, Gemini CLI, aider ya da cursor-agent gibi başka ajan CLI'larını da bir panelde çalıştırabilir. Yapılandırmaya ekleyin:</p>
+      <pre><code>[agents.codex]
+command = "codex"
+resume_args = ["resume", "--last"]
+prompt_arg = true      <span class="c"># ilk prompt argüman olarak verilir (yoksa yazılır)</span>
+idle_after = "4s"      <span class="c"># prompt'tan sonra bu kadar sessizlik "bitti" sayılır</span></code></pre>
+      <p>Ajanı yeni oturum penceresinin son adımında ya da <code>legion session new ad --agent codex</code> ile seçin. Varsayılanı <code>default_agent</code> belirler.</p>
+      <p>Bu ajanların hook'u olmadığı için durumları ekrandan çıkarılır: Enter'dan sonra çıktı akıyorsa çalışıyor, <code>idle_after</code> kadar sessizlik bitti, son satırlarda <code>(y/n)</code> gibi bir soru onay bekliyor demektir. Mesajlaşma ve kilit araçlarını almazlar.</p>
+    </section>
+
+    <section id="cli">
+      <h2><span class="n">14</span>Komut satırı</h2>
+      <p>Aşağıdakilerin hepsi Legion açıkken başka bir terminalden de çalışır; arayüz anında güncellenir. <code>add</code>, <code>ls</code>, <code>diff</code>, <code>merge</code> ve <code>task</code> Legion kapalıyken de çalışır.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Komut</th><th>Ne yapar</th></tr></thead>
+        <tbody>
+          <tr><td><code>legion</code></td><td>Bulunduğunuz projede Legion'ı açar (gerekirse önce hazırlar).</td></tr>
+          <tr><td><code>legion init [--base main]</code></td><td>Projeyi arayüzü açmadan hazırlar.</td></tr>
+          <tr><td><code>legion add "başlık" [-b metin] [--to ad | --new]</code></td><td>Görev ekler; isterseniz bir oturuma ya da yeni bir oturuma atar.</td></tr>
+          <tr><td><code>legion assign 3 api</code></td><td>Görev #3'ü <code>api</code>'ye (ya da <code>new</code>) atar.</td></tr>
+          <tr><td><code>legion ls</code></td><td>Panoyu ve oturumları gösterir.</td></tr>
+          <tr><td><code>legion task done|fail|reopen|rm 3</code></td><td>Görev #3'ü değiştirir ya da siler.</td></tr>
+          <tr><td><code>legion send api "metin"</code></td><td>Tek oturuma mesaj.</td></tr>
+          <tr><td><code>legion broadcast "metin"</code></td><td>Tüm oturumlara mesaj.</td></tr>
+          <tr><td><code>legion diff api [--stat]</code></td><td>Oturumun değişikliklerini ve çakışma kontrolünü gösterir.</td></tr>
+          <tr><td><code>legion merge api [--commit] [--rm]</code></td><td>Oturumu birleştirir; <code>--commit</code> önce commit edilmemiş değişiklikleri commit eder, <code>--rm</code> sonra oturumu kaldırır.</td></tr>
+          <tr><td><code>legion session new ad [-p prompt] [--agent x]</code></td><td>Oturum açar.</td></tr>
+          <tr><td><code>legion stop [ad]</code> / <code>legion resume [ad]</code></td><td>Bir oturumu, ad verilmezse hepsini durdurur ya da devam ettirir.</td></tr>
+          <tr><td><code>legion commander "hedef"</code></td><td>Komutanı bir hedefle başlatır.</td></tr>
+          <tr><td><code>legion locks</code></td><td>Dosya kilitlerini listeler.</td></tr>
+          <tr><td><code>legion projects</code></td><td>Bu makinedeki tüm Legion projeleri, açık görev ve oturum sayılarıyla.</td></tr>
+          <tr><td><code>legion update [--check] [--version v]</code></td><td>Legion'ı günceller (<a href="#guncelleme">ayrıntılar</a>).</td></tr>
+          <tr><td><code>legion doctor</code></td><td>Bağımlılıkları ve kurulumu kontrol eder.</td></tr>
+          <tr><td><code>legion keytest</code></td><td>Önek seçmek için bastığınız her tuşun adını gösterir.</td></tr>
+          <tr><td><code>legion --version</code></td><td>Kurulu sürümü gösterir.</td></tr>
+        </tbody>
+      </table></div>
+      <p><code>legion hook</code> ve <code>legion mcp</code> da var; bunları Claude Code çağırır, sizin çalıştırmanız gerekmez.</p>
+    </section>
+
+    <section id="yapilandirma">
+      <h2><span class="n">15</span>Yapılandırma</h2>
+      <p>Legion tüm projeler için <code>~/.config/legion/config.toml</code>, tek bir proje için <code>.legion/config.toml</code> dosyasını okur; proje ayarları önceliklidir. <code>legion init</code> açıklamalı bir proje dosyası yazar. Tüm ayarlar isteğe bağlıdır:</p>
+      <pre><code>base_branch = "main"        <span class="c"># oturumlar bu daldan ayrılır ve buna birleşir</span>
+branch_prefix = "legion/"   <span class="c"># oturum dalları legion/&lt;ad&gt;</span>
+max_sessions = 8            <span class="c"># aynı anda en fazla bu kadar çalışır</span>
+<span class="c"># default_agent = "claude"</span>
+
+[keys]
+prefix = "ctrl+\\, ctrl+4"  <span class="c"># virgülle birden fazla; bkz. legion keytest</span>
+
+[claude]
+command = "claude"
+<span class="c"># permission_mode = "acceptEdits"   # default | acceptEdits | plan | auto | bypassPermissions</span>
+<span class="c"># extra_args = ["--model", "opus"]</span>
+
+[notify]
+bell = true
+desktop = true</code></pre>
+      <p>Legion Claude Code ayarlarınızı asla değiştirmez. Her oturuma hook'larını ve araçlarını komut satırından verir (<code>--settings</code>, <code>--mcp-config</code>); Claude'un yapılandırmasını yalnızca bir klasörün güvenilir olup olmadığını görmek için okur.</p>
+      <h3>Ortam değişkenleri</h3>
+      <div class="table-scroll"><table>
+        <tbody>
+          <tr><td><code>LEGION_NO_UPDATE_CHECK=1</code></td><td>Günlük güncelleme kontrolünü kapatır.</td></tr>
+          <tr><td><code>LEGION_HOME</code></td><td>Legion'ın makine genelindeki verilerinin yeri (varsayılan <code>~/.legion</code>).</td></tr>
+          <tr><td><code>LEGION_VERSION</code>, <code>LEGION_BIN_DIR</code></td><td>Kurulum betiği için: hangi sürüm, nereye kurulacak.</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="dosyalar">
+      <h2><span class="n">16</span>Dosyalar nerede</h2>
+      <div class="table-scroll"><table>
+        <tbody>
+          <tr><td><code>~/.local/bin/legion</code></td><td>Program.</td></tr>
+          <tr><td><code>&lt;proje&gt;/.legion/config.toml</code></td><td>Proje ayarları.</td></tr>
+          <tr><td><code>&lt;proje&gt;/.legion/state.db</code></td><td>Oturumlar, görevler, kilitler ve olay günlüğü (SQLite).</td></tr>
+          <tr><td><code>&lt;proje&gt;/.legion/worktrees/&lt;ad&gt;</code></td><td>Her oturumun çalışma klasörü.</td></tr>
+          <tr><td><code>&lt;proje&gt;/.legion/logs/</code></td><td>Günlükler.</td></tr>
+          <tr><td><code>~/.legion/projects.json</code></td><td><code>legion projects</code> listesinin kaynağı.</td></tr>
+          <tr><td><code>~/.legion/run/</code></td><td>CLI'ın ve hook'ların çalışan Legion'la konuştuğu soketler.</td></tr>
+          <tr><td><code>~/.legion/update-check.json</code></td><td>Güncelleme kontrolünün en son ne zaman çalıştığı ve ne bulduğu.</td></tr>
+        </tbody>
+      </table></div>
+      <p><code>.legion/</code>, <code>.git/info/exclude</code> içinde listelidir; git ve çoğu araç onu yok sayar. Claude Code'un kendisinin gönderdikleri ve günlük sürüm kontrolü dışında makinenizden hiçbir şey çıkmaz.</p>
+    </section>
+
+    <section id="sorunlar">
+      <h2><span class="n">17</span>Sorun giderme</h2>
+      <p>Önce <code>legion doctor</code> çalıştırın; çoğu sorunu yakalar ve nasıl düzeltileceğini söyler.</p>
+      <dl class="faq">
+        <dt>Her yeni oturum klasöre güvenip güvenmediğimi soruyor.</dt>
+        <dd>Projenin ana klasöründe bir kez <code>claude</code> çalıştırıp “Yes, I trust this folder” deyin. Worktree'ler bu cevabı miras alır.</dd>
+        <dt>Önek tuşu hiçbir şey yapmıyor.</dt>
+        <dd><code>legion keytest</code> çalıştırıp <kbd>Ctrl</kbd>+<kbd>\</kbd>'e basın. Hiçbir şey ya da başka bir şey çıkıyorsa terminaliniz veya klavye düzeniniz bu tuşu göndermiyor. <kbd>Ctrl</kbd>+<kbd>4</kbd>'ü deneyin ya da <code>keytest</code>'in gösterdiği tuşu <code>[keys] prefix</code>'e yazın.</dd>
+        <dt>“is Legion already running for this project?”</dt>
+        <dd>Bu proje için başka bir terminal penceresinde Legion açık. Onu kullanın ya da önce kapatın.</dd>
+        <dt>“branch has no commits yet”</dt>
+        <dd>Oturumlar bir commit'ten ayrılır. <code>legion init</code> çalıştırın (ilk commit'i o yapar) ya da kendiniz bir şey commit edin.</dd>
+        <dt>Birleştirme commit edilmemiş değişiklikler yüzünden reddediliyor.</dt>
+        <dd>Ana klasörünüzde temel dalda commit edilmemiş iş var. Commit edin ya da stash'leyin, sonra tekrar birleştirin. Legion, işiniz birleştirmeye karışmasın diye reddeder.</dd>
+        <dt>Bir oturum yanlış durum gösteriyor.</dt>
+        <dd>Durumlar Claude Code hook'larından gelir. Claude Code'u güncelledikten sonra tuhaf görünüyorsa <code>legion doctor</code> Legion'ın hangi Claude sürümüyle test edildiğini gösterir. Takılan bir turu kesmek için panelde <kbd>Esc</kbd>'ye basın.</dd>
+        <dt><code>legion update</code> “permission denied” veriyor.</dt>
+        <dd>Programın bulunduğu klasöre yazma izniniz yok; örneğin <code>/usr/local/bin</code>'e kurduysanız. Kurulum komutunu aynı <code>LEGION_BIN_DIR</code> ile, gerekirse <code>sudo</code> ile yeniden çalıştırın.</dd>
+        <dt>Bir oturumun, ana klasörümde commit edilmemiş bir şeye ihtiyacı var.</dt>
+        <dd>Oturumlar yalnızca commit edilmiş kodu görür. Temel dalınızda commit edin; yeni oturumlarda olur, var olanlar da üzerine merge ya da rebase yapabilir.</dd>
+      </dl>
+    </section>
+
+    <section id="kaldirma">
+      <h2><span class="n">18</span>Kaldırma</h2>
+      <pre><code><span class="p">$ </span>rm ~/.local/bin/legion
+<span class="p">$ </span>rm -rf ~/.legion
+<span class="c"># her projede, saklamak istediğiniz işi birleştirdikten ya da kaydettikten sonra:</span>
+<span class="p">$ </span>rm -rf .legion &amp;&amp; git worktree prune
+<span class="p">$ </span>git branch --list 'legion/*'        <span class="c"># oturum dalları; gerekmeyenleri silin</span></code></pre>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">Legion · <a href="../">Ana sayfa</a> · <a href="https://github.com/bagsiz/legion-site/releases">Sürümler</a> · <a href="https://github.com/bagsiz/legion-site/blob/main/LICENSE.txt">Lisans</a></div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="Sayfanın başına dön"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+<script>
+(() => {
+  const links = [...document.querySelectorAll('.toc a')];
+  const byId = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+  const spy = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      links.forEach(a => a.classList.remove('on'));
+      byId.get(e.target.id)?.classList.add('on');
+    }
+  }, { rootMargin: '-90px 0px -70% 0px' });
+  document.querySelectorAll('main section[id]').forEach(s => spy.observe(s));
+
+  const toTop = document.getElementById('to-top');
+  const onScroll = () => toTop.classList.toggle('show', window.scrollY > 600);
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  toTop.addEventListener('click', () => {
+    const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
+    document.querySelector('.wordmark')?.focus({ preventScroll: true });
+  });
+})();
+</script>
+
+</body>
+</html>

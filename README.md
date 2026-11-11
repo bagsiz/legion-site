@@ -2,7 +2,7 @@
 
 Run several Claude Code sessions side by side in one terminal, each in its own git worktree and branch — with a shared task board, a commander session that splits big goals into tasks, inter-session messages and file locks, and diff/merge with conflict warnings.
 
-Site: https://bagsiz.github.io/legion-site/
+Site: https://bagsiz.github.io/legion-site/ · Docs: https://bagsiz.github.io/legion-site/docs/
 
 ## Install (macOS, Linux)
 

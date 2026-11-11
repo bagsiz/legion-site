@@ -36,3 +36,4 @@ install -m 0755 "$tmp/legion" "$BIN_DIR/legion"
 echo "Installed $BIN_DIR/legion ($("$BIN_DIR/legion" --version))"
 case ":$PATH:" in *":$BIN_DIR:"*) ;; *) echo "Add $BIN_DIR to your PATH to run legion.";; esac
 echo "Next: cd into your project and run 'legion'. Later, 'legion update' keeps it current."
+echo "Docs: https://bagsiz.github.io/legion-site/docs/"
