@@ -1,5 +1,1 @@
-{
-  "version": "v0.1.17",
-  "en": {"text": "Shift+Enter adds a new line inside Claude panes too", "href": "docs/#keys"},
-  "tr": {"text": "Shift+Enter artık Claude panellerinin içinde de yeni satır açar", "href": "docs/#tuslar"}
-}
+{"version":"v0.1.18","en":{"text":"Uses far less CPU and battery: busy panes are redrawn at a calm pace, and almost not at all while the window is in the background","href":"docs/#keys"},"tr":{"text":"Çok daha az işlemci ve pil harcar: meşgul paneller sakin bir hızda, pencere arka plandayken neredeyse hiç çizilmez","href":"docs/#tuslar"}}
