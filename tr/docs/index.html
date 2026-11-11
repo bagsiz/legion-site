@@ -160,6 +160,13 @@
       <p>Birden fazla soru sıraya girer ve tek tek gösterilir. Pencereyi kapatmak için <a href="#yapilandirma"><code>[notify]</code></a> altında <code>dialogs = false</code>; o zaman oturumlar her zamanki gibi kendi panellerinde sorar.</p>
       <h3>Durum çubuğu</h3>
       <p>En alttaki satırda proje adı ve her durumda kaç oturum olduğu görünür. Sağ tarafta son işlemle ilgili kısa bir mesaj, önek basılıyken komut listesi ya da yardımın nasıl açılacağı yazar. İki oturum ilginizi beklediğinde terminal penceresinin başlığı <code>(2) legion · myapp</code> olur.</p>
+      <h3 id="akis">Takipte kalmak: akış paneli ve özetler</h3>
+      <p>Oturumlar birbirleriyle çok konuştuğunda neler olduğunu kaçırmak kolaydır. Üç şey bunları tek yerde toplar:</p>
+      <ul>
+        <li><strong>Akış paneli</strong> (önek <kbd>f</kbd>): sağda açılan bir panel. Oturumlar arası her mesajı (<code>commander → api</code>), sizin gönderdiğiniz mesajları, görev atamalarını, son mesajıyla biten turları, soruları, birleştirme önerilerini, birleştirmeleri ve dosya kilitlerini sırasıyla listeler. <kbd>↑</kbd> <kbd>↓</kbd> ile seçip <kbd>Enter</kbd> ile o oturuma gidersiniz. Panel kapalıyken durum çubuğu yeni kayıtları sayar.</li>
+        <li><strong>Her panelde son mesaj</strong>: panelin alt kenarında o oturumun aldığı son mesaj ve kimden geldiği 30 dakika boyunca görünür, örneğin <code>← commander: 429 için test ekle</code>.</li>
+        <li><strong>Ne oldu?</strong> (önek <kbd>i</kbd>): oturum başına özet (biten turlar ve son mesajları, kimden kaç mesaj geldiği, birleştirmeler) ve sizi bekleyenler: açık sorular, birleştirme önerisi, incelemeye hazır görevler. Terminale beş dakika ya da daha uzun aradan sonra döndüğünüzde bir şey olduysa “While you were away” başlığıyla kendiliğinden açılır. Legion'ın kendi kaydından üretilir; anında gelir, token harcamaz.</li>
+      </ul>
       <h3>Bildirimler</h3>
       <p>Bir oturum onay istediğinde ya da bitirdiğinde Legion terminal zilini çalar ve masaüstü bildirimi gösterir. iTerm2, Ghostty, WezTerm ve kitty'de bildirim terminalin kendisinden gelir; tıklayınca terminal öne gelir. Diğer terminallerde macOS'ta <code>terminal-notifier</code> (<code>brew install terminal-notifier</code>), Linux'ta <code>notify-send</code> kullanılır; bunlar yoksa yalnızca zil çalar. Hangisinin kullanıldığını <code>legion doctor</code> gösterir. Legion öndeyken baktığınız panel için bildirim gelmez. İkisi de <a href="#yapilandirma"><code>[notify]</code></a> altından kapatılabilir.</p>
     </section>
@@ -177,6 +184,8 @@
           <tr><td><kbd>z</kbd></td><td>Büyüt: odaktaki panel tüm ekranı kaplar. Tekrar basınca ızgaraya döner.</td></tr>
           <tr><td><kbd>t</kbd></td><td><a href="#gorevler">Görev panosunu</a> açar ya da kapatır.</td></tr>
           <tr><td><kbd>a</kbd></td><td>Panoyu açmadan görev ekler.</td></tr>
+          <tr><td><kbd>f</kbd></td><td><a href="#akis">Akış panelini</a> açar ya da kapatır.</td></tr>
+          <tr><td><kbd>i</kbd></td><td><a href="#akis">Ne oldu?</a> En son baktığınızdan beri olanların kısa özeti.</td></tr>
           <tr><td><kbd>d</kbd></td><td>Odaktaki oturumu <a href="#inceleme">inceler</a>: diff, commit, merge.</td></tr>
           <tr><td><kbd>b</kbd></td><td>Tüm oturumlara <a href="#broadcast">mesaj gönderir</a>.</td></tr>
           <tr><td><kbd>C</kbd> (büyük harf)</td><td><a href="#komutan">Komutanı</a> açar ya da bir hedef vererek başlatır.</td></tr>
