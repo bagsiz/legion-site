@@ -132,6 +132,12 @@
       <p>Legion never does this in your home directory or in <code>/</code>. <code>legion init</code> does the same setup without opening the interface.</p>
       <p>Now press <kbd>Ctrl</kbd>+<kbd>\</kbd> and then <kbd>n</kbd>, give the session a name and a first prompt, and it starts in its own pane. Start a second one the same way and the screen splits.</p>
       <div class="note"><p><b>Why trust the folder first?</b> Claude Code asks whether you trust a folder the first time it runs there. It remembers the answer for the main repository, and all of Legion's worktrees inherit it. If you skip this step, every new session asks again. <code>legion doctor</code> tells you if the folder is not trusted yet.</p></div>
+      <h3 id="profile">Several Claude accounts</h3>
+      <p>If you keep a second Claude Code account in its own config folder (for example an alias like <code>CLAUDE_CONFIG_DIR=~/.claude-personal claude</code>), start Legion with <code>--profile</code>:</p>
+      <pre><code>legion --profile personal     <span class="c"># ~/.claude-personal</span>
+legion --profile ~/work/.claude  <span class="c"># any CLAUDE_CONFIG_DIR folder</span>
+legion                        <span class="c"># the default account</span></code></pre>
+      <p>New sessions run under that account and the status bar shows it (<code>◆ personal</code>). Each session remembers its account: it always resumes under the account it was started with, whatever you pass next time. Claude Code asks once per account whether to trust the project folder.</p>
     </section>
 
     <section id="screen">

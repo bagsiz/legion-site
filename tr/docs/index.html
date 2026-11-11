@@ -132,6 +132,12 @@
       <p>Legion bunu ev klasörünüzde ya da <code>/</code> içinde asla yapmaz. <code>legion init</code> aynı hazırlığı arayüzü açmadan yapar.</p>
       <p>Şimdi <kbd>Ctrl</kbd>+<kbd>\</kbd> sonra <kbd>n</kbd>'ye basın, oturuma bir ad ve ilk prompt verin; kendi panelinde başlar. İkincisini de aynı şekilde açın, ekran ikiye bölünür.</p>
       <div class="note"><p><b>Neden önce klasöre güvenmek gerekiyor?</b> Claude Code bir klasörde ilk kez çalışırken o klasöre güvenip güvenmediğinizi sorar. Cevabı ana depo için hatırlar ve Legion'ın tüm worktree'leri bu cevabı miras alır. Bu adımı atlarsanız her yeni oturum tekrar sorar. <code>legion doctor</code> klasör henüz güvenilir değilse söyler.</p></div>
+      <h3 id="profil">Birden fazla Claude hesabı</h3>
+      <p>İkinci bir Claude Code hesabını kendi ayar klasöründe tutuyorsanız (ör. <code>CLAUDE_CONFIG_DIR=~/.claude-personal claude</code> gibi bir alias), Legion'ı <code>--profile</code> ile başlatın:</p>
+      <pre><code>legion --profile personal     <span class="c"># ~/.claude-personal</span>
+legion --profile ~/is/.claude    <span class="c"># herhangi bir CLAUDE_CONFIG_DIR klasörü</span>
+legion                        <span class="c"># varsayılan hesap</span></code></pre>
+      <p>Yeni oturumlar o hesapla açılır, durum çubuğunda görünür (<code>◆ personal</code>). Her oturum kendi hesabını hatırlar: bir dahaki sefere ne verirseniz verin, açıldığı hesapla devam eder. Claude Code proje klasörüne güvenip güvenmediğinizi her hesap için bir kez sorar.</p>
     </section>
 
     <section id="ekran">
