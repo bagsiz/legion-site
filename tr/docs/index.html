@@ -145,7 +145,7 @@
           <tr><td><span class="st idle">○ idle</span></td><td>Hazır, prompt bekliyor.</td></tr>
           <tr><td><span class="st run">● running</span></td><td>Çalışıyor: düşünüyor, dosya okuyor, araç çalıştırıyor.</td></tr>
           <tr><td><span class="st appr">◆ approval</span></td><td>Bir düzenleme ya da komut için onayınızı bekliyor. Zil çalar, masaüstü bildirimi gelir.</td></tr>
-          <tr><td><span class="st done">✓ done</span></td><td>Turunu bitirdi. Zil çalar, bildirim gelir.</td></tr>
+          <tr><td><span class="st done">✓ done</span></td><td>Turunu bitirdi. Panel çerçevesi yanar; zil ve bildirim tüm oturumlar bitene kadar bekler (aşağıya bakın).</td></tr>
           <tr><td><span class="st err">✗ error</span></td><td>Tur başarısız oldu, örneğin bir API hatası yüzünden.</td></tr>
           <tr><td><span class="st quiet">■ stopped</span></td><td>Süreç çalışmıyor. Worktree'si ve konuşması duruyor; devam ettirmek için panelde <kbd>r</kbd> ya da <kbd>Enter</kbd>.</td></tr>
           <tr><td><span class="st quiet">☾ asleep</span></td><td>Legion süreci pil için durdurdu: turu bitmişti, <code>idle_sleep</code> süresince (varsayılan 15 dakika) hiçbir şey olmadı ve ona bakmıyordunuz. Komutan ve odaktaki panel hiç uyumaz. Bir mesaj, görev ya da broadcast geldiğinde veya panelde <kbd>Enter</kbd>'a bastığınızda konuşmasıyla birlikte uyanır.</td></tr>
@@ -168,8 +168,8 @@
         <li><strong>Her panelde son mesaj</strong>: panelin alt kenarında o oturumun aldığı son mesaj ve kimden geldiği 30 dakika boyunca görünür, örneğin <code>← commander: 429 için test ekle</code>.</li>
         <li><strong>Ne oldu?</strong> (önek <kbd>i</kbd>): oturum başına özet (biten turlar ve son mesajları, kimden kaç mesaj geldiği, birleştirmeler) ve sizi bekleyenler: açık sorular, birleştirme önerisi, incelemeye hazır görevler. Terminale beş dakika ya da daha uzun aradan sonra döndüğünüzde bir şey olduysa “While you were away” başlığıyla kendiliğinden açılır. Legion'ın kendi kaydından üretilir; anında gelir, token harcamaz.</li>
       </ul>
-      <h3>Bildirimler</h3>
-      <p>Bir oturum onay istediğinde ya da bitirdiğinde Legion terminal zilini çalar ve masaüstü bildirimi gösterir. iTerm2, Ghostty, WezTerm ve kitty'de bildirim terminalin kendisinden gelir; tıklayınca terminal öne gelir. Diğer terminallerde macOS'ta <code>terminal-notifier</code> (<code>brew install terminal-notifier</code>), Linux'ta <code>notify-send</code> kullanılır; bunlar yoksa yalnızca zil çalar. Hangisinin kullanıldığını <code>legion doctor</code> gösterir. Legion öndeyken baktığınız panel için bildirim gelmez. İkisi de <a href="#yapilandirma"><code>[notify]</code></a> altından kapatılabilir.</p>
+      <h3 id="bildirimler">Bildirimler</h3>
+      <p>Bir oturum onay istediğinde ya da soru sorduğunda Legion terminal zilini hemen çalar ve masaüstü bildirimi gösterir. Biten turlar ise toplanır: hiçbir oturum çalışmıyorsa ve yaklaşık 20 saniye sakin kalındıysa <em>tek</em> bir bildirim gelir, ör. “All sessions finished: api ✓, web ✓, auth ✗”. Legion öndeyken masaüstü bildirimi gönderilmez. iTerm2, Ghostty, WezTerm ve kitty'de bildirim terminalin kendisinden gelir; tıklayınca terminal öne gelir. Diğer terminallerde macOS'ta <code>terminal-notifier</code> (<code>brew install terminal-notifier</code>), Linux'ta <code>notify-send</code> kullanılır; bunlar yoksa yalnızca zil çalar. Hangisinin kullanıldığını <code>legion doctor</code> gösterir. Legion öndeyken baktığınız panel için bildirim gelmez. İkisi de <a href="#yapilandirma"><code>[notify]</code></a> altından kapatılabilir.</p>
     </section>
 
     <section id="tuslar">

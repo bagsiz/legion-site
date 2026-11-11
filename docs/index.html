@@ -145,7 +145,7 @@
           <tr><td><span class="st idle">○ idle</span></td><td>Ready and waiting for a prompt.</td></tr>
           <tr><td><span class="st run">● running</span></td><td>Working: thinking, reading files, running tools.</td></tr>
           <tr><td><span class="st appr">◆ approval</span></td><td>Waiting for you to approve something, such as an edit or a command. You get a bell and a desktop notification.</td></tr>
-          <tr><td><span class="st done">✓ done</span></td><td>Finished its turn. You get a bell and a notification.</td></tr>
+          <tr><td><span class="st done">✓ done</span></td><td>Finished its turn. The pane border lights up; the bell and notification wait until every session is done (see below).</td></tr>
           <tr><td><span class="st err">✗ error</span></td><td>The turn failed, for example because of an API error.</td></tr>
           <tr><td><span class="st quiet">■ stopped</span></td><td>The process is not running. Its worktree and conversation are kept; press <kbd>r</kbd> or <kbd>Enter</kbd> in the pane to resume.</td></tr>
           <tr><td><span class="st quiet">☾ asleep</span></td><td>Legion stopped the process to save battery: its turn was over, nothing happened for <code>idle_sleep</code> (15 minutes by default) and you were not looking at it. The commander and the focused pane never sleep. It wakes with its conversation when it gets a message, a task or a broadcast, or when you press <kbd>Enter</kbd> in the pane.</td></tr>
@@ -168,8 +168,8 @@
         <li><strong>Latest message on each pane</strong>: the bottom border of a pane shows the last message that session received and who sent it, for example <code>← commander: add a test for 429</code>, for 30 minutes.</li>
         <li><strong>What happened</strong> (prefix <kbd>i</kbd>): a summary per session (finished turns and their last message, messages received and from whom, merges) plus what is waiting for you: open questions, a merge proposal, tasks ready for review. When you come back to the terminal after five minutes or more and something happened, it opens by itself as “While you were away”. It is built from Legion's own log, so it is instant and uses no tokens.</li>
       </ul>
-      <h3>Notifications</h3>
-      <p>When a session needs approval or finishes, Legion rings the terminal bell and shows a desktop notification. In iTerm2, Ghostty, WezTerm and kitty the notification comes from the terminal itself, and clicking it brings the terminal to the front. In other terminals Legion uses <code>terminal-notifier</code> on macOS (<code>brew install terminal-notifier</code>) or <code>notify-send</code> on Linux; without them you get the bell only. <code>legion doctor</code> shows which one is used. Nothing is sent for the pane you are looking at while Legion is in the foreground. Both can be switched off under <a href="#config"><code>[notify]</code></a>.</p>
+      <h3 id="notifications">Notifications</h3>
+      <p>When a session needs approval or asks a question, Legion rings the terminal bell and shows a desktop notification right away. Finished turns are collected instead: once no session is working any more and things have stayed quiet for about 20 seconds, you get <em>one</em> notification, such as “All sessions finished: api ✓, web ✓, auth ✗”. The desktop notification is skipped while Legion is in the foreground. In iTerm2, Ghostty, WezTerm and kitty the notification comes from the terminal itself, and clicking it brings the terminal to the front. In other terminals Legion uses <code>terminal-notifier</code> on macOS (<code>brew install terminal-notifier</code>) or <code>notify-send</code> on Linux; without them you get the bell only. <code>legion doctor</code> shows which one is used. Nothing is sent for the pane you are looking at while Legion is in the foreground. Both can be switched off under <a href="#config"><code>[notify]</code></a>.</p>
     </section>
 
     <section id="keys">

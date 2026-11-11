@@ -1,1 +1,1 @@
-{"version":"v0.1.19","en":{"text":"Even less battery: idle sessions sleep and wake on a message, Claude's animations are off in Legion's panes","href":"docs/#config"},"tr":{"text":"Daha da az pil: boştaki oturumlar uyur ve mesajla uyanır, Legion panellerinde Claude animasyonları kapalı","href":"docs/#yapilandirma"}}
+{"version":"v0.1.20","en":{"text":"One notification when all sessions are done, instead of one per finished turn","href":"docs/#notifications"},"tr":{"text":"Her biten tur için değil, tüm oturumlar bitince tek bildirim","href":"docs/#bildirimler"}}
