@@ -182,7 +182,7 @@
           <tr><td><kbd>←</kbd> <kbd>↑</kbd> <kbd>↓</kbd> <kbd>→</kbd> veya <kbd>h</kbd> <kbd>j</kbd> <kbd>k</kbd> <kbd>l</kbd></td><td>Odağı o yöndeki panele taşır.</td></tr>
           <tr><td><kbd>1</kbd> … <kbd>9</kbd></td><td>O numaralı oturuma odaklanır.</td></tr>
           <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Sonraki / önceki oturum.</td></tr>
-          <tr><td><kbd>z</kbd></td><td>Büyüt: odaktaki panel tüm ekranı kaplar. Tekrar basınca ızgaraya döner.</td></tr>
+          <tr><td><kbd>z</kbd></td><td>Büyüt: odaktaki panel tüm ekranı kaplar. Tekrar basınca ızgaraya döner. Fareyle: panele çift tıklayın ya da başlığının sağ ucundaki <strong>⤢</strong> butonuna tıklayın (<strong>⤡</strong> geri küçültür).</td></tr>
           <tr><td><kbd>t</kbd></td><td><a href="#gorevler">Görev panosunu</a> açar ya da kapatır.</td></tr>
           <tr><td><kbd>a</kbd></td><td>Panoyu açmadan görev ekler.</td></tr>
           <tr><td><kbd>f</kbd></td><td><a href="#akis">Akış panelini</a> açar ya da kapatır.</td></tr>
@@ -200,7 +200,7 @@
         </tbody>
       </table></div>
       <h3 id="fare">Fare</h3>
-      <p>Bir panelin üzerinde tekerleği çevirerek o oturumun geçmişinde yukarı aşağı gezinirsiniz; kaydırma doğrudan Claude Code'a gider, normal bir terminaldeki gibi çalışır. Bir panele tıklamak ona odaklanır. Tekerlek incelemede, görev panosunda ve akış panelinde de kaydırır. Fareyle metin seçmek için sürüklerken <kbd>Option</kbd> (iTerm2) ya da <kbd>Shift</kbd> (diğer çoğu terminal) tuşuna basılı tutun. Fareyi terminale bırakmak isterseniz <code>[keys]</code> altında <code>mouse = false</code>.</p>
+      <p>Bir panelin üzerinde tekerleği çevirerek o oturumun geçmişinde yukarı aşağı gezinirsiniz; kaydırma doğrudan Claude Code'a gider, normal bir terminaldeki gibi çalışır. Bir panele tıklamak ona odaklanır; çift tıklamak (ya da ⤢ butonu) onu büyütür. Tekerlek incelemede, görev panosunda ve akış panelinde de kaydırır. Fareyle metin seçmek için sürüklerken <kbd>Option</kbd> (iTerm2) ya da <kbd>Shift</kbd> (diğer çoğu terminal) tuşuna basılı tutun. Fareyi terminale bırakmak isterseniz <code>[keys]</code> altında <code>mouse = false</code>.</p>
       <p>Legion'ın açtığı pencerelerde <kbd>Enter</kbd> adımı onaylar, <kbd>Esc</kbd> iptal eder; prompt, görev açıklaması, broadcast ve komutan hedefi kutularında <kbd>Shift</kbd>+<kbd>Enter</kbd> (ya da <kbd>Ctrl</kbd>+<kbd>J</kbd>) yeni satır açar; evet/hayır sorularında ipucunda yazan harfler (<kbd>y</kbd>, <kbd>n</kbd>, …) seçer.</p>
       <h3><kbd>Ctrl</kbd>+<kbd>\</kbd> klavyenizde zorsa</h3>
       <p>Türkçe ve birçok US dışı klavyede ters bölüye ulaşmak zordur. <kbd>Ctrl</kbd>+<kbd>4</kbd> aynı sinyali gönderir ve hiçbir ayar yapmadan önek olarak çalışır. Başka bir tuş kullanmak için <code>legion keytest</code> çalıştırın, istediğiniz tuşa basın ve yazdığı adı <code>.legion/config.toml</code>'a koyun:</p>
@@ -293,7 +293,7 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># virgülle birden fazla önek</spa
       <ol>
         <li>Kodu okur ve hedefi, birbirine karışmadan paralel yapılabilecek görevlere böler.</li>
         <li>Görevleri panoya koyar ve her biri için bir işçi oturumu açar.</li>
-        <li>İşçiler bitirdiğinde ya da birleştirildiğinde otomatik haber alır. Bu güncellemeler toplanır: ortalık sakinleşip komutan boşa çıkınca tek bir kısa mesaj olarak gelir, böylece komutan paneli bildirimlerle dolmaz. Diff'i inceler, eksik varsa işçiye ek iş gönderir.</li>
+        <li>İşçiler bitirdiğinde ya da birleştirildiğinde otomatik haber alır. Bu güncellemeler toplanır: ortalık sakinleşip komutan boşa çıkınca tek bir kısa mesaj olarak gelir, böylece komutan paneli bildirimlerle dolmaz. İşçilerin komutana yazdığı raporlar da aynı toplu mesaja katılır; rapor yazmış bir işçi için ayrıca “turu bitti” bildirimi gelmez. Diff'i inceler, eksik varsa işçiye ek iş gönderir.</li>
         <li>Hazır dalları mantıklı bir sırayla tek bir <a href="#toplu">toplu birleştirme</a> önerisi olarak sunar; siz tek tuşla onaylarsınız. <strong>Kendi başına asla birleştirmez</strong>; karar sizde kalır.</li>
         <li>Bir işçiyi birleştirdiğinizde haber alır ve bitmiş işçilerin panellerini kapatır. Commit edilmemiş değişikliği olan işçi asla kapatılmaz; dalı da yalnızca tamamen birleştiyse silinir.</li>
       </ol>
