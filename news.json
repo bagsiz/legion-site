@@ -1,5 +1,5 @@
 {
-  "version": "v0.1.16",
-  "en": {"text": "Multi-line prompts: Shift+Enter adds a line in Legion's text boxes", "href": "docs/#keys"},
-  "tr": {"text": "Çok satırlı prompt: Legion'ın yazı kutularında Shift+Enter yeni satır açar", "href": "docs/#tuslar"}
+  "version": "v0.1.17",
+  "en": {"text": "Shift+Enter adds a new line inside Claude panes too", "href": "docs/#keys"},
+  "tr": {"text": "Shift+Enter artık Claude panellerinin içinde de yeni satır açar", "href": "docs/#tuslar"}
 }
