@@ -133,11 +133,10 @@
       <p>Şimdi <kbd>Ctrl</kbd>+<kbd>\</kbd> sonra <kbd>n</kbd>'ye basın, oturuma bir ad ve ilk prompt verin; kendi panelinde başlar. İkincisini de aynı şekilde açın, ekran ikiye bölünür.</p>
       <div class="note"><p><b>Neden önce klasöre güvenmek gerekiyor?</b> Claude Code bir klasörde ilk kez çalışırken o klasöre güvenip güvenmediğinizi sorar. Cevabı ana depo için hatırlar ve Legion'ın tüm worktree'leri bu cevabı miras alır. Bu adımı atlarsanız her yeni oturum tekrar sorar. <code>legion doctor</code> klasör henüz güvenilir değilse söyler.</p></div>
       <h3 id="profil">Birden fazla Claude hesabı</h3>
-      <p>İkinci bir Claude Code hesabını kendi ayar klasöründe tutuyorsanız (ör. <code>CLAUDE_CONFIG_DIR=~/.claude-personal claude</code> gibi bir alias), Legion'ı <code>--profile</code> ile başlatın:</p>
-      <pre><code>legion --profile personal     <span class="c"># ~/.claude-personal</span>
-legion --profile ~/is/.claude    <span class="c"># herhangi bir CLAUDE_CONFIG_DIR klasörü</span>
-legion                        <span class="c"># varsayılan hesap</span></code></pre>
-      <p>Yeni oturumlar o hesapla açılır, durum çubuğunda görünür (<code>◆ personal</code>). Her oturum kendi hesabını hatırlar: bir dahaki sefere ne verirseniz verin, açıldığı hesapla devam eder. Claude Code proje klasörüne güvenip güvenmediğinizi her hesap için bir kez sorar.</p>
+      <p>Diğer Claude Code hesabınızı bir alias ya da betikle açıyorsanız, ör. <code>alias claude-personal='CLAUDE_CONFIG_DIR=~/.claude-personal claude'</code>, Legion'a o adı verin:</p>
+      <pre><code>legion --claude claude-personal   <span class="c"># kabuğunuzdaki bir alias ya da PATH'teki bir komut</span>
+legion                            <span class="c"># düz claude, varsayılan hesap</span></code></pre>
+      <p>Legion alias'ı kabuğunuzdan (zsh ya da bash) okur ve yeni oturumları onun değişkenleri ve komutuyla başlatır. Durum çubuğunda görünür (<code>◆ claude-personal</code>). Her oturum nasıl başlatıldığını hatırlar ve bir dahaki sefere ne verirseniz verin hep aynı şekilde devam eder. Komut zincirleyen alias'lar (<code>&amp;&amp;</code>, <code>|</code>, <code>;</code>) kabul edilmez; onları PATH'teki küçük bir betiğe koyun. Claude Code proje klasörüne güvenip güvenmediğinizi her hesap için bir kez sorar.</p>
     </section>
 
     <section id="ekran">

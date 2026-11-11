@@ -133,11 +133,10 @@
       <p>Now press <kbd>Ctrl</kbd>+<kbd>\</kbd> and then <kbd>n</kbd>, give the session a name and a first prompt, and it starts in its own pane. Start a second one the same way and the screen splits.</p>
       <div class="note"><p><b>Why trust the folder first?</b> Claude Code asks whether you trust a folder the first time it runs there. It remembers the answer for the main repository, and all of Legion's worktrees inherit it. If you skip this step, every new session asks again. <code>legion doctor</code> tells you if the folder is not trusted yet.</p></div>
       <h3 id="profile">Several Claude accounts</h3>
-      <p>If you keep a second Claude Code account in its own config folder (for example an alias like <code>CLAUDE_CONFIG_DIR=~/.claude-personal claude</code>), start Legion with <code>--profile</code>:</p>
-      <pre><code>legion --profile personal     <span class="c"># ~/.claude-personal</span>
-legion --profile ~/work/.claude  <span class="c"># any CLAUDE_CONFIG_DIR folder</span>
-legion                        <span class="c"># the default account</span></code></pre>
-      <p>New sessions run under that account and the status bar shows it (<code>◆ personal</code>). Each session remembers its account: it always resumes under the account it was started with, whatever you pass next time. Claude Code asks once per account whether to trust the project folder.</p>
+      <p>If you start your other Claude Code account with an alias or a script, for example <code>alias claude-personal='CLAUDE_CONFIG_DIR=~/.claude-personal claude'</code>, give Legion that name:</p>
+      <pre><code>legion --claude claude-personal   <span class="c"># an alias in your shell, or a command on PATH</span>
+legion                            <span class="c"># plain claude, the default account</span></code></pre>
+      <p>Legion reads the alias from your shell (zsh or bash) and starts new sessions with its variables and command. The status bar shows it (<code>◆ claude-personal</code>). Each session remembers how it was started and always resumes the same way, whatever you pass next time. Aliases that chain commands (<code>&amp;&amp;</code>, <code>|</code>, <code>;</code>) are refused; put those in a small script on your PATH instead. Claude Code asks once per account whether to trust the project folder.</p>
     </section>
 
     <section id="screen">
