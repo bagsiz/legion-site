@@ -198,6 +198,8 @@
           <tr><td>the prefix again</td><td>Send <kbd>Ctrl</kbd>+<kbd>\</kbd> itself to the session.</td></tr>
         </tbody>
       </table></div>
+      <h3 id="mouse">Mouse</h3>
+      <p>Scroll with the wheel over any pane to move through that session's history; Claude Code gets the scroll directly, so it works just like in a normal terminal. Clicking a pane focuses it. The wheel also scrolls the review, the task board and the activity feed. To select text with the mouse, hold <kbd>Option</kbd> (iTerm2) or <kbd>Shift</kbd> (most other terminals) while dragging. If you prefer the terminal to keep the mouse, set <code>mouse = false</code> under <code>[keys]</code>.</p>
       <p>In the dialogs Legion opens, <kbd>Enter</kbd> confirms a step, <kbd>Esc</kbd> cancels, and in yes/no questions the letters shown in the hint (<kbd>y</kbd>, <kbd>n</kbd>, …) choose.</p>
       <h3>If <kbd>Ctrl</kbd>+<kbd>\</kbd> is awkward on your keyboard</h3>
       <p>On Turkish and many other non-US layouts the backslash is hard to reach. <kbd>Ctrl</kbd>+<kbd>4</kbd> sends the same signal and works as the prefix out of the box. To use something else, run <code>legion keytest</code>, press the key you want and copy the name it prints into <code>.legion/config.toml</code>:</p>
@@ -366,6 +368,7 @@ max_sessions = 8            <span class="c"># at most this many running at once<
 
 [keys]
 prefix = "ctrl+\\, ctrl+4"  <span class="c"># comma-separate several; see legion keytest</span>
+mouse = true                <span class="c"># wheel scrolls the pane under the pointer, click focuses</span>
 
 [claude]
 command = "claude"

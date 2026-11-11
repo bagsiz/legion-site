@@ -1,5 +1,5 @@
 {
-  "version": "v0.1.13",
-  "en": {"text": "Activity feed and “what happened” summaries keep you in the loop", "href": "docs/#activity"},
-  "tr": {"text": "Akış paneli ve “ne oldu?” özeti: oturumlar arası konuşmaları kaçırmazsın", "href": "docs/#akis"}
+  "version": "v0.1.14",
+  "en": {"text": "Scroll any pane with the mouse wheel; click to focus", "href": "docs/#mouse"},
+  "tr": {"text": "Fare tekerleğiyle her panelde yukarı kaydır, tıklayıp odaklan", "href": "docs/#fare"}
 }
