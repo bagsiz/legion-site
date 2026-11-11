@@ -150,6 +150,14 @@
           <tr><td><span class="st quiet">■ stopped</span></td><td>The process is not running. Its worktree and conversation are kept; press <kbd>r</kbd> or <kbd>Enter</kbd> in the pane to resume.</td></tr>
         </tbody>
       </table></div>
+      <h3 id="questions">Questions and permission requests</h3>
+      <p>When a session asks for permission (for example to run a command) or asks you a multiple-choice question, Legion shows it in a dialog in the middle of the screen, whichever pane you are looking at. The session is paused until you answer.</p>
+      <ul>
+        <li>Permission: <kbd>y</kbd> allow, <kbd>a</kbd> always allow (when Claude offers a rule), <kbd>n</kbd> deny, <kbd>g</kbd> answer in the pane instead.</li>
+        <li>Question: press the number of an option. For “type something else” or questions with several answers, <kbd>g</kbd> takes you to the pane.</li>
+        <li><kbd>Esc</kbd> also takes you to the pane. If you answer in the pane directly, the dialog closes by itself.</li>
+      </ul>
+      <p>Several questions queue up and are shown one after the other. Turn the dialog off with <code>dialogs = false</code> under <a href="#config"><code>[notify]</code></a>; sessions then ask in their own pane as usual.</p>
       <h3>Status bar</h3>
       <p>The bottom line shows the project name, how many sessions are in each status, and on the right either a short message about the last action, the list of prefix commands while the prefix is active, or a reminder of how to open help. The terminal window title shows <code>(2) legion · myapp</code> when two sessions need your attention.</p>
       <h3>Notifications</h3>
@@ -172,6 +180,7 @@
           <tr><td><kbd>d</kbd></td><td><a href="#review">Review</a> the focused session: diff, commit, merge.</td></tr>
           <tr><td><kbd>b</kbd></td><td><a href="#broadcast">Broadcast</a> a message to every session.</td></tr>
           <tr><td><kbd>C</kbd> (capital)</td><td>Open the <a href="#commander">commander</a>, or start one by giving it a goal.</td></tr>
+          <tr><td><kbd>M</kbd> (capital)</td><td>Open the commander's pending <a href="#batch">merge proposal</a>.</td></tr>
           <tr><td><kbd>s</kbd></td><td>Stop the focused session.</td></tr>
           <tr><td><kbd>r</kbd></td><td>Resume the focused session if it is stopped.</td></tr>
           <tr><td><kbd>x</kbd></td><td>Remove the focused session (asks first).</td></tr>
@@ -251,6 +260,8 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># several prefixes, comma-separated
         <li>If the base branch is not checked out, Legion creates the merge commit directly on the branch without touching any working folder.</li>
         <li>With “merge and remove”, the session is stopped first, and the branch is deleted only if it is fully merged.</li>
       </ul>
+      <h3 id="batch">Merging several at once</h3>
+      <p>When the <a href="#commander">commander</a> decides that several workers are ready, it proposes them as one batch, in the order they should go in. A dialog lists each session with its state (commits, whether it merges cleanly) and the commander's note. <kbd>y</kbd> merges them one by one, <kbd>r</kbd> merges and removes the sessions, <kbd>n</kbd> declines. Merging stops at the first session that cannot be merged, and the commander is told what happened. If you closed the dialog, prefix <kbd>M</kbd> opens it again.</p>
       <p>Same from the command line: <code>legion diff api --stat</code>, <code>legion merge api --commit --rm</code>.</p>
     </section>
 
@@ -271,10 +282,10 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># several prefixes, comma-separated
         <li>Reads the code and splits the goal into tasks that can be done in parallel without stepping on each other.</li>
         <li>Puts them on the task board and starts a worker session for each.</li>
         <li>Is told automatically when a worker finishes, with the worker's last message. It reviews the diff and sends follow-ups if something is missing.</li>
-        <li>Tells you which branches are ready and in what order to merge them. <strong>It never merges itself</strong>; merging stays your decision.</li>
+        <li>Proposes the ready branches as one <a href="#batch">batch merge</a> in a sensible order, which you approve with one key. <strong>It never merges on its own</strong>; merging stays your decision.</li>
         <li>Is told when you merge a worker, and closes finished workers' panes. A worker with uncommitted changes is never closed, and its branch is deleted only if fully merged.</li>
       </ol>
-      <p>There is one commander per project. Its tools: <code>create_task</code>, <code>assign_task</code>, <code>create_session</code>, <code>broadcast</code>, <code>session_status</code>, <code>get_diff</code>, <code>close_session</code>.</p>
+      <p>There is one commander per project. Its tools: <code>create_task</code>, <code>assign_task</code>, <code>create_session</code>, <code>broadcast</code>, <code>session_status</code>, <code>get_diff</code>, <code>propose_merge</code>, <code>close_session</code>.</p>
     </section>
 
     <section id="collaboration">
@@ -354,7 +365,8 @@ command = "claude"
 
 [notify]
 bell = true
-desktop = true</code></pre>
+desktop = true
+dialogs = true              <span class="c"># ask permission requests and questions in a dialog on the main screen</span></code></pre>
       <p>Legion never changes your Claude Code settings. It gives each session its hooks and tools on the command line (<code>--settings</code>, <code>--mcp-config</code>), and only reads Claude's config to see whether a folder is trusted.</p>
       <h3>Environment variables</h3>
       <div class="table-scroll"><table>

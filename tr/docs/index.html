@@ -150,6 +150,14 @@
           <tr><td><span class="st quiet">■ stopped</span></td><td>Süreç çalışmıyor. Worktree'si ve konuşması duruyor; devam ettirmek için panelde <kbd>r</kbd> ya da <kbd>Enter</kbd>.</td></tr>
         </tbody>
       </table></div>
+      <h3 id="sorular">Sorular ve izin istekleri</h3>
+      <p>Bir oturum izin istediğinde (örneğin bir komut çalıştırmak için) ya da size seçenekli bir soru sorduğunda, Legion bunu hangi panele bakıyor olursanız olun ekranın ortasında bir pencerede gösterir. Siz cevaplayana kadar oturum bekletilir.</p>
+      <ul>
+        <li>İzin: <kbd>y</kbd> izin ver, <kbd>a</kbd> hep izin ver (Claude bir kural önerdiyse), <kbd>n</kbd> reddet, <kbd>g</kbd> panelde cevapla.</li>
+        <li>Soru: seçeneğin numarasına basın. “Başka bir şey yaz” ya da birden fazla seçimli sorularda <kbd>g</kbd> sizi panele götürür.</li>
+        <li><kbd>Esc</kbd> de panele götürür. Doğrudan panelde cevaplarsanız pencere kendiliğinden kapanır.</li>
+      </ul>
+      <p>Birden fazla soru sıraya girer ve tek tek gösterilir. Pencereyi kapatmak için <a href="#yapilandirma"><code>[notify]</code></a> altında <code>dialogs = false</code>; o zaman oturumlar her zamanki gibi kendi panellerinde sorar.</p>
       <h3>Durum çubuğu</h3>
       <p>En alttaki satırda proje adı ve her durumda kaç oturum olduğu görünür. Sağ tarafta son işlemle ilgili kısa bir mesaj, önek basılıyken komut listesi ya da yardımın nasıl açılacağı yazar. İki oturum ilginizi beklediğinde terminal penceresinin başlığı <code>(2) legion · myapp</code> olur.</p>
       <h3>Bildirimler</h3>
@@ -172,6 +180,7 @@
           <tr><td><kbd>d</kbd></td><td>Odaktaki oturumu <a href="#inceleme">inceler</a>: diff, commit, merge.</td></tr>
           <tr><td><kbd>b</kbd></td><td>Tüm oturumlara <a href="#broadcast">mesaj gönderir</a>.</td></tr>
           <tr><td><kbd>C</kbd> (büyük harf)</td><td><a href="#komutan">Komutanı</a> açar ya da bir hedef vererek başlatır.</td></tr>
+          <tr><td><kbd>M</kbd> (büyük harf)</td><td>Komutanın bekleyen <a href="#toplu">birleştirme önerisini</a> açar.</td></tr>
           <tr><td><kbd>s</kbd></td><td>Odaktaki oturumu durdurur.</td></tr>
           <tr><td><kbd>r</kbd></td><td>Durmuşsa odaktaki oturumu devam ettirir.</td></tr>
           <tr><td><kbd>x</kbd></td><td>Odaktaki oturumu kaldırır (önce sorar).</td></tr>
@@ -251,6 +260,8 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># virgülle birden fazla önek</spa
         <li>Temel dal açık değilse Legion birleştirme commit'ini hiçbir çalışma klasörüne dokunmadan doğrudan dalda oluşturur.</li>
         <li>“Birleştir ve kaldır”da önce oturum durdurulur; dal yalnızca tamamen birleştiyse silinir.</li>
       </ul>
+      <h3 id="toplu">Birden fazlasını birlikte birleştirmek</h3>
+      <p><a href="#komutan">Komutan</a> birden fazla işçinin hazır olduğuna karar verince, bunları birleştirilmesi gereken sırayla tek bir öneri olarak sunar. Açılan pencerede her oturum durumuyla (commit sayısı, temiz birleşip birleşmediği) ve komutanın notuyla listelenir. <kbd>y</kbd> sırayla birleştirir, <kbd>r</kbd> birleştirip oturumları kaldırır, <kbd>n</kbd> reddeder. Birleştirilemeyen ilk oturumda durulur ve komutana ne olduğu bildirilir. Pencereyi kapattıysanız önek <kbd>M</kbd> yeniden açar.</p>
       <p>Komut satırından da aynısı: <code>legion diff api --stat</code>, <code>legion merge api --commit --rm</code>.</p>
     </section>
 
@@ -271,10 +282,10 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># virgülle birden fazla önek</spa
         <li>Kodu okur ve hedefi, birbirine karışmadan paralel yapılabilecek görevlere böler.</li>
         <li>Görevleri panoya koyar ve her biri için bir işçi oturumu açar.</li>
         <li>Bir işçi bitirdiğinde, işçinin son mesajıyla birlikte otomatik haber alır. Diff'i inceler, eksik varsa işçiye ek iş gönderir.</li>
-        <li>Hangi dalların hazır olduğunu ve hangi sırayla birleştirileceğini size söyler. <strong>Kendisi asla birleştirmez</strong>; birleştirme kararı sizde kalır.</li>
+        <li>Hazır dalları mantıklı bir sırayla tek bir <a href="#toplu">toplu birleştirme</a> önerisi olarak sunar; siz tek tuşla onaylarsınız. <strong>Kendi başına asla birleştirmez</strong>; karar sizde kalır.</li>
         <li>Bir işçiyi birleştirdiğinizde haber alır ve bitmiş işçilerin panellerini kapatır. Commit edilmemiş değişikliği olan işçi asla kapatılmaz; dalı da yalnızca tamamen birleştiyse silinir.</li>
       </ol>
-      <p>Her projede bir komutan olur. Araçları: <code>create_task</code>, <code>assign_task</code>, <code>create_session</code>, <code>broadcast</code>, <code>session_status</code>, <code>get_diff</code>, <code>close_session</code>.</p>
+      <p>Her projede bir komutan olur. Araçları: <code>create_task</code>, <code>assign_task</code>, <code>create_session</code>, <code>broadcast</code>, <code>session_status</code>, <code>get_diff</code>, <code>propose_merge</code>, <code>close_session</code>.</p>
     </section>
 
     <section id="isbirligi">
@@ -354,7 +365,8 @@ command = "claude"
 
 [notify]
 bell = true
-desktop = true</code></pre>
+desktop = true
+dialogs = true              <span class="c"># izin isteklerini ve soruları ana ekranda bir pencerede sor</span></code></pre>
       <p>Legion Claude Code ayarlarınızı asla değiştirmez. Her oturuma hook'larını ve araçlarını komut satırından verir (<code>--settings</code>, <code>--mcp-config</code>); Claude'un yapılandırmasını yalnızca bir klasörün güvenilir olup olmadığını görmek için okur.</p>
       <h3>Ortam değişkenleri</h3>
       <div class="table-scroll"><table>
