@@ -611,8 +611,7 @@ idle_after  = "4s"</pre>
 <pre id="install-cmds"><span class="p">$</span> curl -fsSL https://bagsiz.github.io/legion-site/install.sh | sh   <span class="c"># ~/.local/bin/legion</span>
 <span class="p">$</span> cd ~/code/myapp
 <span class="p">$</span> claude                   <span class="c"># once: "Yes, I trust this folder"</span>
-<span class="p">$</span> legion init              <span class="c"># sets up .legion/, hidden from git</span>
-<span class="p">$</span> legion                   <span class="c"># opens Legion; Ctrl+\ n starts a session</span></pre>
+<span class="p">$</span> legion                   <span class="c"># sets up git + .legion/ if needed, then opens; Ctrl+\ n starts a session</span></pre>
     <div class="cta-row"><button class="copy" type="button" data-copy="install-cmds">Copy commands</button><span style="color:var(--ink-2); font-size:var(--step--1)">If something is off, <code>legion doctor</code> checks dependencies and trust. To update, run the same command again.</span></div>
   </div>
 </section>
