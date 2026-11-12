@@ -1,1 +1,1 @@
-{"version":"v0.1.26","en":{"text":"Several Claude accounts: legion --claude claude-personal uses your own alias or command","href":"docs/#profile"},"tr":{"text":"Birden fazla Claude hesabı: legion --claude claude-personal kendi alias'ınızı ya da komutunuzu kullanır","href":"docs/#profil"}}
+{"version":"v0.1.27","en":{"text":"Tabs now read \"Legion - <project folder>\", so several Legion windows are easy to tell apart","href":"docs/"},"tr":{"text":"Sekmeler artık \"Legion - <proje klasörü>\" gösteriyor; birden fazla Legion penceresi kolayca ayırt edilir","href":"docs/"}}
