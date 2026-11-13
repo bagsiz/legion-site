@@ -247,7 +247,7 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># several prefixes, comma-separated
         </tbody>
       </table></div>
       <p>Task statuses follow the session: <code>todo</code> → <code>assigned</code> → <code>in_progress</code> while it works → <code>review</code> when it finishes → <code>merged</code> when you merge its branch, or <code>failed</code>.</p>
-      <p>If the session you assign to is busy, the prompt is queued and delivered as soon as it is idle. From the command line: <code>legion add "Fix the signup form" --to web</code>, <code>legion assign 3 api</code>, <code>legion ls</code>.</p>
+      <p>If the session you assign to is busy, the prompt is queued and delivered as soon as it is idle. Messages also wait while you are typing in that pane, so nothing lands in the middle of your text: they go once you send or clear it (or after 3 minutes without a keystroke). From the command line: <code>legion add "Fix the signup form" --to web</code>, <code>legion assign 3 api</code>, <code>legion ls</code>.</p>
     </section>
 
     <section id="review">

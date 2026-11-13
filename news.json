@@ -1,1 +1,1 @@
-{"version":"v0.1.27","en":{"text":"Tabs now read \"Legion - <project folder>\", so several Legion windows are easy to tell apart","href":"docs/"},"tr":{"text":"Sekmeler artık \"Legion - <proje klasörü>\" gösteriyor; birden fazla Legion penceresi kolayca ayırt edilir","href":"docs/"}}
+{"version":"v0.1.28","en":{"text":"Messages from other sessions no longer land in the middle of what you are typing: they wait until you send it","href":"docs/"},"tr":{"text":"Diğer oturumlardan gelen mesajlar artık yazdığınızın üstüne yazılmıyor: siz gönderene kadar bekliyor","href":"docs/"}}
