@@ -114,7 +114,7 @@
 <span class="p">$ </span>legion update --version v0.1.8   <span class="c"># install a specific release (also to go back)</span></code></pre>
       <p><code>legion update</code> downloads the release for your machine, verifies its checksum and replaces the binary you ran. If the checksum does not match, nothing is changed. A Legion window that is already open keeps running the old version until you quit and start it again; sessions pick up where they left off.</p>
       <h3>How you find out about new versions</h3>
-      <p>When Legion starts, it checks GitHub in the background for a newer release, at most once a day. If there is one, the status bar shows <code>v0.x.y available: legion update</code> on the right, and <code>legion doctor</code> shows it too. The check sends nothing about you or your projects. To turn it off, set <code>LEGION_NO_UPDATE_CHECK=1</code> in your shell profile.</p>
+      <p>Every time Legion starts, it checks GitHub in the background for a newer release. If there is one, a window asks what to do: <kbd>y</kbd> updates now (Legion downloads the release, checks its checksum, restarts in place and every session continues where it left off), <kbd>n</kbd> leaves it for later (the status bar keeps showing <code>v0.x.y available: legion update</code>), <kbd>s</kbd> skips that version until a newer one comes out. <code>legion doctor</code> mentions new releases too. The check sends nothing about you or your projects. To turn it off, set <code>LEGION_NO_UPDATE_CHECK=1</code> in your shell profile.</p>
       <div class="note"><p>Running the install command again also updates Legion; <code>legion update</code> is just quicker.</p></div>
     </section>
 

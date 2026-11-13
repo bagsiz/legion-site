@@ -114,7 +114,7 @@
 <span class="p">$ </span>legion update --version v0.1.8   <span class="c"># belirli bir sürümü kurar (geri dönmek için de)</span></code></pre>
       <p><code>legion update</code> makinenize uygun sürümü indirir, checksum'ını doğrular ve çalıştırdığınız programın yerine koyar. Checksum tutmazsa hiçbir şey değişmez. Açık olan bir Legion, siz kapatıp yeniden açana kadar eski sürümle çalışmaya devam eder; oturumlar kaldıkları yerden devam eder.</p>
       <h3>Yeni sürümden nasıl haberiniz olur</h3>
-      <p>Legion açılırken arka planda, günde en fazla bir kez GitHub'da yeni sürüm olup olmadığına bakar. Varsa durum çubuğunun sağında <code>v0.x.y available: legion update</code> yazar; <code>legion doctor</code> da gösterir. Bu kontrol sizinle ya da projelerinizle ilgili hiçbir şey göndermez. Kapatmak için kabuk profilinize <code>LEGION_NO_UPDATE_CHECK=1</code> ekleyin.</p>
+      <p>Legion her açılışta arka planda GitHub'da yeni sürüm olup olmadığına bakar. Varsa bir pencere ne yapılacağını sorar: <kbd>y</kbd> hemen günceller (Legion sürümü indirir, checksum'ını doğrular, kendini yeniden başlatır ve her oturum kaldığı yerden devam eder), <kbd>n</kbd> sonraya bırakır (durum çubuğunda <code>v0.x.y available: legion update</code> yazmaya devam eder), <kbd>s</kbd> o sürümü daha yenisi çıkana kadar atlar. <code>legion doctor</code> da yeni sürümleri gösterir. Bu kontrol sizinle ya da projelerinizle ilgili hiçbir şey göndermez. Kapatmak için kabuk profilinize <code>LEGION_NO_UPDATE_CHECK=1</code> ekleyin.</p>
       <div class="note"><p>Kurulum komutunu yeniden çalıştırmak da Legion'ı günceller; <code>legion update</code> sadece daha kısa.</p></div>
     </section>
 
