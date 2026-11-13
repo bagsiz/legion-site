@@ -141,7 +141,15 @@ legion                            <span class="c"># plain claude, the default ac
 
     <section id="screen">
       <h2><span class="n">05</span>The screen</h2>
-      <p>Sessions are laid out in a grid: one fills the screen, two sit side by side, four make a 2×2 grid, and so on. Each pane has a title with its number, name, status and what it is doing right now (for example <code>Bash: go test ./...</code>), and the branch at the bottom. The focused pane has a pink border; your typing goes there.</p>
+      <h3 id="layouts">Layouts</h3>
+      <p>Legion has three layouts. Switch with prefix <kbd>Space</kbd> or by clicking the <strong>▦</strong> button in the status bar; your choice is remembered per project (<code>.legion/ui.json</code>).</p>
+      <ul>
+        <li><strong>Main</strong> (the default when a commander runs): the commander fills a big pane on the left, the other sessions are stacked on the right. Sessions that do not fit the stack fold into one-line rows below it; click one (or focus it) to bring it into the stack. Prefix <kbd>Enter</kbd> puts the focused session in the main pane. Drag the border between the main pane and the stack, or press prefix <kbd>&lt;</kbd> / <kbd>&gt;</kbd>, to make the main pane narrower or wider.</li>
+        <li><strong>Grid</strong> (the default without a commander): one session fills the screen, two sit side by side, four make a 2×2 grid, and so on.</li>
+        <li><strong>Tabs</strong>: one session at a time, with a clickable tab strip on top.</li>
+      </ul>
+      <p>Neighbouring panes share one border line. Prefix <kbd>e</kbd> opens a <strong>session list</strong> on the left with every session's status, what it is doing and how many messages wait for it; click a row to go there. Prefix <kbd>p</kbd> (or <kbd>:</kbd>) opens the <strong>command palette</strong>: type a few letters of any action or session (<code>tabs</code>, <code>go api</code>, <code>diff</code>) and press <kbd>Enter</kbd>.</p>
+      <p>Each pane has a title with its number, name, status and what it is doing right now (for example <code>Bash: go test ./...</code>), and the branch at the bottom. The focused pane has a pink border; your typing goes there.</p>
       <h3>Statuses</h3>
       <div class="table-scroll"><table>
         <thead><tr><th>Label</th><th>Meaning</th></tr></thead>
@@ -165,7 +173,7 @@ legion                            <span class="c"># plain claude, the default ac
       </ul>
       <p>Several questions queue up and are shown one after the other. Turn the dialog off with <code>dialogs = false</code> under <a href="#config"><code>[notify]</code></a>; sessions then ask in their own pane as usual.</p>
       <h3>Status bar</h3>
-      <p>The bottom line shows the project name, how many sessions are in each status, and on the right either a short message about the last action, the list of prefix commands while the prefix is active, or a reminder of how to open help. The terminal window title shows <code>(2) legion · myapp</code> when two sessions need your attention.</p>
+      <p>The bottom line shows the project name, how many sessions are in each status, and on the right the list of prefix commands while the prefix is active (otherwise a reminder of the palette and help), the layout button and the Activity button. Messages about the last action appear for a few seconds in the bottom-right corner (red for errors). The terminal window title shows <code>(2) Legion - myapp</code> when two sessions need your attention.</p>
       <h3 id="activity">Keeping track: activity feed and summaries</h3>
       <p>When sessions talk to each other a lot, it is easy to lose the thread. Three things keep it in one place:</p>
       <ul>
@@ -187,6 +195,11 @@ legion                            <span class="c"># plain claude, the default ac
           <tr><td><kbd>←</kbd> <kbd>↑</kbd> <kbd>↓</kbd> <kbd>→</kbd> or <kbd>h</kbd> <kbd>j</kbd> <kbd>k</kbd> <kbd>l</kbd></td><td>Move focus to the pane in that direction.</td></tr>
           <tr><td><kbd>1</kbd> … <kbd>9</kbd></td><td>Focus the session with that number.</td></tr>
           <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Next / previous session.</td></tr>
+          <tr><td><kbd>p</kbd> or <kbd>:</kbd></td><td>Command palette: search every action and session.</td></tr>
+          <tr><td><kbd>Space</kbd></td><td>Next layout: Main · Grid · Tabs.</td></tr>
+          <tr><td><kbd>Enter</kbd></td><td>Show the focused session in the main pane.</td></tr>
+          <tr><td><kbd>&lt;</kbd> <kbd>&gt;</kbd></td><td>Narrower / wider main pane (or drag its border).</td></tr>
+          <tr><td><kbd>e</kbd></td><td>Session list on the left.</td></tr>
           <tr><td><kbd>z</kbd></td><td>Zoom: the focused pane fills the screen. Press again to go back to the grid. With the mouse: double-click a pane, or click the <strong>⤢</strong> button at the right end of its title (<strong>⤡</strong> zooms back out).</td></tr>
           <tr><td><kbd>t</kbd></td><td>Open the <a href="#tasks">task board</a>, or close it.</td></tr>
           <tr><td><kbd>a</kbd></td><td>Add a task without opening the board.</td></tr>
@@ -231,7 +244,7 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># several prefixes, comma-separated
 
     <section id="tasks">
       <h2><span class="n">08</span>Task board</h2>
-      <p>The board is a shared to-do list for the project. Prefix <kbd>t</kbd> opens it on the right side of the screen; on a narrow terminal it takes the whole screen.</p>
+      <p>The board is a shared to-do list for the project. Prefix <kbd>t</kbd> opens it in a window over the panes (they keep running and keep their size); <kbd>Esc</kbd> or a click outside closes it.</p>
       <div class="table-scroll"><table>
         <thead><tr><th>On the board</th><th>What happens</th></tr></thead>
         <tbody>
@@ -252,7 +265,7 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># several prefixes, comma-separated
 
     <section id="review">
       <h2><span class="n">09</span>Review &amp; merge</h2>
-      <p>Prefix <kbd>d</kbd> opens a review of the focused session. At the top it shows what would happen if you merged:</p>
+      <p>Prefix <kbd>d</kbd> opens a review of the focused session in a large window over the panes. At the top it shows what would happen if you merged:</p>
       <ul>
         <li>how many commits the branch is ahead, and which files changed;</li>
         <li>uncommitted files in the session's worktree;</li>

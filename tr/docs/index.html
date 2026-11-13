@@ -141,7 +141,15 @@ legion                            <span class="c"># düz claude, varsayılan hes
 
     <section id="ekran">
       <h2><span class="n">05</span>Ekran</h2>
-      <p>Oturumlar ızgara halinde dizilir: bir oturum tüm ekranı kaplar, iki oturum yan yana durur, dört oturum 2×2 olur, vb. Her panelin başlığında numarası, adı, durumu ve o an ne yaptığı (örneğin <code>Bash: go test ./...</code>), altında da dalı yazar. Odaktaki panelin çerçevesi pembedir; yazdıklarınız oraya gider.</p>
+      <h3 id="duzenler">Düzenler</h3>
+      <p>Legion'da üç düzen var. Önek <kbd>Space</kbd> ile ya da durum çubuğundaki <strong>▦</strong> butonuna tıklayarak geçersiniz; seçiminiz projede hatırlanır (<code>.legion/ui.json</code>).</p>
+      <ul>
+        <li><strong>Main</strong> (komutan çalışıyorsa varsayılan): komutan solda büyük bir panelde, diğer oturumlar sağda alt alta durur. Yığına sığmayan oturumlar altında tek satırlık şeritlere iner; birine tıklayınca (ya da odaklanınca) yığına gelir. Önek <kbd>Enter</kbd> odaktaki oturumu ana panele alır. Ana panel ile yığın arasındaki çizgiyi sürükleyerek ya da önek <kbd>&lt;</kbd> / <kbd>&gt;</kbd> ile ana paneli daraltıp genişletirsiniz.</li>
+        <li><strong>Grid</strong> (komutan yoksa varsayılan): bir oturum tüm ekranı kaplar, iki oturum yan yana durur, dört oturum 2×2 olur, vb.</li>
+        <li><strong>Tabs</strong>: bir seferde tek oturum, üstte tıklanabilir sekme şeridi.</li>
+      </ul>
+      <p>Komşu paneller tek bir kenar çizgisini paylaşır. Önek <kbd>e</kbd> solda bir <strong>oturum listesi</strong> açar: her oturumun durumu, ne yaptığı ve kaç mesajın onu beklediği; satıra tıklayınca oraya gidersiniz. Önek <kbd>p</kbd> (ya da <kbd>:</kbd>) <strong>komut paletini</strong> açar: herhangi bir komutun ya da oturumun birkaç harfini yazın (<code>tabs</code>, <code>go api</code>, <code>diff</code>) ve <kbd>Enter</kbd>'a basın.</p>
+      <p>Her panelin başlığında numarası, adı, durumu ve o an ne yaptığı (örneğin <code>Bash: go test ./...</code>), altında da dalı yazar. Odaktaki panelin çerçevesi pembedir; yazdıklarınız oraya gider.</p>
       <h3>Durumlar</h3>
       <div class="table-scroll"><table>
         <thead><tr><th>Etiket</th><th>Anlamı</th></tr></thead>
@@ -165,7 +173,7 @@ legion                            <span class="c"># düz claude, varsayılan hes
       </ul>
       <p>Birden fazla soru sıraya girer ve tek tek gösterilir. Pencereyi kapatmak için <a href="#yapilandirma"><code>[notify]</code></a> altında <code>dialogs = false</code>; o zaman oturumlar her zamanki gibi kendi panellerinde sorar.</p>
       <h3>Durum çubuğu</h3>
-      <p>En alttaki satırda proje adı ve her durumda kaç oturum olduğu görünür. Sağ tarafta son işlemle ilgili kısa bir mesaj, önek basılıyken komut listesi ya da yardımın nasıl açılacağı yazar. İki oturum ilginizi beklediğinde terminal penceresinin başlığı <code>(2) legion · myapp</code> olur.</p>
+      <p>En alttaki satırda proje adı ve her durumda kaç oturum olduğu görünür. Sağ tarafta önek basılıyken komut listesi (yoksa palet ve yardım hatırlatması), düzen butonu ve Activity butonu durur. Son işlemle ilgili mesajlar birkaç saniye sağ alt köşede görünür (hatalar kırmızı). İki oturum ilginizi beklediğinde terminal penceresinin başlığı <code>(2) Legion - myapp</code> olur.</p>
       <h3 id="akis">Takipte kalmak: akış paneli ve özetler</h3>
       <p>Oturumlar birbirleriyle çok konuştuğunda neler olduğunu kaçırmak kolaydır. Üç şey bunları tek yerde toplar:</p>
       <ul>
@@ -187,6 +195,11 @@ legion                            <span class="c"># düz claude, varsayılan hes
           <tr><td><kbd>←</kbd> <kbd>↑</kbd> <kbd>↓</kbd> <kbd>→</kbd> veya <kbd>h</kbd> <kbd>j</kbd> <kbd>k</kbd> <kbd>l</kbd></td><td>Odağı o yöndeki panele taşır.</td></tr>
           <tr><td><kbd>1</kbd> … <kbd>9</kbd></td><td>O numaralı oturuma odaklanır.</td></tr>
           <tr><td><kbd>Tab</kbd> / <kbd>Shift</kbd>+<kbd>Tab</kbd></td><td>Sonraki / önceki oturum.</td></tr>
+          <tr><td><kbd>p</kbd> ya da <kbd>:</kbd></td><td>Komut paleti: tüm komutlarda ve oturumlarda arama.</td></tr>
+          <tr><td><kbd>Space</kbd></td><td>Sonraki düzen: Main · Grid · Tabs.</td></tr>
+          <tr><td><kbd>Enter</kbd></td><td>Odaktaki oturumu ana panelde göster.</td></tr>
+          <tr><td><kbd>&lt;</kbd> <kbd>&gt;</kbd></td><td>Ana paneli daralt / genişlet (ya da çizgisini sürükleyin).</td></tr>
+          <tr><td><kbd>e</kbd></td><td>Soldaki oturum listesi.</td></tr>
           <tr><td><kbd>z</kbd></td><td>Büyüt: odaktaki panel tüm ekranı kaplar. Tekrar basınca ızgaraya döner. Fareyle: panele çift tıklayın ya da başlığının sağ ucundaki <strong>⤢</strong> butonuna tıklayın (<strong>⤡</strong> geri küçültür).</td></tr>
           <tr><td><kbd>t</kbd></td><td><a href="#gorevler">Görev panosunu</a> açar ya da kapatır.</td></tr>
           <tr><td><kbd>a</kbd></td><td>Panoyu açmadan görev ekler.</td></tr>
@@ -231,7 +244,7 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># virgülle birden fazla önek</spa
 
     <section id="gorevler">
       <h2><span class="n">08</span>Görev panosu</h2>
-      <p>Pano, projenin ortak yapılacaklar listesidir. Önek <kbd>t</kbd> onu ekranın sağında açar; dar bir terminalde tüm ekranı kaplar.</p>
+      <p>Pano, projenin ortak yapılacaklar listesidir. Önek <kbd>t</kbd> onu panellerin üzerinde bir pencerede açar (paneller çalışmaya devam eder, boyutları değişmez); <kbd>Esc</kbd> ya da pencere dışına tıklamak kapatır.</p>
       <div class="table-scroll"><table>
         <thead><tr><th>Panoda</th><th>Ne olur</th></tr></thead>
         <tbody>
@@ -252,7 +265,7 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># virgülle birden fazla önek</spa
 
     <section id="inceleme">
       <h2><span class="n">09</span>İnceleme ve birleştirme</h2>
-      <p>Önek <kbd>d</kbd> odaktaki oturumun incelemesini açar. En üstte birleştirirseniz ne olacağını gösterir:</p>
+      <p>Önek <kbd>d</kbd> odaktaki oturumun incelemesini panellerin üzerinde büyük bir pencerede açar. En üstte birleştirirseniz ne olacağını gösterir:</p>
       <ul>
         <li>dalın kaç commit önde olduğu ve hangi dosyaların değiştiği;</li>
         <li>oturumun worktree'sindeki commit edilmemiş dosyalar;</li>
