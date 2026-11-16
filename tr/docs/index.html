@@ -316,6 +316,16 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># virgülle birden fazla önek</spa
         <li>Bir işçiyi birleştirdiğinizde haber alır ve bitmiş işçilerin panellerini kapatır. Commit edilmemiş değişikliği olan işçi asla kapatılmaz; dalı da yalnızca tamamen birleştiyse silinir.</li>
       </ol>
       <p>Her projede bir komutan olur. Araçları: <code>create_task</code>, <code>assign_task</code>, <code>create_session</code>, <code>broadcast</code>, <code>session_status</code>, <code>get_diff</code>, <code>propose_merge</code>, <code>close_session</code>.</p>
+      <h3 id="limitler">Kullanım limitlerinizi korumak</h3>
+      <p>Birden fazla Claude oturumu, planınızın limitlerini tek oturuma göre birkaç kat hızlı tüketir. Legion bunu birkaç yoldan azaltır:</p>
+      <ul>
+        <li><strong>İşe göre model.</strong> Komutan Opus'ta çalışır (planlama en çok orada işe yarar), işçiler Sonnet'te. Komutan görev atarken modeli seçer: basit ve mekanik işler için <code>haiku</code>, normal işler için <code>sonnet</code>, yalnızca zor problemler için <code>opus</code>. Oturumu kendiniz açarken (önek <kbd>n</kbd>) son adım modeli sorar; <kbd>Tab</kbd> tamamlar, boş bırakırsanız varsayılan kalır. Model panelin başlığında görünür. Varsayılanları <code>[claude]</code> altında <code>commander_model</code> ve <code>worker_model</code> ile değiştirin.</li>
+        <li><strong>Ortak hafıza.</strong> <code>.legion/CLAUDE.md</code> proje hakkındaki kalıcı bilgileri tutar (yapı, derleme ve test komutları, kurallar, tuzaklar). Claude Code bunu her oturumda açılışta yükler; böylece yeni işçiler kod tabanını sıfırdan keşfetmez. Komutan kodu ilk incelediğinde proje haritasını buraya yazar; her oturum öğrendiğini <code>remember</code> aracıyla ekler; uzayınca komutan derler. Siz de düzenleyebilirsiniz: komut paleti (önek <kbd>p</kbd>) → <em>Edit shared memory</em> dosyayı <code>$EDITOR</code> ile açar. Git'e girmez.</li>
+        <li><strong>Daha az komutan turu.</strong> Her bildirim komutana bütün konuşması üzerinden bir tura mal olur. Bu yüzden sıradan bildirimler (bir işçi bitti, bir dal birleştirildi) başka işçiler hâlâ çalışırken bekler (en fazla 10 dakika) ve birlikte gelir. Hatalar ve işçilerin mesajları bekletilmez.</li>
+        <li><strong>Daha küçük diff'ler.</strong> Komutan bir işçiye bakarken büyük diff'ler yalnızca değişen dosya listesi olarak gelir; komutan sadece gereken dosyaları ister.</li>
+        <li><strong>Temiz yeniden kullanım.</strong> Önceki işi birleştirilmiş bir işçiye ilgisiz yeni bir görev verilirse konuşması temizlenerek (<code>/clear</code>) başlar; eski bağlamı her mesajda taşımaz.</li>
+      </ul>
+      <p>En büyük etki yine sizde: paralel işçi sayısını düşük tutun (iki üç). Her biri aynı kodu ayrı ayrı okur.</p>
     </section>
 
     <section id="isbirligi">
@@ -328,6 +338,7 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># virgülle birden fazla önek</spa
           <tr><td><code>send_message</code></td><td>Başka bir oturuma ya da hepsine mesaj gönderir.</td></tr>
           <tr><td><code>lock_files</code> / <code>unlock_files</code></td><td>Değiştirmeden önce dosyaları sahiplenir. Ya hepsi ya hiçbiri: dosyalardan biri başkasındaysa hiçbiri kilitlenmez ve sahibi söylenir.</td></tr>
           <tr><td><code>list_locks</code></td><td>Tüm geçerli kilitler.</td></tr>
+          <tr><td><code>remember</code> / <code>read_memory</code></td><td>Projenin <a href="#limitler">ortak hafızasına</a> kalıcı bir bilgi ekler / güncel halini okur.</td></tr>
           <tr><td><code>list_tasks</code></td><td>Görev panosu.</td></tr>
         </tbody>
       </table></div>
@@ -393,6 +404,8 @@ mouse = true                <span class="c"># tekerlek imlecin altındaki paneli
 [claude]
 command = "claude"
 reduce_motion = true        <span class="c"># Legion oturumlarında spinner animasyonu yok (daha az işlemci ve pil)</span>
+commander_model = "opus"    <span class="c"># opus | sonnet | haiku | model id; "" = Claude Code'un varsayılanı</span>
+worker_model = "sonnet"     <span class="c"># yeni işçiler; komutan basit işlere haiku seçer</span>
 <span class="c"># permission_mode = "acceptEdits"   # default | acceptEdits | plan | auto | bypassPermissions</span>
 <span class="c"># extra_args = ["--model", "opus"]</span>
 
@@ -419,6 +432,7 @@ dialogs = true              <span class="c"># izin isteklerini ve soruları ana 
           <tr><td><code>&lt;proje&gt;/.legion/config.toml</code></td><td>Proje ayarları.</td></tr>
           <tr><td><code>&lt;proje&gt;/.legion/state.db</code></td><td>Oturumlar, görevler, kilitler ve olay günlüğü (SQLite).</td></tr>
           <tr><td><code>&lt;proje&gt;/.legion/worktrees/&lt;ad&gt;</code></td><td>Her oturumun çalışma klasörü.</td></tr>
+          <tr><td><code>&lt;proje&gt;/.legion/CLAUDE.md</code></td><td>Her oturumun açılışta yüklediği ortak hafıza.</td></tr>
           <tr><td><code>&lt;proje&gt;/.legion/logs/</code></td><td>Günlükler.</td></tr>
           <tr><td><code>~/.legion/projects.json</code></td><td><code>legion projects</code> listesinin kaynağı.</td></tr>
           <tr><td><code>~/.legion/run/</code></td><td>CLI'ın ve hook'ların çalışan Legion'la konuştuğu soketler.</td></tr>

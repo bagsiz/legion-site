@@ -334,6 +334,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
     <a class="wordmark" href="#top" aria-label="Legion"><span class="glyph" aria-hidden="true"><i></i><i></i><i></i><i></i></span>LEGION</a>
     <ul>
       <li><a href="#why">Why</a></li>
+      <li><a href="#limits">Limits</a></li>
       <li><a href="#flow">Workflow</a></li>
       <li><a href="#commander">Commander</a></li>
       <li><a href="#faq">FAQ</a></li>
@@ -450,7 +451,25 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
       <div class="problem"><p class="was">You click through tabs to find the one asking for approval.</p><p class="is">When a session needs you or finishes, the bell rings, a notification appears and its pane border lights up.</p></div>
       <div class="problem"><p class="was">Splitting a big job into pieces and handing them out is on you.</p><p class="is">The commander session splits the goal into tasks, starts workers and checks what they finish.</p></div>
       <div class="problem"><p class="was">Two sessions edit the same file at the same time.</p><p class="is">Sessions lock files; an edit to a file someone else has locked is blocked.</p></div>
+      <div class="problem"><p class="was">With five agents on screen, nothing is readable.</p><p class="is">The commander gets the big pane, workers stack beside it, the rest fold into one-line rows. Grid and Tabs are one key (or click) away; a session list and a command palette find anything.</p></div>
       <div class="problem"><p class="was">You find the conflict only after you merge.</p><p class="is">The review screen shows conflicts, and other sessions touching the same files, before you merge.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band-steel" id="limits">
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">Usage limits</p>
+      <h2>Several agents, without burning through your plan.</h2>
+      <p>Every Claude session counts against your plan's limits, and parallel sessions count fast. Legion spends where it pays off and saves everywhere else.</p>
+    </header>
+    <div class="problems">
+      <div class="problem"><p class="was">Every session runs on the most expensive model.</p><p class="is">The commander plans on Opus, workers run on Sonnet, and the commander gives simple tasks to Haiku. You pick the model when you open a session; it shows in the pane title.</p></div>
+      <div class="problem"><p class="was">Each new worker re-reads the codebase to find its way.</p><p class="is">A shared memory (<code>.legion/CLAUDE.md</code>) that every session loads at start: the commander writes the project map, workers add what they learn with <code>remember</code>.</p></div>
+      <div class="problem"><p class="was">The commander takes a turn every time a worker finishes.</p><p class="is">Routine updates wait while other workers are busy and arrive together; errors and questions still come at once.</p></div>
+      <div class="problem"><p class="was">Checking a worker pulls its whole diff into the conversation.</p><p class="is">Large diffs come back as a file list; the commander asks only for the files it needs.</p></div>
+      <div class="problem"><p class="was">A reused worker drags its old task's context into every message.</p><p class="is">Once its earlier work is merged, an unrelated new task starts on a cleared conversation.</p></div>
     </div>
   </div>
 </section>
@@ -555,6 +574,9 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
       <div class="key"><kbd>s</kbd><kbd>r</kbd><span>Stop, resume</span></div>
       <div class="key"><kbd>x</kbd><span>Remove the session</span></div>
       <div class="key"><kbd>q</kbd><span>Quit</span></div>
+      <div class="key"><kbd>p</kbd><span>Command palette</span></div>
+      <div class="key"><kbd>Space</kbd><span>Layout: Main, Grid, Tabs</span></div>
+      <div class="key"><kbd>e</kbd><span>Session list</span></div>
       <div class="key"><kbd>?</kbd><span>Help</span></div>
     </div>
     <p class="prefix-note">On keyboards where <kbd>\</kbd> is awkward to reach (Turkish, German, French…), <kbd>Ctrl</kbd><kbd>4</kbd> works as the prefix too. To see what your terminal actually sends, run <code>legion keytest</code>.</p>

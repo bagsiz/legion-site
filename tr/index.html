@@ -334,6 +334,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
     <a class="wordmark" href="#top" aria-label="Legion"><span class="glyph" aria-hidden="true"><i></i><i></i><i></i><i></i></span>LEGION</a>
     <ul>
       <li><a href="#neden">Neden</a></li>
+      <li><a href="#limitler">Limitler</a></li>
       <li><a href="#akis">Akış</a></li>
       <li><a href="#komutan">Komutan</a></li>
       <li><a href="#sss">SSS</a></li>
@@ -450,7 +451,25 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
       <div class="problem"><p class="was">Hangi sekmenin onay beklediğini bulmak için dolaşırsınız.</p><p class="is">Onay gerekince ya da iş bitince zil çalar, bildirim gelir, panelin kenarı renklenir.</p></div>
       <div class="problem"><p class="was">Büyük bir işi parçalara bölüp dağıtmak sizin işiniz olur.</p><p class="is">Komutan oturumu hedefi görevlere böler, işçileri açar ve biten işleri kontrol eder.</p></div>
       <div class="problem"><p class="was">İki oturum aynı dosyayı aynı anda değiştirir.</p><p class="is">Oturumlar dosya kilitler; başka birinin kilitlediği dosyaya yazma engellenir.</p></div>
+      <div class="problem"><p class="was">Ekranda beş ajan olunca hiçbiri okunmaz.</p><p class="is">Büyük panel komutanın, işçiler yanında alt alta, sığmayanlar tek satırlık şeritlerde. Izgara ve sekmeler tek tuş (ya da tık) uzakta; oturum listesi ve komut paleti her şeyi bulur.</p></div>
       <div class="problem"><p class="was">Birleştirmeden önce çakışmayı görmezsiniz.</p><p class="is">İnceleme ekranı, birleştirmeden önce çakışmaları ve aynı dosyaya dokunan diğer oturumları gösterir.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band-steel" id="limitler">
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">Kullanım limitleri</p>
+      <h2>Birden fazla ajan, planınızı tüketmeden.</h2>
+      <p>Her Claude oturumu planınızın limitinden yer, paralel oturumlar da hızlı yer. Legion gerektiği yerde harcar, gerisinde tasarruf eder.</p>
+    </header>
+    <div class="problems">
+      <div class="problem"><p class="was">Her oturum en pahalı modelde çalışır.</p><p class="is">Komutan Opus'ta planlar, işçiler Sonnet'te çalışır, basit görevleri komutan Haiku'ya verir. Oturum açarken modeli siz seçersiniz; panel başlığında görünür.</p></div>
+      <div class="problem"><p class="was">Her yeni işçi yolunu bulmak için kod tabanını baştan okur.</p><p class="is">Her oturumun açılışta yüklediği ortak hafıza (<code>.legion/CLAUDE.md</code>): proje haritasını komutan yazar, işçiler öğrendiklerini <code>remember</code> ile ekler.</p></div>
+      <div class="problem"><p class="was">Bir işçi her bitirdiğinde komutan yeni bir tur harcar.</p><p class="is">Sıradan bildirimler diğer işçiler çalışırken bekler ve birlikte gelir; hatalar ve sorular yine hemen iletilir.</p></div>
+      <div class="problem"><p class="was">Bir işçiyi kontrol etmek bütün diff'i konuşmaya çeker.</p><p class="is">Büyük diff'ler dosya listesi olarak gelir; komutan sadece gereken dosyaları ister.</p></div>
+      <div class="problem"><p class="was">Yeniden kullanılan işçi eski görevin bağlamını her mesajda taşır.</p><p class="is">Önceki işi birleştirildiyse ilgisiz yeni görev temizlenmiş bir konuşmayla başlar.</p></div>
     </div>
   </div>
 </section>
@@ -555,6 +574,9 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space
       <div class="key"><kbd>s</kbd><kbd>r</kbd><span>Durdur, devam ettir</span></div>
       <div class="key"><kbd>x</kbd><span>Oturumu kaldır</span></div>
       <div class="key"><kbd>q</kbd><span>Çık</span></div>
+      <div class="key"><kbd>p</kbd><span>Komut paleti</span></div>
+      <div class="key"><kbd>Space</kbd><span>Düzen: Main, Grid, Tabs</span></div>
+      <div class="key"><kbd>e</kbd><span>Oturum listesi</span></div>
       <div class="key"><kbd>?</kbd><span>Yardım</span></div>
     </div>
     <p class="prefix-note">Türkçe ya da US dışı klavyede <kbd>\</kbd> zor erişilir; <kbd>Ctrl</kbd><kbd>4</kbd> de önek olarak çalışır. Terminalinin hangi tuşu gönderdiğini görmek için <code>legion keytest</code>.</p>
