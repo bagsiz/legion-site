@@ -182,7 +182,7 @@ legion                            <span class="c"># düz claude, varsayılan hes
         <li><strong>Ne oldu?</strong> (önek <kbd>i</kbd>): oturum başına özet (biten turlar ve son mesajları, kimden kaç mesaj geldiği, birleştirmeler) ve sizi bekleyenler: açık sorular, birleştirme önerisi, incelemeye hazır görevler. Terminale beş dakika ya da daha uzun aradan sonra döndüğünüzde bir şey olduysa “While you were away” başlığıyla kendiliğinden açılır. Legion'ın kendi kaydından üretilir; anında gelir, token harcamaz.</li>
       </ul>
       <h3 id="bildirimler">Bildirimler</h3>
-      <p>Bir oturum onay istediğinde ya da soru sorduğunda Legion terminal zilini hemen çalar ve masaüstü bildirimi gösterir. Biten turlar ise toplanır: hiçbir oturum çalışmıyorsa ve yaklaşık 20 saniye sakin kalındıysa <em>tek</em> bir bildirim gelir, ör. “All sessions finished: api ✓, web ✓, auth ✗”. Legion öndeyken masaüstü bildirimi gönderilmez. Komutan çalışıyorsa işçiler adına o konuşur: yalnızca komutan zil çalar ve bildirim gönderir, işçilerin sadece panel çerçevesi yanar (soruları yine diyalogda açılır). iTerm2, Ghostty, WezTerm ve kitty'de bildirim terminalin kendisinden gelir; tıklayınca terminal öne gelir. Diğer terminallerde macOS'ta <code>terminal-notifier</code> (<code>brew install terminal-notifier</code>), Linux'ta <code>notify-send</code> kullanılır; bunlar yoksa yalnızca zil çalar. Hangisinin kullanıldığını <code>legion doctor</code> gösterir. Legion öndeyken baktığınız panel için bildirim gelmez. İkisi de <a href="#yapilandirma"><code>[notify]</code></a> altından kapatılabilir.</p>
+      <p>Bir oturum onay istediğinde ya da soru sorduğunda Legion hemen masaüstü bildirimi gösterir. Bildirimler sessizdir: <code>bell = true</code> yapmadıkça terminal zili çalmaz. Biten turlar ise toplanır: hiçbir oturum çalışmıyorsa ve yaklaşık 20 saniye sakin kalındıysa <em>tek</em> bir bildirim gelir, ör. “All sessions finished: api ✓, web ✓, auth ✗”. Legion öndeyken masaüstü bildirimi gönderilmez. Komutan çalışıyorsa işçiler adına o konuşur: yalnızca komutan zil çalar ve bildirim gönderir, işçilerin sadece panel çerçevesi yanar (soruları yine diyalogda açılır). iTerm2, Ghostty, WezTerm ve kitty'de bildirim terminalin kendisinden gelir; tıklayınca terminal öne gelir. Diğer terminallerde macOS'ta <code>terminal-notifier</code> (<code>brew install terminal-notifier</code>), Linux'ta <code>notify-send</code> kullanılır; bunlar yoksa (zil de kapalıyken) yalnızca panel çerçevesi yanar. Hangisinin kullanıldığını <code>legion doctor</code> gösterir. Legion öndeyken baktığınız panel için bildirim gelmez. İkisi de <a href="#yapilandirma"><code>[notify]</code></a> altından kapatılabilir.</p>
     </section>
 
     <section id="tuslar">
@@ -410,7 +410,7 @@ worker_model = "sonnet"     <span class="c"># yeni işçiler; komutan basit işl
 <span class="c"># extra_args = ["--model", "opus"]</span>
 
 [notify]
-bell = true
+bell = false   # sound; notifications stay silent
 desktop = true
 dialogs = true              <span class="c"># izin isteklerini ve soruları ana ekranda bir pencerede sor</span></code></pre>
       <p>Legion Claude Code ayarlarınızı asla değiştirmez. Her oturuma hook'larını ve araçlarını komut satırından verir (<code>--settings</code>, <code>--mcp-config</code>); Claude'un yapılandırmasını yalnızca bir klasörün güvenilir olup olmadığını görmek için okur.</p>
