@@ -173,6 +173,7 @@ legion                            <span class="c"># düz claude, varsayılan hes
       </ul>
       <p>Birden fazla soru sıraya girer ve tek tek gösterilir. Pencereyi kapatmak için <a href="#yapilandirma"><code>[notify]</code></a> altında <code>dialogs = false</code>; o zaman oturumlar her zamanki gibi kendi panellerinde sorar.</p>
       <h3>Durum çubuğu</h3>
+      <p>En üstteki satır bilgi çubuğudur: proje klasörü ve orada açık olan dal, Claude hesabı (profil), oturumların hangi modellerde çalıştığı (<code>sonnet×3 opus×1</code>), görevlerin kaçının birleştiği ve kaçının birleştirme beklediği, meşgul oturumları bekleyen mesajlar. 12 satırdan kısa pencerelerde kendini gizler; <code>info_bar = false</code> kapatır.</p>
       <p>En alttaki satırda proje adı ve her durumda kaç oturum olduğu görünür. Sağ tarafta önek basılıyken komut listesi (yoksa palet ve yardım hatırlatması), düzen butonu ve Activity butonu durur. Son işlemle ilgili mesajlar birkaç saniye sağ alt köşede görünür (hatalar kırmızı). İki oturum ilginizi beklediğinde terminal penceresinin başlığı <code>(2) Legion - myapp</code> olur.</p>
       <h3 id="akis">Takipte kalmak: akış paneli ve özetler</h3>
       <p>Oturumlar birbirleriyle çok konuştuğunda neler olduğunu kaçırmak kolaydır. Üç şey bunları tek yerde toplar:</p>
@@ -397,6 +398,7 @@ idle_after = "4s"      <span class="c"># prompt'tan sonra bu kadar sessizlik "bi
 branch_prefix = "legion/"   <span class="c"># oturum dalları legion/&lt;ad&gt;</span>
 max_sessions = 8            <span class="c"># aynı anda en fazla bu kadar çalışır</span>
 idle_sleep = "15m"          <span class="c"># boşta kalan oturumu bu süre sonra uyutur (pil); "0" = hiç</span>
+info_bar = true             <span class="c"># panellerin üstündeki bilgi satırı: klasör, dal, hesap, modeller, görevler</span>
 <span class="c"># default_agent = "claude"</span>
 
 [keys]

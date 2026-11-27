@@ -173,6 +173,7 @@ legion                            <span class="c"># plain claude, the default ac
       </ul>
       <p>Several questions queue up and are shown one after the other. Turn the dialog off with <code>dialogs = false</code> under <a href="#config"><code>[notify]</code></a>; sessions then ask in their own pane as usual.</p>
       <h3>Status bar</h3>
+      <p>The top line is the info bar: the project folder and the branch checked out there, the Claude account (profile), which models the sessions run on (<code>sonnet×3 opus×1</code>), tasks merged out of all of them and how many wait for a merge, and messages queued for busy sessions. It hides itself in windows shorter than 12 rows; <code>info_bar = false</code> turns it off.</p>
       <p>The bottom line shows the project name, how many sessions are in each status, and on the right the list of prefix commands while the prefix is active (otherwise a reminder of the palette and help), the layout button and the Activity button. Messages about the last action appear for a few seconds in the bottom-right corner (red for errors). The terminal window title shows <code>(2) Legion - myapp</code> when two sessions need your attention.</p>
       <h3 id="activity">Keeping track: activity feed and summaries</h3>
       <p>When sessions talk to each other a lot, it is easy to lose the thread. Three things keep it in one place:</p>
@@ -397,6 +398,7 @@ idle_after = "4s"      <span class="c"># this long without output after a prompt
 branch_prefix = "legion/"   <span class="c"># session branches are legion/&lt;name&gt;</span>
 max_sessions = 8            <span class="c"># at most this many running at once</span>
 idle_sleep = "15m"          <span class="c"># stop idle sessions after this long to save battery; "0" = never</span>
+info_bar = true             <span class="c"># line above the panes: folder, branch, account, models, tasks</span>
 <span class="c"># default_agent = "claude"</span>
 
 [keys]
