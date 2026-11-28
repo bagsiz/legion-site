@@ -323,7 +323,7 @@ prefix = "ctrl+\\, ctrl+g"   <span class="c"># several prefixes, comma-separated
       <p>Several Claude sessions use your plan's limits several times faster than one. Legion keeps that down in a few ways:</p>
       <ul>
         <li><strong>A model per job.</strong> The commander runs on Opus (planning is where it pays off), workers on Sonnet. When the commander starts a worker it has to pick the model (it cannot leave it to the default), and the choice shows on the task board and in the activity feed: <code>haiku</code> for simple, mechanical work, <code>sonnet</code> for normal work, <code>opus</code> only for hard problems. When you start a session yourself (prefix <kbd>n</kbd>) the last step asks for the model; <kbd>Tab</kbd> completes it, empty keeps the default. The model shows in the pane title. Change the defaults with <code>commander_model</code> and <code>worker_model</code> under <code>[claude]</code>.</li>
-        <li><strong>Shared memory.</strong> <code>.legion/CLAUDE.md</code> holds durable facts about the project (layout, how to build and test, conventions, pitfalls). Claude Code loads it in every session at start, so new workers do not explore the codebase from scratch. The commander writes the project map there when it first studies the code; any session adds what it learns with the <code>remember</code> tool; the commander tidies it when it gets long. You can edit it too: command palette (prefix <kbd>p</kbd>) → <em>Edit shared memory</em> opens it in <code>$EDITOR</code>. It is outside git.</li>
+        <li><strong>Shared memory.</strong> <code>.legion/CLAUDE.md</code> holds durable facts about the project (layout, how to build and test, conventions, pitfalls). Claude Code loads it in every session at start, so new workers do not explore the codebase from scratch. The commander writes the project map there when it first studies the code; any session adds what it learns with the <code>remember</code> tool; the commander tidies it when it gets long. You can edit it too: command palette (prefix <kbd>p</kbd>) → <em>Edit shared memory</em> opens it in <code>$EDITOR</code>. It is outside git. Claude Code started on its own in the project folder (plain <code>claude</code>) loads it too: Legion writes <code>.claude/rules/legion.md</code>, a one-line import kept out of git, so what Legion's sessions learned is not lost outside Legion. <code>share_memory = false</code> under <code>[claude]</code> turns this off (then delete that file).</li>
         <li><strong>Fewer commander turns.</strong> Every update costs the commander a turn over its whole conversation, so routine updates (a worker finished, a branch was merged) wait while other workers are still busy (up to 10 minutes) and arrive together. Errors and messages from workers are not held.</li>
         <li><strong>Smaller diffs.</strong> When the commander checks a worker, large diffs come back as a list of changed files; it then asks only for the files it needs.</li>
         <li><strong>Clean reuse.</strong> A worker that gets an unrelated new task after its earlier work was merged starts with a cleared conversation (<code>/clear</code>), so it does not carry the old context into every message.</li>
@@ -410,6 +410,7 @@ command = "claude"
 reduce_motion = true        <span class="c"># no spinner animations in Legion's sessions (less CPU and battery)</span>
 commander_model = "opus"    <span class="c"># opus | sonnet | haiku | a model id; "" = Claude Code's default</span>
 worker_model = "sonnet"     <span class="c"># new workers; the commander picks haiku for simple tasks</span>
+share_memory = true         <span class="c"># plain claude in this folder loads the shared memory too</span>
 <span class="c"># permission_mode = "acceptEdits"   # default | acceptEdits | plan | auto | bypassPermissions</span>
 <span class="c"># extra_args = ["--model", "opus"]</span>
 
@@ -437,6 +438,7 @@ dialogs = true              <span class="c"># ask permission requests and questi
           <tr><td><code>&lt;project&gt;/.legion/state.db</code></td><td>Sessions, tasks, locks and the event log (SQLite).</td></tr>
           <tr><td><code>&lt;project&gt;/.legion/worktrees/&lt;name&gt;</code></td><td>Each session's working folder.</td></tr>
           <tr><td><code>&lt;project&gt;/.legion/CLAUDE.md</code></td><td>Shared memory every session loads at start.</td></tr>
+          <tr><td><code>&lt;project&gt;/.claude/rules/legion.md</code></td><td>Imports the shared memory for plain <code>claude</code> in the project folder (git-excluded).</td></tr>
           <tr><td><code>&lt;project&gt;/.legion/logs/</code></td><td>Logs.</td></tr>
           <tr><td><code>~/.legion/projects.json</code></td><td>The list behind <code>legion projects</code>.</td></tr>
           <tr><td><code>~/.legion/run/</code></td><td>Sockets that let the CLI and hooks talk to a running Legion.</td></tr>
